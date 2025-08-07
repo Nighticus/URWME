@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Stats</title>
+    <style>
+        body {
+            background-color: #2c2f36;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 10px;
+            border: 1px solid #555;
+            background-color: #3b3f46;
+        }
+        .section h2 {
+            margin-bottom: 10px;
+        }
+        .attribute {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .attribute span {
+            min-width: 120px;
+        }
+        .attribute input[type="number"] {
+            width: 40px;
+            text-align: right;
+        }
+        .attribute input[type="text"] {
+            width: 200px;
+            text-align: left;
+        }
+
+        .skill-category {
+            margin-bottom: 20px;
+        }
+
+        .skill {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+            .skill span {
+                width: 120px;
+                text-align: left;
+            }
+
+            .skill input[type="number"] {
+                width: 40px;
+                text-align: right;
+            }
+
+        .progress-bar {
+            width: 200px;
+            height: 20px;
+            background-color: #555;
+            margin-right: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #55c45f; /* Default green */
+        }
+        .progress-fill.exceeded {
+            background-color: #d34f4f; /* Red when exceeded */
+        }
+
+        .buttons {
+            display: flex;
+        }
+        .buttons button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            background-color: #444;
+            border: 1px solid #777;
+            color: white;
+            cursor: pointer;
+        }
+        .buttons button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body onload="initializePage()">
+
+    <div class="container">
+        <div class="section" id="appearance">
+            <h2>Appearance</h2>
+            <img src="path/to/your/image.jpg" id="PortraitFullPath" alt="Character Appearance" style="width: 200px; height: 200px;">
+            <p>
+                <div class="attribute">
+                    <span>First Name</span>
+                    <input type="text" id="Name" value="Night" onchange="postStat(this.id, this.value)">
+                </div>
+                <div class="attribute">
+                    <span>Tribe Name</span>
+                    <input type="text" id="TribeName" value="Kiesseläinen" onchange="postStat(this.id, this.value)">
+                </div>
+                <div class="attribute">
+                    <span>Tribe ID</span>
+                    <div class="buttons">
+                        <button onclick="changeStat('TribeID', -1)">-</button>
+                        <input type="number" id="TribeID" value="0" readonly>
+                        <button onclick="changeStat('TribeID', 1)">+</button>
+                    </div>
+                </div>
+                <div class="attribute">
+                    <span>Gender</span>
+                    <input type="text" id="GenderString" value="Male" readonly>
+                </div>
+</div>
+
+        <div class="section" id="personality">
+            <h2>Personality</h2>
+            <div class="attribute">
+                <span>Intelligence</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Intelligence-fill" style="width: 50%;"></div>
+                </div>
+                <input type="number" id="Intelligence" value="9" max="255" min="0" onchange="updateProgress('Intelligence', 18); postAttribute(this.id, this.value)">
+            </div>
+
+            <div class="attribute">
+                <span>Will</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Will-fill" style="width: 50%;"></div>
+                </div>
+                <input type="number" id="Will" value="9" max="255" min="0" onchange="updateProgress('Will', 18); postAttribute(this.id, this.value)">
+            </div>
+        </div>
+
+        <div class="section" id="physical-profile">
+            <h2>Physical Profile</h2>
+            <div class="attribute">
+                <span>Strength</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Strength-fill" style="width: 50%;"></div>
+                </div>
+                <input type="number" id="Strength" value="9" max="255" min="0" onchange="updateProgress('Strength', 18); postAttribute(this.id, this.value)">
+            </div>
+
+            <div class="attribute">
+                <span>Endurance</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Endurance-fill" style="width: 50%;"></div>
+                </div>
+                <input type="number" id="Endurance" value="9" max="255" min="0" onchange="updateProgress('Endurance', 18); postAttribute(this.id, this.value)">
+            </div>
+
+            <div class="attribute">
+                <span>Dexterity</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Dexterity-fill" style="width: 50%;"></div>
+                </div>
+                <input type="number" id="Dexterity" value="9" max="255" min="0" onchange="updateProgress('Dexterity', 18); postAttribute(this.id, this.value)">
+            </div>
+
+            <div class="attribute">
+                <span>Agility</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Agility-fill" style="width: 50%;"></div>
+                </div>
+                <input type="number" id="Agility" value="9" max="255" min="0" onchange="updateProgress('Agility', 18); postAttribute(this.id, this.value)">
+            </div>
+
+            <div class="attribute">
+                <span>Speed</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Speed-fill" style="width: 50%;"></div>
+                </div>
+                <input type="number" id="Speed" value="9" max="255" min="0" onchange="updateProgress('Speed', 18); postAttribute(this.id, this.value)">
+            </div>
+
+            <div class="attribute">
+                <span>Eyesight</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Eyesight-fill" style="width: 50%;"></div>
+                </div>
+                <input type="number" id="Eyesight" value="9" max="255" min="0" onchange="updateProgress('Eyesight', 18); postAttribute(this.id, this.value)">
+            </div>
+
+            <div class="attribute">
+                <span>Hearing</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Hearing-fill" style="width: 50%;"></div>
+                </div>
+                <input type="number" id="Hearing" value="9" max="255" min="0" onchange="updateProgress('Hearing', 18); postAttribute(this.id, this.value)">
+            </div>
+
+            <div class="attribute">
+                <span>Smell/Taste</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="SmellTaste-fill" style="width: 50%;"></div>
+                </div>
+                <input type="number" id="SmellTaste" value="9" max="255" min="0" onchange="updateProgress('SmellTaste', 18); postAttribute(this.id, this.value)">
+            </div>
+
+            <div class="attribute">
+                <span>Touch</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Touch-fill" style="width: 50%;"></div>
+                </div>
+                <input type="number" id="Touch" value="9" max="255" min="0" onchange="updateProgress('Touch', 18); postAttribute(this.id, this.value)">
+            </div>
+        </div>
+
+        <div class="section" id="physique">
+            <h2>Physique</h2>
+            <div class="attribute">
+                <span>Height</span>
+                <input type="number" id="Height" value="72" min="0" onchange="postStat(this.id, this.value)">
+            </div>
+            <div class="attribute">
+                <span>Weight</span>
+                <input type="number" id="Weight" value="137" min="0" onchange="postStat(this.id, this.value)">
+            </div>
+        </div>
+
+        <div class="section" id="lore-craft">
+            <h2>Lore & Craft Skills</h2>
+            <div class="skill">
+                <span>Agriculture</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Agriculture-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Agriculture" value="0" max="255" min="0" onchange="updateProgress('Agriculture', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <div class="skill">
+                <span>Building</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Building-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Building" value="0" max="255" min="0" onchange="updateProgress('Building', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <div class="skill">
+                <span>Cookery</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Cookery-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Cookery" value="0" max="255" min="0" onchange="updateProgress('Cookery', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <div class="skill">
+                <span>Herblore</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Herblore-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Herblore" value="0" max="255" min="0" onchange="updateProgress('Herblore', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <div class="skill">
+                <span>Fishing</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Fishing-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Fishing" value="0" max="255" min="0" onchange="updateProgress('Fishing', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <div class="skill">
+                <span>Hideworking</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Hideworking-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Hideworking" value="0" max="255" min="0" onchange="updateProgress('Hideworking', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <div class="skill">
+                <span>Timbercraft</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Timbercraft-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Timbercraft" value="0" max="255" min="0" onchange="updateProgress('Timbercraft', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <div class="skill">
+                <span>Netmaking</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Netmaking-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Netmaking" value="0" max="255" min="0" onchange="updateProgress('Netmaking', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <div class="skill">
+                <span>Bowyer</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Bowyer-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Bowyer" value="0" max="255" min="0" onchange="updateProgress('Bowyer', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <div class="skill">
+                <span>Physician</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Physician-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Physician" value="0" max="255" min="0" onchange="updateProgress('Physician', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <div class="skill">
+                <span>Trapping</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Trapping-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Trapping" value="0" max="255" min="0" onchange="updateProgress('Trapping', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <div class="skill">
+                <span>Tracking</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Tracking-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Tracking" value="0" max="255" min="0" onchange="updateProgress('Tracking', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <div class="skill">
+                <span>Weatherlore</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Weatherlore-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Weatherlore" value="0" max="255" min="0" onchange="updateProgress('Weatherlore', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <div class="skill">
+                <span>Textilecraft</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Textilecraft-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Textilecraft" value="0" max="255" min="0" onchange="updateProgress('Textilecraft', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <div class="skill">
+                <span>Carpentry</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Carpentry-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Carpentry" value="0" max="255" min="0" onchange="updateProgress('Carpentry', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <!-- Add more Lore & Craft Skills similarly -->
+        </div>
+
+        <!-- Physical Skills Section -->
+        <div class="section" id="physical-skills">
+            <h2>Physical Skills</h2>
+            <div class="skill">
+                <span>Skiing</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Skiing-fill" style="width: 60%;"></div>
+                </div>
+                <input type="number" id="Skiing" value="60" max="255" min="0" onchange="updateProgress('Skiing', 100); postSkill(this.id, this.value)">
+            </div>
+            <div class="skill">
+                <span>Stealth</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Stealth-fill" style="width: 55%;"></div>
+                </div>
+                <input type="number" id="Stealth" value="55" max="255" min="0" onchange="updateProgress('Stealth', 100); postSkill(this.id, this.value)">
+            </div>
+            <div class="skill">
+                <span>Climbing</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Climbing-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Climbing" value="0" max="255" min="0" onchange="updateProgress('Climbing', 100); postSkill(this.id, this.value)">
+            </div>
+            <div class="skill">
+                <span>Swimming</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Swimming-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Swimming" value="0" max="255" min="0" onchange="updateProgress('Swimming', 100); postSkill(this.id, this.value)">
+            </div>
+            <!-- Add more Physical Skills similarly -->
+        </div>
+
+        <!-- Combat Skills Section -->
+        <div class="section" id="combat-skills">
+            <h2>Combat Skills</h2>
+            <div class="skill">
+                <span>Dodge</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Dodge-fill" style="width: 45%;"></div>
+                </div>
+                <input type="number" id="Dodge" value="45" max="255" min="0" onchange="updateProgress('Dodge', 100); postSkill(this.id, this.value)">
+            </div>
+            <div class="skill">
+                <span>Shield</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Shield-fill" style="width: 65%;"></div>
+                </div>
+                <input type="number" id="Shield" value="65" max="255" min="0" onchange="updateProgress('Shield', 100); postSkill(this.id, this.value)">
+            </div>
+            <div class="skill">
+                <span>Knife</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Knife-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Knife" value="0" max="255" min="0" onchange="updateProgress('Knife', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <div class="skill">
+                <span>Sword</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Sword-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Sword" value="0" max="255" min="0" onchange="updateProgress('Sword', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <div class="skill">
+                <span>Club</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Club-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Club" value="0" max="255" min="0" onchange="updateProgress('Club', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <div class="skill">
+                <span>Axe</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Axe-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Axe" value="0" max="255" min="0" onchange="updateProgress('Axe', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <div class="skill">
+                <span>Flail</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Flail-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Flail" value="0" max="255" min="0" onchange="updateProgress('Flail', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <div class="skill">
+                <span>Spear</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Spear-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Spear" value="0" max="255" min="0" onchange="updateProgress('Spear', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <div class="skill">
+                <span>Bow</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Bow-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Bow" value="0" max="255" min="0" onchange="updateProgress('Bow', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <div class="skill">
+                <span>Crossbow</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Crossbow-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Crossbow" value="0" max="255" min="0" onchange="updateProgress('Crossbow', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <div class="skill">
+                <span>Unarmed</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="Unarmed-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="Unarmed" value="0" max="255" min="0" onchange="updateProgress('Unarmed', 100); postSkill(this.id, this.value)">
+            </div>
+
+            <!-- Add more Combat Skills similarly -->
+        </div>
+
+    </div>
+
+    <script>
+        function changeStat(stat, change) {
+            const statElement = document.getElementById(stat);
+            let currentValue = parseInt(statElement.value);
+            currentValue += change;
+            if (currentValue < 0) currentValue = 0; // Prevent negative values
+            statElement.value = currentValue;
+            postData(`Player.${stat} = ${currentValue}`)
+        }
+
+        function updateProgress(stat, maxValue) {
+            const value = document.getElementById(stat).value;
+            const fillElement = document.getElementById(stat + '-fill');
+            const percentage = (value / maxValue) * 100;
+
+            // Set width based on percentage
+            fillElement.style.width = (percentage > 100 ? 100 : percentage) + '%';
+
+            // Check if value exceeds max value
+            if (value > maxValue) {
+                fillElement.classList.add('exceeded');  // Add red color class
+            } else {
+                fillElement.classList.remove('exceeded');  // Set it back to green
+            }
+        }
+
+        function postSkill(skill, value) {
+            postData(`Player.Skills[${skill}].Level = ${value}`);
+        }
+
+        function postAttribute(attribute, value) {
+            postData(`Player.Attributes[${attribute}].Level = ${value}`);
+        }
+
+        function postStat(stat, value) {
+            postData(`Player.${stat} = ${value}`);
+        }
+
+        function postData(data) {
+            fetch('http://localhost:8080/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: data,
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Data sent to server successfully!');
+                    } else {
+                        console.error('Failed to send data to server.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error connecting to server:', error);
+                });
+        }
+
+        function getData(dataRequest, callback) {
+            const url = `http://localhost:8080/?request=${encodeURIComponent(dataRequest)}`;
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    //console.log('Received response:', response);
+                    return response.json();
+                })
+                .then(data => {
+                    //console.log('Received data:', data);
+                    if (callback) {
+                        callback(JSON.parse(data)); // Call the callback function with the received data
+                    }
+                    // You can now use `data` to update the UI or inventory list
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+
+        function populateUI(data) {
+            // Update basic fields
+            //document.getElementById('Name').value = data.Name;
+            //document.getElementById('TribeName').value = data.TribeName;
+            //document.getElementById('TribeID').value = data.TribeID;
+            //document.getElementById('Gender').value = data.GenderString;
+            //document.getElementById('Height').value = data.Height;
+            //document.getElementById('Weight').value = data.Weight;
+            //console.log('called function: ', data);
+            for (const id in data) {
+                // Skip if the current value is an array or an object
+                if (Array.isArray(data[id]) || typeof data[id] === "object") {
+                    continue;
+                }
+
+                const element = document.getElementById(id); // Find the element with this ID
+                if (element) {
+                    if (id == "PortraitFullPath") { element.src = data[id]; }
+                    element.value = data[id]; // Set the element's value to the data
+                }
+            }
+            //console.log(data.Name); // Outputs 14
+            // Update attributes and skills with values and update their progress bars
+            const attributes = data.Attributes;
+            for (const attr in attributes) {
+                const element = document.getElementById(attr);
+                if (element) {
+                    element.value = attributes[attr].Level;
+                    updateProgress(attr, 18); // Update progress bar based on new value
+                }
+            }
+
+            const skills = data.Skills;
+            for (const skill in skills) {
+                const element = document.getElementById(skill);
+                if (element) {
+                    element.value = skills[skill].Level;
+                    updateProgress(skill, 100); // Update progress bar based on new value
+                }
+            }
+        }
+
+        function initializePage() {
+            // Request initial data from the server
+            setupPageFocusListeners();
+            getData("Player.Json()", populateUI);
+        }
+
+        function setupPageFocusListeners() {
+            // Fetch data when the page gains focus
+            window.addEventListener('focus', () => {
+                console.log('Page is focused');
+                getData("Player.Json()", populateUI);
+            });
+
+            // Optional: Handle page blur event
+            window.addEventListener('blur', () => {
+                console.log('Page lost focus');
+                // Optionally, stop any data checks or updates
+            });
+        }
+
+
+    </script>
+
+</body>
+</html>

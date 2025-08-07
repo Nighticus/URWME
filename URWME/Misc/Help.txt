@@ -1,0 +1,7 @@
+﻿Classes:
+
+Player - Contains properties relative to the player's character
+WorldTime - Allows you to modify the current ingame time.
+ItemBuffered - Allows you to read/write to item properties, use index to select which item you are writing to, relative to their ID. call WriteArray() when finished.
+
+Type ClassName.Help for more information on properties and functions for each class, IE: Player.Help.

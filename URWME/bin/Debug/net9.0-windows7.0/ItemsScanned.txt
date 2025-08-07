@@ -1,0 +1,403 @@
+0 - bronze bear pendant
+1 - blueberries
+2 - Blueberry shrub
+3 - lingonberries
+4 - Lingonberry shrub
+5 - cranberries
+6 - Cranberry shrub
+7 - northern bilberries
+8 - Northern bilberry shrub
+9 - cloudberries
+10 - Wooden tub
+11 - bronze bear pendant
+12 - bronze bracelet
+13 - bronze ball pendant
+14 - bronze brooch
+15 - small bronze brooch
+16 - Cloudberry bramble
+17 - bronze horse-ornamented comb
+18 - bronze flower-ornamented com
+19 - strawberries
+20 - silver ring
+21 - bronze bezel ring
+22 - Strawberry shrub
+23 - Wooden mug
+24 - Wooden mug
+25 - Wooden cup
+26 - Wooden bowl
+27 - Birch-bark box
+28 - Birch-bark basket
+29 - Shingle basket
+30 - Egg
+31 - Crowberry shrub
+32 - raspberries
+33 - Raspberry bush
+34 - black currants
+35 - Birch-bark pot
+36 - Turnip seeds
+37 - Turnip
+38 - Turnip
+39 - peas
+40 - Wooden canteen
+41 - Rye bread
+42 - broad beans
+43 - Broad bean
+44 - Barley grains
+45 - Barley
+46 - Bag
+47 - Flat rye bread
+48 - barley-flour
+49 - Rye grains
+50 - Rye
+51 - rye-flour
+52 - Hemp seeds
+53 - Hemp leaves
+54 - Hemp
+55 - Nettle seeds
+56 - Nettle leaves
+57 - Nettle
+58 - Yarrow seeds
+59 - Yarrow leaves
+60 - Spindle
+61 - Yarrow
+62 - Sorrel seeds
+63 - Sorrel leaves
+64 - Sorrel
+65 - Meadsweet leaves
+66 - Meadsweet flowers
+67 - Meadsweet
+68 - Golden rod leaves
+69 - Golden rod flowers
+70 - Golden rod
+71 - Heather flowers
+72 - Birch-bark rope
+73 - Rope
+74 - Cord
+75 - Leather rope
+76 - Leather cord
+77 - Cloth cord
+78 - Black ear mushroom
+79 - Sand mushroom
+80 - vasta
+81 - Sauna scoop
+82 - Sand mushroom
+83 - silver chain bracelet
+84 - silver bird bracelet
+85 - silver sun-symbol pendant
+86 - Noaidi's mushroom
+87 - Noaidi's mushroom
+88 - Yellowcoat mushroom
+89 - Yellowcoat mushroom
+90 - Shovel blade
+91 - Browncoat mushroom
+92 - Bearpaw mushroom
+93 - Shingle
+94 - Torch
+95 - Hairy mushroom
+96 - Salt
+97 - Pot
+98 - Shovel
+99 - Wooden shovel
+100 - Skis
+101 - Ski pole
+102 - Hairy mushroom
+103 - Redlegger mushroom
+104 - Redlegger mushroom
+105 - Yellow fingers mushroom
+106 - Yellow fingers mushroom
+107 - Tellervo's gift mushroom
+108 - Tellervo's gift mushroom
+109 - Ukko's mushroom
+110 - Ukko's mushroom
+111 - Soft mushroom
+112 - Soft mushroom
+113 - Ringed mushroom
+114 - Ringed mushroom
+115 - Mother pipe root
+116 - Mother pipe leaves
+117 - Mother pipe flowers
+118 - Mother pipe
+119 - Bandage
+120 - Linen undershirt
+121 - Woollen undershirt
+122 - Linen undergarment
+123 - Woollen undergarment
+124 - Linen shirt
+125 - Nettle shirt
+126 - Woollen shirt
+127 - Linen tunic
+128 - Nettle tunic
+129 - Woollen tunic
+130 - Woollen overcoat
+131 - Woollen dress
+132 - Linen dress
+133 - Linen trousers
+134 - Nettle trousers
+135 - Woollen trousers
+136 - Woollen leggings
+137 - Nettle apron
+138 - Linen apron
+139 - Woollen apron
+140 - Linen footrags
+141 - Woollen socks
+142 - Woollen footrags
+143 - Linen veil
+144 - Woollen veil
+145 - Linen cowl
+146 - Woollen cowl
+147 - Nettle cowl
+148 - Nettle cloak
+149 - Woollen cloak
+150 - Woollen mittens
+151 - Leather cap
+152 - Leather belt
+153 - Leather shirt
+154 - Leather leggings
+155 - Leather shoes
+156 - Leather boots
+157 - Fur cap
+158 - Fur shirt
+159 - Fur mittens
+160 - Fur leggings
+161 - Fur hood
+162 - Fur footwear
+163 - Fur cloak
+164 - Birch-bark necklace
+165 - Birch-bark shoes
+166 - Birch-bark cap
+167 - Leather shin guards
+168 - Leather forearm guards
+169 - Leather cuirass
+170 - Fur overcoat
+171 - Fur overcoat
+172 - Fur overcoat
+173 - Fur overcoat
+174 - Fur overcoat
+175 - Mail Cowl
+176 - Long Mail Cowl
+177 - Mail Habergeon
+178 - Mail Hauberk
+179 - Long Mail Hauberk
+180 - Mail Leggings
+181 - Mail mittens
+182 - Iron helm
+183 - Iron spectacle helm
+184 - Lamellar hauberk
+185 - Lamellar cuirass
+186 - Lamellar rerebraces
+187 - Iron coudes
+188 - Lamellar forearm guards
+189 - Iron Kneecops
+190 - Lamellar shin guards
+191 - Bear pipe root
+192 - Bear pipe leaves
+193 - Bear pipe flowers
+194 - Bear pipe
+195 - Dog pipe root
+196 - Dog pipe leaves
+197 - Dog pipe
+198 - Wolf pipe root
+199 - Wolf pipe leaves
+200 - Roundshield
+201 - Buckler
+202 - Hunting Horn
+203 - Wolf pipe
+204 - Skin
+205 - Water lily
+206 - Riverpig
+207 - Clayweed seeds
+208 - Clayweed leaves
+209 - Clayweed
+210 - Bogbean root
+211 - Bogbean leaves
+212 - Pike
+213 - Roach
+214 - Perch
+215 - Bream
+216 - Pike-perch
+217 - Trout
+218 - Salmon
+219 - Burbot
+220 - Lavaret
+221 - Fishing rod
+222 - Lippo
+223 - Marsh calla root
+224 - Marsh calla leaves
+225 - wooden fishhook
+226 - bone fishhook
+227 - iron fishhook
+228 - Milkweed root
+229 - Milkweed leaves
+230 - Loop snare
+231 - Milkweed
+232 - Burdock root
+233 - Paw-board fox trap
+234 - Burdock leaves
+235 - Burdock
+236 - Stonecrop leaves
+237 - Stonecrop
+238 - Roseroot root
+239 - Paddle
+240 - Punt
+241 - Sesta
+242 - Raft
+243 - Roseroot leaves
+244 - Roseroot
+245 - Bowstring
+246 - Bog flower
+247 - Flax seeds
+248 - Flax
+249 - Stone knife
+250 - Knife
+251 - Knife
+252 - Knife
+253 - Small knife
+254 - Broad knife
+255 - Hunting knife
+256 - Fisher's knife
+257 - Kaumolais knife
+258 - Northern knife
+259 - Skramasaksi
+260 - crowberries
+261 - Shortsword
+262 - Scimitar
+263 - Broadsword
+264 - Black currant bush
+265 - Njerpez scimitar
+266 - Pea
+267 - Bastard Sword
+268 - Battlesword
+269 - Club
+270 - Mace
+271 - Yarrow flowers
+272 - Maul
+273 - Sickle
+274 - Sickle
+275 - Handaxe
+276 - Handaxe
+277 - Lake reed root
+278 - Battleaxe
+279 - Grainflail
+280 - Grainflail
+281 - Bogbean
+282 - Marsh calla
+283 - Javelin
+284 - Staff
+285 - Spear
+286 - Kaumolais spear
+287 - Trident
+288 - Small trident
+289 - Wide trident
+290 - Northern spear
+291 - Ango
+292 - Ango
+293 - Lake reed
+294 - Net
+295 - Shortbow
+296 - Longbow
+297 - Crossbow
+298 - Heavy Crossbow
+299 - Spruce quick-bow
+300 - Northern bow
+301 - Hunting bow
+302 - Arrow
+303 - Arrow
+304 - Arrow
+305 - Arrow
+306 - bone arrowhead
+307 - stone arrowhead
+308 - arrow shaft
+309 - arrowhead
+310 - broadhead
+311 - Blunt arrow
+312 - Broadhead arrow
+313 - stone tipped arrow
+314 - bone tipped arrow
+315 - Broad axe
+316 - Carving axe
+317 - Splitting axe
+318 - Woodsman's axe
+319 - Bog flower leaves
+320 - Netting needle
+321 - Black ear mushroom
+322 - Woodsman's axe head
+323 - Broad axe head
+324 - Handaxe head
+325 - Carving axe head
+326 - Splitting axe head
+327 - Battleaxe head
+328 - Browncoat mushroom
+329 - Stone
+330 - Rock
+331 - Board
+332 - Bearpaw mushroom
+333 - Heather
+334 - Shovel haft
+335 - Axe haft
+336 - Spear haft
+337 - Water lily root
+338 - Riverpig root
+339 - *unmatchablestring*
+340 - Birch twig
+341 - *unmatchablestring*
+342 - *unmatchablestring*
+343 - *unmatchablestring*
+344 - *unmatchablestring*
+345 - Birch withe
+346 - Spruce withe
+347 - Firewood
+348 - Log
+349 - Block of wood
+350 - Branch
+351 - Slender tree trunk
+352 - Wood slat
+353 - Tree trunk
+354 - Wooden stake
+355 - Spruce twig
+356 - Stone-axe
+357 - *unmatchablestring*
+358 - *unmatchablestring*
+359 - *unmatchablestring*
+360 - spear head
+361 - Kaumolais spear head
+362 - Trident head
+363 - Small trident head
+364 - Wide trident head
+365 - Northern spear head
+366 - Ango head
+367 - *unmatchablestring*
+368 - *unmatchablestring*
+369 - *unmatchablestring*
+370 - *unmatchablestring*
+371 - *unmatchablestring*
+372 - *unmatchablestring*
+373 - *unmatchablestring*
+374 - *unmatchablestring*
+375 - *unmatchablestring*
+376 - *unmatchablestring*
+377 - *unmatchablestring*
+378 - *unmatchablestring*
+379 - *unmatchablestring*
+380 - *unmatchablestring*
+381 - *unmatchablestring*
+382 - *unmatchablestring*
+383 - *unmatchablestring*
+384 - *unmatchablestring*
+385 - *unmatchablestring*
+386 - *unmatchablestring*
+387 - *unmatchablestring*
+388 - *unmatchablestring*
+389 - *unmatchablestring*
+390 - *unmatchablestring*
+391 - *unmatchablestring*
+392 - *unmatchablestring*
+393 - *unmatchablestring*
+394 - *unmatchablestring*
+395 - *unmatchablestring*
+396 - *unmatchablestring*
+397 - *unmatchablestring*
+398 - *unmatchablestring*
+399 - *unmatchablestring*
+400 - 
+403 - 
+405 - y shrub

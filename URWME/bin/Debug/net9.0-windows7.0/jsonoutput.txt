@@ -1,0 +1,552 @@
+[
+  {
+    "Name": "Arctic fox fur",
+    "TypeID": "Skin",
+    "ID": 152
+  },
+  {
+    "Name": "Arrow",
+    "TypeID": "Weapon",
+    "ID": 20
+  },
+  {
+    "Name": "Battleaxe",
+    "TypeID": "Weapon",
+    "ID": 144
+  },
+  {
+    "Name": "Bear cut",
+    "TypeID": "Food",
+    "ID": 123
+  },
+  {
+    "Name": "Bear pipe",
+    "TypeID": "Plant",
+    "ID": 171
+  },
+  {
+    "Name": "Bearpaw mushroom",
+    "TypeID": "Plant",
+    "ID": 113
+  },
+  {
+    "Name": "Black currant bush",
+    "TypeID": "Plant",
+    "ID": 173
+  },
+  {
+    "Name": "Black ear mushroom",
+    "TypeID": "Plant",
+    "ID": 110
+  },
+  {
+    "Name": "Black grouse cut",
+    "TypeID": "Food",
+    "ID": 9
+  },
+  {
+    "Name": "Blueberry shrub",
+    "TypeID": "Plant",
+    "ID": 61
+  },
+  {
+    "Name": "Broadsword",
+    "TypeID": "Weapon",
+    "ID": 16
+  },
+  {
+    "Name": "Browncoat mushroom",
+    "TypeID": "Plant",
+    "ID": 74
+  },
+  {
+    "Name": "Capercaillie cut",
+    "TypeID": "Food",
+    "ID": 153
+  },
+  {
+    "Name": "Crowberry shrub",
+    "TypeID": "Plant",
+    "ID": 108
+  },
+  {
+    "Name": "dried bear cut",
+    "TypeID": "Food",
+    "ID": 136
+  },
+  {
+    "Name": "dried black grouse cut",
+    "TypeID": "Food",
+    "ID": 15
+  },
+  {
+    "Name": "dried capercaillie cut",
+    "TypeID": "Food",
+    "ID": 154
+  },
+  {
+    "Name": "dried hare cut",
+    "TypeID": "Food",
+    "ID": 14
+  },
+  {
+    "Name": "elk cut",
+    "TypeID": "Food",
+    "ID": 37
+  },
+  {
+    "Name": "Fish leather cap",
+    "TypeID": "Armour",
+    "ID": 160
+  },
+  {
+    "Name": "Forest reindeer cut",
+    "TypeID": "Food",
+    "ID": 31
+  },
+  {
+    "Name": "Fox fur",
+    "TypeID": "Skin",
+    "ID": 133
+  },
+  {
+    "Name": "Fur cap",
+    "TypeID": "Armour",
+    "ID": 40
+  },
+  {
+    "Name": "Fur cloak",
+    "TypeID": "Armour",
+    "ID": 47
+  },
+  {
+    "Name": "Fur footwear",
+    "TypeID": "Armour",
+    "ID": 45
+  },
+  {
+    "Name": "Fur hood",
+    "TypeID": "Armour",
+    "ID": 5
+  },
+  {
+    "Name": "Fur mittens",
+    "TypeID": "Armour",
+    "ID": 97
+  },
+  {
+    "Name": "Fur overcoat",
+    "TypeID": "Armour",
+    "ID": 65
+  },
+  {
+    "Name": "Fur shirt",
+    "TypeID": "Armour",
+    "ID": 3
+  },
+  {
+    "Name": "Golden rod",
+    "TypeID": "Plant",
+    "ID": 109
+  },
+  {
+    "Name": "Grey hat",
+    "TypeID": "Armour",
+    "ID": 60
+  },
+  {
+    "Name": "Hairy mushroom",
+    "TypeID": "Plant",
+    "ID": 75
+  },
+  {
+    "Name": "Handaxe",
+    "TypeID": "Weapon",
+    "ID": 8
+  },
+  {
+    "Name": "Hare cut",
+    "TypeID": "Food",
+    "ID": 13
+  },
+  {
+    "Name": "Hazel grouse cut",
+    "TypeID": "Food",
+    "ID": 157
+  },
+  {
+    "Name": "Heather",
+    "TypeID": "Plant",
+    "ID": 88
+  },
+  {
+    "Name": "Heavy Crossbow",
+    "TypeID": "Weapon",
+    "ID": 19
+  },
+  {
+    "Name": "Iron Kneecops",
+    "TypeID": "Armour",
+    "ID": 127
+  },
+  {
+    "Name": "Knife",
+    "TypeID": "Weapon",
+    "ID": 6
+  },
+  {
+    "Name": "Lake reed",
+    "TypeID": "Plant",
+    "ID": 174
+  },
+  {
+    "Name": "Leather belt",
+    "TypeID": "Armour",
+    "ID": 72
+  },
+  {
+    "Name": "Leather boots",
+    "TypeID": "Armour",
+    "ID": 1
+  },
+  {
+    "Name": "Leather cap",
+    "TypeID": "Armour",
+    "ID": 93
+  },
+  {
+    "Name": "Leather cord",
+    "TypeID": "Tool",
+    "ID": 163
+  },
+  {
+    "Name": "Leather leggings",
+    "TypeID": "Armour",
+    "ID": 145
+  },
+  {
+    "Name": "Leather shoes",
+    "TypeID": "Armour",
+    "ID": 21
+  },
+  {
+    "Name": "Linen dress",
+    "TypeID": "Armour",
+    "ID": 34
+  },
+  {
+    "Name": "Linen footrags",
+    "TypeID": "Armour",
+    "ID": 128
+  },
+  {
+    "Name": "Linen shirt",
+    "TypeID": "Armour",
+    "ID": 50
+  },
+  {
+    "Name": "Linen trousers",
+    "TypeID": "Armour",
+    "ID": 2
+  },
+  {
+    "Name": "Linen tunic",
+    "TypeID": "Armour",
+    "ID": 4
+  },
+  {
+    "Name": "Linen undergarment",
+    "TypeID": "Armour",
+    "ID": 22
+  },
+  {
+    "Name": "Linen undershirt",
+    "TypeID": "Armour",
+    "ID": 46
+  },
+  {
+    "Name": "Lingonberry shrub",
+    "TypeID": "Plant",
+    "ID": 86
+  },
+  {
+    "Name": "Lynx fur",
+    "TypeID": "Skin",
+    "ID": 33
+  },
+  {
+    "Name": "Mace",
+    "TypeID": "Weapon",
+    "ID": 125
+  },
+  {
+    "Name": "Mail mittens",
+    "TypeID": "Armour",
+    "ID": 119
+  },
+  {
+    "Name": "Marsh calla",
+    "TypeID": "Plant",
+    "ID": 62
+  },
+  {
+    "Name": "Meadsweet",
+    "TypeID": "Plant",
+    "ID": 101
+  },
+  {
+    "Name": "Milkweed",
+    "TypeID": "Plant",
+    "ID": 181
+  },
+  {
+    "Name": "Moss trousers",
+    "TypeID": "Armour",
+    "ID": 59
+  },
+  {
+    "Name": "Nettle",
+    "TypeID": "Plant",
+    "ID": 172
+  },
+  {
+    "Name": "Nettle cloak",
+    "TypeID": "Armour",
+    "ID": 36
+  },
+  {
+    "Name": "Nettle trousers",
+    "TypeID": "Armour",
+    "ID": 90
+  },
+  {
+    "Name": "Nettle tunic",
+    "TypeID": "Armour",
+    "ID": 30
+  },
+  {
+    "Name": "Northern bilberry shrub",
+    "TypeID": "Plant",
+    "ID": 87
+  },
+  {
+    "Name": "Redlegger mushroom",
+    "TypeID": "Plant",
+    "ID": 184
+  },
+  {
+    "Name": "Ringed seal cut",
+    "TypeID": "Food",
+    "ID": 11
+  },
+  {
+    "Name": "Riverpig",
+    "TypeID": "Plant",
+    "ID": 183
+  },
+  {
+    "Name": "Roach",
+    "TypeID": "Food",
+    "ID": 57
+  },
+  {
+    "Name": "roasted bear cut",
+    "TypeID": "Food",
+    "ID": 130
+  },
+  {
+    "Name": "roasted black grouse cut",
+    "TypeID": "Food",
+    "ID": 10
+  },
+  {
+    "Name": "roasted elk cut",
+    "TypeID": "Food",
+    "ID": 38
+  },
+  {
+    "Name": "roasted forest reindeer cut",
+    "TypeID": "Food",
+    "ID": 32
+  },
+  {
+    "Name": "roasted hazel grouse cut",
+    "TypeID": "Food",
+    "ID": 166
+  },
+  {
+    "Name": "roasted ringed seal cut",
+    "TypeID": "Food",
+    "ID": 12
+  },
+  {
+    "Name": "Roundshield",
+    "TypeID": "Weapon",
+    "ID": 18
+  },
+  {
+    "Name": "Rye bread",
+    "TypeID": "Food",
+    "ID": 0
+  },
+  {
+    "Name": "Sand mushroom",
+    "TypeID": "Plant",
+    "ID": 73
+  },
+  {
+    "Name": "Shortsword",
+    "TypeID": "Weapon",
+    "ID": 17
+  },
+  {
+    "Name": "Slender tree trunk",
+    "TypeID": "Timber",
+    "ID": 176
+  },
+  {
+    "Name": "Small trident",
+    "TypeID": "Weapon",
+    "ID": 7
+  },
+  {
+    "Name": "smoked bear cut",
+    "TypeID": "Food",
+    "ID": 124
+  },
+  {
+    "Name": "smoked black grouse cut",
+    "TypeID": "Food",
+    "ID": 132
+  },
+  {
+    "Name": "smoked elk cut",
+    "TypeID": "Food",
+    "ID": 129
+  },
+  {
+    "Name": "smoked forest reindeer cut",
+    "TypeID": "Food",
+    "ID": 142
+  },
+  {
+    "Name": "smoked hare cut",
+    "TypeID": "Food",
+    "ID": 151
+  },
+  {
+    "Name": "smoked hazel grouse cut",
+    "TypeID": "Food",
+    "ID": 158
+  },
+  {
+    "Name": "Spear",
+    "TypeID": "Weapon",
+    "ID": 126
+  },
+  {
+    "Name": "Squirrel fur",
+    "TypeID": "Skin",
+    "ID": 134
+  },
+  {
+    "Name": "Tree lichen overcoat",
+    "TypeID": "Armour",
+    "ID": 58
+  },
+  {
+    "Name": "Tree trunk",
+    "TypeID": "Timber",
+    "ID": 175
+  },
+  {
+    "Name": "Turnip",
+    "TypeID": "Food",
+    "ID": 43
+  },
+  {
+    "Name": "Wooden mug",
+    "TypeID": "Container",
+    "ID": 143
+  },
+  {
+    "Name": "Woollen cloak",
+    "TypeID": "Armour",
+    "ID": 42
+  },
+  {
+    "Name": "Woollen cowl",
+    "TypeID": "Armour",
+    "ID": 52
+  },
+  {
+    "Name": "Woollen dress",
+    "TypeID": "Armour",
+    "ID": 23
+  },
+  {
+    "Name": "Woollen footrags",
+    "TypeID": "Armour",
+    "ID": 156
+  },
+  {
+    "Name": "Woollen leggings",
+    "TypeID": "Armour",
+    "ID": 35
+  },
+  {
+    "Name": "Woollen mittens",
+    "TypeID": "Armour",
+    "ID": 95
+  },
+  {
+    "Name": "Woollen overcoat",
+    "TypeID": "Armour",
+    "ID": 120
+  },
+  {
+    "Name": "Woollen shirt",
+    "TypeID": "Armour",
+    "ID": 51
+  },
+  {
+    "Name": "Woollen socks",
+    "TypeID": "Armour",
+    "ID": 48
+  },
+  {
+    "Name": "Woollen trousers",
+    "TypeID": "Armour",
+    "ID": 26
+  },
+  {
+    "Name": "Woollen tunic",
+    "TypeID": "Armour",
+    "ID": 79
+  },
+  {
+    "Name": "Woollen undergarment",
+    "TypeID": "Armour",
+    "ID": 139
+  },
+  {
+    "Name": "Woollen undershirt",
+    "TypeID": "Armour",
+    "ID": 29
+  },
+  {
+    "Name": "Woollen veil",
+    "TypeID": "Armour",
+    "ID": 24
+  },
+  {
+    "Name": "Yellow fingers mushroom",
+    "TypeID": "Plant",
+    "ID": 76
+  },
+  {
+    "Name": "Yellowcoat mushroom",
+    "TypeID": "Plant",
+    "ID": 112
+  }
+]

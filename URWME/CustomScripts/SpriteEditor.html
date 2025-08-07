@@ -1,0 +1,273 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Designer</title>
+    <style>
+        body {
+            background-color: #2c2f36;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 10px;
+            border: 1px solid #555;
+            background-color: #3b3f46;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .col {
+            flex: 1;
+            padding: 10px;
+        }
+
+        .half-col {
+            flex: 0.5;
+            padding: 10px;
+        }
+
+        .list-group {
+            list-style: none;
+            padding: 0;
+            height: 300px;
+            overflow-y: auto;
+            background-color: #23252a;
+            border: 1px solid #555;
+        }
+
+        .list-group-item {
+            padding: 10px;
+            border-bottom: 1px solid #555;
+            cursor: pointer;
+        }
+
+            .list-group-item:hover, .list-group-item.selected {
+                background-color: #3b3f46;
+            }
+
+        .btn {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            text-align: center;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+            .btn:hover {
+                background-color: #357abd;
+            }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #23252a;
+            color: white;
+            border: 1px solid #555;
+        }
+
+        .checkbox-group {
+            margin: 10px 0;
+        }
+
+            .checkbox-group label {
+                display: block;
+            }
+
+        .preview-box {
+            background-color: #23252a;
+            height: 100px;
+            border: 1px solid #555;
+        }
+
+        .character-preview {
+            background-color: #23252a;
+            height: 200px;
+            border: 1px solid #555;
+            text-align: center;
+            line-height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <!-- Layers Section -->
+            <div class="col section">
+                <h4>Layers</h4>
+                <ul class="list-group" id="layersList">
+                    <!-- Sample layers -->
+                    <li class="list-group-item">Boots</li>
+                    <li class="list-group-item">Fur Trousers</li>
+                    <li class="list-group-item">Green Shirt</li>
+                    <li class="list-group-item">Male</li>
+                </ul>
+                <button class="btn" id="moveUpButton">Move Up</button>
+                <button class="btn" id="moveDownButton">Move Down</button>
+                <button class="btn" id="deleteButton">Delete</button>
+                <button class="btn" id="deleteAllButton">Delete All</button>
+            </div>
+
+            <!-- Layer Editor Section -->
+            <div class="col section">
+                <h4>Layer Editor</h4>
+                <div class="half-col">
+                    <label>Layer:</label>
+                    <select id="layerSelect">
+                        <option value="Feet">Feet</option>
+                        <option value="Body">Body</option>
+                        <option value="Head">Head</option>
+                    </select>
+
+                    <label>Type:</label>
+                    <select id="typeSelect">
+                        <option value="Boots">Boots</option>
+                        <option value="Helmet">Helmet</option>
+                        <option value="Trousers">Trousers</option>
+                    </select>
+
+                    <label>Material:</label>
+                    <select id="materialSelect">
+                        <option value="Leather">Leather</option>
+                        <option value="Cloth">Cloth</option>
+                        <option value="Metal">Metal</option>
+                    </select>
+
+                    <label>Variant:</label>
+                    <select id="variantSelect">
+                        <option value="Basic">Basic</option>
+                        <option value="Variant1">Variant 1</option>
+                        <option value="Variant2">Variant 2</option>
+                    </select>
+
+                    <div class="preview-box">
+                        <p>Preview</p>
+                    </div>
+
+                    <button class="btn" id="addItemButton">Add Item</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Character Preview Section -->
+        <div class="row section">
+            <div class="col">
+                <h4>Character Preview</h4>
+                <div class="character-preview">
+                    <p>Character Preview</p>
+                </div>
+            </div>
+
+            <!-- Options -->
+            <div class="half-col">
+                <div class="checkbox-group">
+                    <label><input type="checkbox" checked> 8-Directional</label>
+                    <label><input type="checkbox" checked> Add Fallen</label>
+                    <label><input type="checkbox"> Add Wading</label>
+                    <label><input type="checkbox"> Add All 2Dir</label>
+                </div>
+
+                <label>Direction:</label>
+                <select>
+                    <option>South East</option>
+                    <option>North West</option>
+                </select>
+
+                <label>State:</label>
+                <select>
+                    <option>Standing</option>
+                    <option>Sitting</option>
+                    <option>Walking</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedLayerIndex = null;
+
+        // Make layers selectable
+        document.querySelectorAll('#layersList .list-group-item').forEach((item, index) => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('#layersList .list-group-item').forEach(el => el.classList.remove('selected'));
+                item.classList.add('selected');
+                selectedLayerIndex = index;
+            });
+        });
+
+        // Move layer up
+        document.getElementById('moveUpButton').addEventListener('click', () => {
+            if (selectedLayerIndex !== null && selectedLayerIndex > 0) {
+                const list = document.getElementById('layersList');
+                const items = list.querySelectorAll('.list-group-item');
+                list.insertBefore(items[selectedLayerIndex], items[selectedLayerIndex - 1]);
+                selectedLayerIndex--;
+            }
+        });
+
+        // Move layer down
+        document.getElementById('moveDownButton').addEventListener('click', () => {
+            const list = document.getElementById('layersList');
+            const items = list.querySelectorAll('.list-group-item');
+            if (selectedLayerIndex !== null && selectedLayerIndex < items.length - 1) {
+                list.insertBefore(items[selectedLayerIndex + 1], items[selectedLayerIndex]);
+                selectedLayerIndex++;
+            }
+        });
+
+        // Delete layer
+        document.getElementById('deleteButton').addEventListener('click', () => {
+            if (selectedLayerIndex !== null) {
+                const list = document.getElementById('layersList');
+                list.removeChild(list.querySelectorAll('.list-group-item')[selectedLayerIndex]);
+                selectedLayerIndex = null;
+            }
+        });
+
+        // Delete all layers
+        document.getElementById('deleteAllButton').addEventListener('click', () => {
+            document.getElementById('layersList').innerHTML = '';
+            selectedLayerIndex = null;
+        });
+
+        // Add new item to the list
+        document.getElementById('addItemButton').addEventListener('click', () => {
+            const layer = document.getElementById('layerSelect').value;
+            const type = document.getElementById('typeSelect').value;
+            const material = document.getElementById('materialSelect').value;
+            const variant = document.getElementById('variantSelect').value;
+
+            const newItemText = `${layer} - ${type} - ${material} (${variant})`;
+
+            const newItem = document.createElement('li');
+            newItem.classList.add('list-group-item');
+            newItem.textContent = newItemText;
+
+            // Add click event for selection
+            newItem.addEventListener('click', () => {
+                document.querySelectorAll('#layersList .list-group-item').forEach(el => el.classList.remove('selected'));
+                newItem.classList.add('selected');
+                selectedLayerIndex = Array.from(newItem.parentNode.children).indexOf(newItem);
+            });
+
+            document.getElementById('layersList').appendChild(newItem);
+        });
+    </script>
+</body>
+</html>

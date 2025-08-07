@@ -1,0 +1,320 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Editor</title>
+    <style>
+        body {
+            background-color: #2c2f36;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 10px;
+            border: 1px solid #555;
+            background-color: #3b3f46;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #444c56;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+            background-color: #444c56;
+            color: white;
+            border: 1px solid #555;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin-right: 10px;
+            background-color: #4c545c;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #5b6269;
+            }
+
+        .search-section {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #555;
+            background-color: #3b3f46;
+        }
+
+        .item-list {
+            border: 1px solid #555;
+            max-height: 150px;
+            overflow-y: auto;
+            margin-top: 10px;
+            background-color: #3b3f46;
+        }
+
+            .item-list div {
+                padding: 8px;
+                cursor: pointer;
+            }
+
+                .item-list div:hover {
+                    background-color: #444c56;
+                }
+
+        select {
+            width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+            background-color: #444c56;
+            color: white;
+            border: 1px solid #555;
+        }
+    </style>
+</head>
+<body onload="initializePage()">
+
+    <div class="container">
+        <h1>Inventory Editor</h1>
+
+        <div class="search-section">
+            <h2>Add Item</h2>
+            <select id="itemTypeFilter" onchange="filterItems()">
+                <option value="">All Item Types</option>
+                <option value="Weapon">Weapon</option>
+                <option value="Armour">Armour</option>
+                <option value="Tool">Tool</option>
+                <option value="Container">Container</option>
+                <option value="Skin">Skin</option>
+                <option value="Food">Food</option>
+                <option value="Timber">Timber</option>
+                <option value="Vehicle">Vehicle</option>
+                <option value="Plant">Plant</option>
+                <option value="Valuable">Valuable</option>
+                <option value="Carcass">Carcass</option>
+                <option value="Droppings">Droppings</option>
+            </select>
+            <input type="text" id="searchInput" placeholder="Search for items..." onkeyup="filterItems()" />
+            <div class="item-list" id="itemList"></div>
+        </div>
+
+        <div class="section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="inventoryList"></tbody>
+            </table>
+            <button onclick="addItem()">Add Item</button>
+        </div>
+    </div>
+
+    <script>
+        let predefinedItems = [
+        ];
+
+        let inventory = [];
+
+        function loadInventory() {
+            const inventoryList = document.getElementById('inventoryList');
+            inventoryList.innerHTML = ''; // Clear existing rows
+            inventory.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.id}</td>
+                    <td><input type="text" value="${item.name}" onchange="updateItem(${item.id}, 'name', this.value)" /></td>
+                    <td><input type="number" value="${item.quantity}" onchange="updateItem(${item.id}, 'quantity', this.value)" /></td>
+                    <td>
+                        <button onclick="deleteItem(${item.id})">Delete</button>
+                    </td>
+                `;
+                inventoryList.appendChild(row);
+            });
+        }
+
+        function filterItems() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const itemType = document.getElementById('itemTypeFilter').value;
+            const itemList = document.getElementById('itemList');
+            itemList.innerHTML = ''; // Clear previous results
+
+            const filteredItems = predefinedItems.filter(item => {
+                const matchesSearch = item.name.toLowerCase().includes(searchInput);
+                const matchesType = itemType === "" || item.type === itemType;
+                return matchesSearch && matchesType;
+            });
+
+            filteredItems.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.textContent = `${item.name} (ID: ${item.id})`;
+                itemDiv.onclick = () => selectItem(item);
+                itemList.appendChild(itemDiv);
+            });
+        }
+
+        function selectItem(item) {
+            document.getElementById('searchInput').value = item.name; // Set the input value to the selected item name
+            const itemList = document.getElementById('itemList');
+            itemList.innerHTML = ''; // Clear the list after selection
+        }
+
+        function addItem() {
+            const itemName = document.getElementById('searchInput').value;
+            const item = predefinedItems.find(i => i.name === itemName);
+
+            if (item) {
+                const newId = inventory.length > 0 ? Math.max(...inventory.map(i => i.id)) + 1 : 1; // Generate new ID
+                const existingItem = inventory.find(i => i.id === item.id);
+                if (existingItem) {
+                    existingItem.quantity += 1; // Increment quantity if already exists
+                } else {
+                    inventory.push({ id: newId, name: item.name, quantity: 1 });
+                }
+                loadInventory();
+                document.getElementById('searchInput').value = ''; // Clear the search input
+            } else {
+                alert('Please select a valid item from the list.');
+            }
+        }
+
+        function updateItem(id, field, value) {
+            const item = inventory.find(i => i.id === id);
+            if (item) {
+                item[field] = field === 'quantity' ? parseInt(value) : value;
+            }
+        }
+
+        function deleteItem(id) {
+            inventory = inventory.filter(item => item.id !== id);
+            loadInventory();
+        }
+
+        function postStat(stat, value) {
+            postData(`Item.${stat} = ${value}`);
+        }
+
+        function postData(data) {
+            fetch('http://localhost:8080/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: data,
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Data sent to server successfully!');
+                    } else {
+                        console.error('Failed to send data to server.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error connecting to server:', error);
+                });
+        }
+
+        function getData(dataRequest, callback) {
+            const url = `http://localhost:8080/?request=${encodeURIComponent(dataRequest)}`;
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    //console.log('Received response:', response);
+                    return response.json();
+                })
+                .then(data => {
+                    //console.log('Received data:', data);
+                    if (callback) {
+                        callback(JSON.parse(data)); // Call the callback function with the received data
+                        //callback(data);
+                    }
+                    // You can now use `data` to update the UI or inventory list
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+
+        function populateUI(data) {
+            console.log(data);
+            for (const id in data) {
+                addPredefinedItem(data[id].ID, data[id].Name, data[id].TypeID);
+                }
+        }
+
+        function addPredefinedItem(id, name, type) {
+            // Check if an item with the same id already exists
+            const existingItem = predefinedItems.find(item => item.id === id);
+            if (existingItem) {
+                console.log(`Item with id ${id} already exists.`);
+                return;
+            }
+
+            // Add the new item to the array
+            predefinedItems.push({ id, name, type });
+            console.log(`Item "${name}" added successfully.`);
+        }
+
+        function initializePage() {
+            // Request initial data from the server
+            //loadValues();
+            setupPageFocusListeners();
+            console.log(getData("ItemStructHandler.GetItemsJson()", populateUI));
+        }
+
+        function setupPageFocusListeners() {
+            // Fetch data when the page gains focus
+            window.addEventListener('focus', () => {
+                console.log('Page is focused');
+                //getData("ItemBuffered.GetItemsJson", populateUI);
+            });
+
+            // Optional: Handle page blur event
+            window.addEventListener('blur', () => {
+                console.log('Page lost focus');
+                // Optionally, stop any data checks or updates
+            });
+        }
+
+
+        // Load initial inventory
+        loadInventory();
+    </script>
+
+</body>
+</html>

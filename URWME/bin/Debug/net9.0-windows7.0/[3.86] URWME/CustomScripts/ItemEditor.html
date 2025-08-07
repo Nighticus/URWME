@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Editor</title>
+    <style>
+        body {
+            background-color: #2c2f36;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .container, .section {
+            overflow: visible; /* Ensure overflow is not restricted */
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 10px;
+            border: 1px solid #555;
+            background-color: #3b3f46;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #444c56; /* Adjusted for better contrast */
+        }
+
+        input[type="text"], input[type="number"], input[type="float"] {
+            width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+            background-color: #444c56; /* Match table header */
+            color: white;
+            border: 1px solid #555; /* Match the section border */
+        }
+
+        button {
+            padding: 10px 15px;
+            margin-right: 10px;
+            background-color: #4c545c; /* Button background */
+            color: white; /* Button text color */
+            border: none; /* Remove default border */
+            cursor: pointer; /* Pointer on hover */
+        }
+
+            button:hover {
+                background-color: #5b6269; /* Darker on hover */
+            }
+    </style>
+</head>
+<body onload="initializePage()">
+
+    <h1>Item Editor</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Field</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody id="itemList"></tbody>
+    </table>
+    <button onclick="saveValues()">Save</button>
+    <button onclick="resetValues()">Reset</button>
+
+    <script>
+        const itemValues = {
+            Index: 0,
+            Name: '', // Item sprite path
+            ID: 0,
+            Quantity: 0,
+            TypeID: 0,
+            Sprite: '', // Item sprite path
+            Group: '', // Item group
+            Blunt: 0,
+            Edge: 0,
+            Point: 0,
+            Tear: 0,
+            Squeeze: 0,
+            Warmth: 0,
+            Carb: 0,
+            Fat: 0,
+            Protein: 0,
+            Mature: 0,
+            Sprout: 0,
+            Wither: 0,
+            Weight: 0.0,
+            Capacity: 0.0,
+            Durability: 0.0,
+            ContentWeight: 0.0,
+            Quality: 0,
+            Value: 0.0,
+            OneHandPenalty: 0,
+            Subtype: 0,
+            RangedAccuracy: 0,
+            ADBonus: 0,
+            Hidetimer: 0,
+            ArmorFlags: 0,
+            HerbFlags: 0,
+            HerbKnown: 0,
+            GroupPrefix: 0,
+            WaterObj: 0,
+            ItemIDRef: 0
+        };
+
+        const IndexString = 'getData(\'Item.Json()\', populateUI);';
+
+        function loadValues() {
+            const itemList = document.getElementById('itemList');
+            itemList.innerHTML = ''; // Clear existing rows
+            for (const [key, value] of Object.entries(itemValues)) {
+                const inputType = typeof value === 'number' ? 'number' : 'text'; // Determine input type
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${key}</td>
+                    <td><input type="${inputType}" id="${key}" value="${value}" onchange="postStat(type, id, value); ${key === 'Index' ? IndexString : ''}"  ${key === 'Sprite' || key === 'Group' ? 'maxlength="28"' : ''}/></td>
+                `;
+                itemList.appendChild(row);
+            }
+            console.log("List Generated");
+        }
+
+        function saveValues() {
+            for (const key of Object.keys(itemValues)) {
+                const inputElement = document.getElementById(key);
+                const value = inputElement.value;
+
+                // Handle conversions
+                if (typeof itemValues[key] === 'number') {
+                    // Parse as int or float based on the key
+                    if (['Weight', 'Capacity', 'Durability', 'ContentWeight', 'Value'].includes(key)) {
+                        itemValues[key] = parseFloat(value);
+                    } else {
+                        itemValues[key] = parseInt(value);
+                    }
+                } else {
+                    itemValues[key] = value; // Assume it's a string otherwise
+                }
+            }
+            alert('Values saved!');
+            console.log(itemValues); // You can replace this with actual save logic
+        }
+
+        function resetValues() {
+            loadValues();
+            alert('Values reset!');
+        }
+
+        function postStat(type, stat, value) {
+            if (type == 'text') {
+                value += '\0'; // Append null terminator
+            }
+            postData(`Item.${stat} = ${value}`);
+        }
+
+        function postData(data) {
+            fetch('http://localhost:8080/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: data,
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Data sent to server successfully!');
+                    } else {
+                        console.error('Failed to send data to server.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error connecting to server:', error);
+                });
+        }
+
+        function getData(dataRequest, callback) {
+            const url = `http://localhost:8080/?request=${encodeURIComponent(dataRequest)}`;
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    //console.log('Received response:', response);
+                    return response.json();
+                })
+                .then(data => {
+                    //console.log('Received data:', data);
+                    if (callback) {
+                        callback(JSON.parse(data)); // Call the callback function with the received data
+                        //callback(data);
+                    }
+                    // You can now use `data` to update the UI or inventory list
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+
+        function populateUI(data) {
+            console.log(data);
+            for (const id in data) {
+                // Skip if the current value is an array or an object
+                if (Array.isArray(data[id]) || typeof data[id] === "object") {
+                    continue;
+                }
+                //console.log("id ", id)
+                const element = document.getElementById(id); // Find the element with this ID
+                if (element) {
+                    //console.log("set value: ", data[id])
+                    element.value = data[id]; // Set the element's value to the data
+                }
+            }
+        }
+
+        function initializePage() {
+            // Request initial data from the server
+            loadValues();
+            setupPageFocusListeners();
+            getData("Item.Json()", populateUI);
+        }
+
+        function setupPageFocusListeners() {
+            // Fetch data when the page gains focus
+            window.addEventListener('focus', () => {
+                console.log('Page is focused');
+                getData("Item.Json()", populateUI);
+            });
+
+            // Optional: Handle page blur event
+            window.addEventListener('blur', () => {
+                console.log('Page lost focus');
+                // Optionally, stop any data checks or updates
+            });
+        }
+
+
+
+        // Load initial values
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,349 @@
+<CheatTable>
+  <CheatEntries>
+    <CheatEntry>
+      <Description>"PC_ActivityTimeSpent"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A2CB3D4</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_Attributes"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A326682</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_Items_IDs"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A3261A8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_Items_Counts"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A326338</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_IsTargetting"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+14F7132</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_Starvation"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A326680</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_Temperature"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A3271E8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_Thirst"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A3265AC</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_Bloodloss"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A326664</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_Direction"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+FF6F0000</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_Height"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A326674</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_Weight"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A326670</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_Items_Weight"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A326668</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_InTree"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+5F9E3F2</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_Energy"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A3265B0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_Fatigue"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A326660</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_Name"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A325BC0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_Gender"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A326681</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_Hunger"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A3271BC</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_Injuries"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A3265B8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_TribeID"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A325BCD</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_TribeName"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A325BCE</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_PortraitPath"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A3260F5</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_LocationX"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A2CD174</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_LocationY"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A327214</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_LastTutorial"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A326DB0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_Nutrition"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A326654</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_Phobia"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A32667C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_Physique"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A326678</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_Skills"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A325E6A</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_SkillPoints"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+1DF1EC</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_StartLocationX"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+1DCC10</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_StartLocationY"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+1DCC14</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_ViewingMenu"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+5F26A80</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_ViewingInventory"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+617C318</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_ViewingRecipes"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+618E2D4</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"PC_ViewingWorld"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+618E73C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"Map_Tiles"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+8F4918</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"Map_Elevation"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+2F3510</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"Map_Type"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+5F8A33B</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"Map_Objects"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A2CD17C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"Map_RegionName"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+355A4B8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"Map_RegionNameB"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+1B9BB9</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"World_TimeTick"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A326658</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"World_TimeHour"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A32665C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"World_TimeMinute"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A32665D</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"World_TimeDay"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A326684</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"World_TimeMonth"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A326690</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"World_TimeYear"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A326691</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"NPC_Struct"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+5D4C2C0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"Item_Struct"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+551CB80</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"Tile_Struct"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+1E8370</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"UI_MapRenderSizeX"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+61B6AAC</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"UI_MapRenderSizeY"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+61B6AB0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"UI_MouseXCoord"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+5F502BC</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"UI_MouseYCoord"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+5F4FE8C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"UI_VisibleRadiusX"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+61B6A94</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"UI_VisibleRadiusY"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+61B6A98</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"UI_Menu_CharacterLoadList"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+5F2F238</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"UI_Menu_SelectionIndex"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+5F4FF88</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"UI_Menu_SelectionTag"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+5F50090</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"UI_Menu_SelectedMenu"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+5F4FF10</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"UI_Menu_SelectionList"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+5F4A3E8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"UI_Menu_SelectionListB"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+619AE48</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"UI_Menu_IsMenu"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+5F502C4</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"UI_Menu_IsCrafting"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+61B6F18</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"UI_Menu_IsSkills"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+61B6FC4</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"MsgStruct"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A2922A4</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <Description>"TileBaseArray"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>urw.exe+A29D684</Address>
+    </CheatEntry>
+  </CheatEntries>
+</CheatTable>

@@ -1,0 +1,210 @@
+{
+  "Name": "Kaly",
+  "TribeName": "Kaumolainen",
+  "PortraitPath": "fem7.png",
+  "PortraitFullPath": "C:/Program Files (x86)/Steam/steamapps/common/UnRealWorld/truegfx/fem7.png",
+  "TribeID": 0,
+  "Gender": 2,
+  "GenderString": "Female",
+  "Location": {
+    "IsEmpty": false,
+    "X": 267,
+    "Y": 204
+  },
+  "StartLocation": {
+    "IsEmpty": false,
+    "X": 1024,
+    "Y": 1024
+  },
+  "Direction": 2,
+  "DirectionString": "North",
+  "InventoryWeight": 70.424934,
+  "Temperature": 37.43357,
+  "Fatigue": 0,
+  "Hunger": 231,
+  "Nutrition": 4968,
+  "CurrentObjective": 22,
+  "Starvation": 0,
+  "Phobia": 5,
+  "Physique": 3,
+  "Bloodloss": 0,
+  "SkillPoints": 5,
+  "Energy": 1781,
+  "Thirst": 60,
+  "Height": 73,
+  "Weight": 176,
+  "IsTargetting": false,
+  "IsViewingWorld": false,
+  "IsViewingInventory": false,
+  "IsViewingMenu": false,
+  "IsViewingRecipes": false,
+  "IsInTree": false,
+  "Attributes": {
+    "Strength": {
+      "Name": "Strength",
+      "Level": 14
+    },
+    "Agility": {
+      "Name": "Agility",
+      "Level": 13
+    },
+    "Dexterity": {
+      "Name": "Dexterity",
+      "Level": 14
+    },
+    "Speed": {
+      "Name": "Speed",
+      "Level": 13
+    },
+    "Endurance": {
+      "Name": "Endurance",
+      "Level": 18
+    },
+    "SmellTaste": {
+      "Name": "SmellTaste",
+      "Level": 14
+    },
+    "Eyesight": {
+      "Name": "Eyesight",
+      "Level": 14
+    },
+    "Touch": {
+      "Name": "Touch",
+      "Level": 13
+    },
+    "Will": {
+      "Name": "Will",
+      "Level": 12
+    },
+    "Intelligence": {
+      "Name": "Intelligence",
+      "Level": 11
+    },
+    "Hearing": {
+      "Name": "Hearing",
+      "Level": 15
+    }
+  },
+  "Skills": {
+    "Dodge": {
+      "Name": "Dodge",
+      "Level": 78
+    },
+    "Agriculture": {
+      "Name": "Agriculture",
+      "Level": 27
+    },
+    "Shield": {
+      "Name": "Shield",
+      "Level": 16
+    },
+    "Knife": {
+      "Name": "Knife",
+      "Level": 26
+    },
+    "Sword": {
+      "Name": "Sword",
+      "Level": 22
+    },
+    "Club": {
+      "Name": "Club",
+      "Level": 13
+    },
+    "Axe": {
+      "Name": "Axe",
+      "Level": 14
+    },
+    "Flail": {
+      "Name": "Flail",
+      "Level": 2
+    },
+    "Spear": {
+      "Name": "Spear",
+      "Level": 82
+    },
+    "Bow": {
+      "Name": "Bow",
+      "Level": 69
+    },
+    "Crossbow": {
+      "Name": "Crossbow",
+      "Level": 0
+    },
+    "Unarmed": {
+      "Name": "Unarmed",
+      "Level": 52
+    },
+    "Physician": {
+      "Name": "Physician",
+      "Level": 69
+    },
+    "Climbing": {
+      "Name": "Climbing",
+      "Level": 39
+    },
+    "Stealth": {
+      "Name": "Stealth",
+      "Level": 55
+    },
+    "Cookery": {
+      "Name": "Cookery",
+      "Level": 85
+    },
+    "Skiing": {
+      "Name": "Skiing",
+      "Level": 69
+    },
+    "Timbercraft": {
+      "Name": "Timbercraft",
+      "Level": 85
+    },
+    "Swimming": {
+      "Name": "Swimming",
+      "Level": 0
+    },
+    "Fishing": {
+      "Name": "Fishing",
+      "Level": 87
+    },
+    "Weatherlore": {
+      "Name": "Weatherlore",
+      "Level": 65
+    },
+    "Carpentry": {
+      "Name": "Carpentry",
+      "Level": 19
+    },
+    "Herblore": {
+      "Name": "Herblore",
+      "Level": 74
+    },
+    "Hideworking": {
+      "Name": "Hideworking",
+      "Level": 75
+    },
+    "Tracking": {
+      "Name": "Tracking",
+      "Level": 86
+    },
+    "Trapping": {
+      "Name": "Trapping",
+      "Level": 65
+    },
+    "Building": {
+      "Name": "Building",
+      "Level": 66
+    },
+    "Textilecraft": {
+      "Name": "Textilecraft",
+      "Level": 68
+    },
+    "Netmaking": {
+      "Name": "Netmaking",
+      "Level": 70
+    },
+    "Bowyer": {
+      "Name": "Bowyer",
+      "Level": 56
+    }
+  }
+}
