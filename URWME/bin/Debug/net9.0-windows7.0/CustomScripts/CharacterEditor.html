@@ -568,46 +568,87 @@
         }
 
         function populateUI(data) {
-            // Update basic fields
-            //document.getElementById('Name').value = data.Name;
-            //document.getElementById('TribeName').value = data.TribeName;
-            //document.getElementById('TribeID').value = data.TribeID;
-            //document.getElementById('Gender').value = data.GenderString;
-            //document.getElementById('Height').value = data.Height;
-            //document.getElementById('Weight').value = data.Weight;
-            //console.log('called function: ', data);
+            // Update simple properties (unchanged from your current version)
             for (const id in data) {
-                // Skip if the current value is an array or an object
-                if (Array.isArray(data[id]) || typeof data[id] === "object") {
-                    continue;
-                }
-
-                const element = document.getElementById(id); // Find the element with this ID
+                if (Array.isArray(data[id]) || typeof data[id] === "object") continue;
+                const element = document.getElementById(id);
                 if (element) {
-                    if (id == "PortraitFullPath") { element.src = data[id]; }
-                    element.value = data[id]; // Set the element's value to the data
+                    if (id === "PortraitFullPath") {
+                        element.src = data[id];
+                    } else {
+                        element.value = data[id];
+                    }
                 }
             }
-            //console.log(data.Name); // Outputs 14
-            // Update attributes and skills with values and update their progress bars
+
+            // Update attributes
             const attributes = data.Attributes;
             for (const attr in attributes) {
                 const element = document.getElementById(attr);
                 if (element) {
                     element.value = attributes[attr].Level;
-                    updateProgress(attr, 18); // Update progress bar based on new value
+                    updateProgress(attr, 18);
                 }
             }
 
-            const skills = data.Skills;
-            for (const skill in skills) {
-                const element = document.getElementById(skill);
-                if (element) {
-                    element.value = skills[skill].Level;
-                    updateProgress(skill, 100); // Update progress bar based on new value
+            // Update skills dynamically
+            const allSkillSections = ['lore-craft', 'physical-skills', 'combat-skills'];
+            const skillContainer = document.getElementById("lore-craft").parentElement; // Get main container
+
+            const existingSkillIds = new Set();
+            allSkillSections.forEach(sectionId => {
+                const section = document.getElementById(sectionId);
+                const skillsInSection = section.querySelectorAll(".skill input[type='number']");
+                skillsInSection.forEach(input => {
+                    existingSkillIds.add(input.id);
+                });
+            });
+
+            const currentSkills = data.Skills || {};
+            const skillsFound = new Set();
+
+            for (const skillName in currentSkills) {
+                skillsFound.add(skillName);
+
+                let input = document.getElementById(skillName);
+                if (!input) {
+                    // Create new skill dynamically (defaulting to lore-craft section)
+                    const section = document.getElementById("lore-craft");
+                    const skillDiv = document.createElement("div");
+                    skillDiv.className = "skill";
+                    skillDiv.innerHTML = `
+                <span>${skillName}</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="${skillName}-fill" style="width: 0%;"></div>
+                </div>
+                <input type="number" id="${skillName}" value="0" max="255" min="0"
+                    onchange="updateProgress('${skillName}', 100); postSkill(this.id, this.value)">
+            `;
+                    section.appendChild(skillDiv);
                 }
+
+                // Update value and progress
+                document.getElementById(skillName).value = currentSkills[skillName].Level;
+                updateProgress(skillName, 100);
             }
+
+            // Remove skills not in data anymore
+            existingSkillIds.forEach(id => {
+                if (!skillsFound.has(id)) {
+                    const input = document.getElementById(id);
+                    if (input) {
+                        const skillDiv = input.closest(".skill");
+                        if (skillDiv) skillDiv.remove();
+                    }
+
+                    const fill = document.getElementById(id + "-fill");
+                    if (fill && fill.parentElement) {
+                        fill.parentElement.remove(); // Remove progress bar if orphaned
+                    }
+                }
+            });
         }
+
 
         function initializePage() {
             // Request initial data from the server

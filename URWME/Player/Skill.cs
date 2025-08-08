@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace URWME // Unreal World MemoryManager
 {
@@ -7,7 +12,7 @@ namespace URWME // Unreal World MemoryManager
         public int Index = 0;
         public static int IndexMax
         {
-            get { return SkillNames.Length - 1; }
+            get { return SkillNames.Count - 1; }
         }
 
         ReadWriteMem RWMain;
@@ -15,12 +20,13 @@ namespace URWME // Unreal World MemoryManager
         {
             RWMain = RW;
             Index = i;
+            SkillNames = GetSkillNames();
         }
 
         public Skill(ReadWriteMem RW, string n)
         {
             RWMain = RW;
-            for (int i = 0; i < SkillNames.Length; i++)
+            for (int i = 0; i < SkillNames.Count; i++)
             {
                 if (SkillNames[i] == n)
                 {
@@ -37,7 +43,7 @@ namespace URWME // Unreal World MemoryManager
         {
             get
             {
-                if (Index < SkillNames.Length)
+                if (Index < SkillNames.Count)
                 {
                     return SkillNames[Index];
                 }
@@ -57,7 +63,19 @@ namespace URWME // Unreal World MemoryManager
             }
         }
 
-        public static string[] SkillNames = new string[] 
+        public List<string> GetSkillNames()
+        {
+            int Index = 0;
+            List<string> SkillsFound = new List<string>();
+            while (true)
+            {
+                string SkillName = RWMain.Read<string>(Address.PC_SkillNames + (Index*12), 12);
+                if (string.IsNullOrEmpty(SkillName)) { return SkillsFound; }
+                else { SkillsFound.Add(SkillName.ToTitleCase()); Index++; }
+            }
+        }
+
+        public static List<string> SkillNames = new List<string>()
         {
             "Dodge",
             "Agriculture",

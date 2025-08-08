@@ -122,6 +122,10 @@ namespace URWME
             Address.NPC_Struct = RWMain.Read<int>(await RWMain.FindSignatureAsync("BF ?? ?? ?? ?? B9 5A 01 00 00 81 C6 ?? ?? ?? ?? F3 A5") + 1, (byte)0) - RWMain.ProcBaseAddress;
             Address.PC_Temperature = RWMain.Read<int>(await RWMain.FindSignatureAsync("F3 0F 11 05 ?? ?? ?? ?? 76 33 C7 05 ?? ?? ?? ?? 00 00 28 42") + 4, (byte)0) - RWMain.ProcBaseAddress;
             Address.Map_Objects = RWMain.Read<int>(await RWMain.FindSignatureAsync("0F 11 04 8D ?? ?? ?? ?? 0F 10 47 10 0F 11 04 8D ?? ?? ?? ?? 89 04 8D ?? ?? ?? ??") + 4, (byte)0) - RWMain.ProcBaseAddress;
+            Address.PC_ViewingInventory = RWMain.Read<int>(await RWMain.FindSignatureAsync("89 0D ?? ?? ?? ?? 33 D2 B9 ?? ?? ?? ?? E8 ?? ?? ?? ?? 0F 28 05 ?? ?? ?? ?? 8D 84 24 30 07 00 00") + 2, (byte)0) - RWMain.ProcBaseAddress;
+            Address.UI_Index = RWMain.Read<int>(await RWMain.FindSignatureAsync("89 35 ?? ?? ?? ?? 83 3D ?? ?? ?? ?? 00 0F 85 ?? ?? ?? ?? E9 ?? ?? ?? ?? 8D 87 CF FB FF FF") + 2, (byte)0) - RWMain.ProcBaseAddress;
+
+
             Code.PC_HungerGain = await RWMain.FindSignatureAsync("88 15 ?? ?? ?? ?? 66 0F 6E 45 F8 0F 5B C0") - RWMain.ProcBaseAddress;
             Code.PC_FatigueGain = await RWMain.FindSignatureAsync("F3 0F 11 05 ?? ?? ?? ?? 72 3B C7 05 ?? ?? ?? ?? 00 00 C8 42") - RWMain.ProcBaseAddress;
             Code.PC_WeightChange = await RWMain.FindSignatureAsync("F3 0F 11 25 ?? ?? ?? ?? 0F 28 C4 5F") - RWMain.ProcBaseAddress;
@@ -132,14 +136,14 @@ namespace URWME
 
             Address.Update();
             Code.Update();
-            //MessageBox.Show(Code.PC_SkillChecksum.ToString("X") + " ");
+            //MessageBox.Show(Address.UI_Index.ToString("X") + " ");
             Console.WriteLine("Addresses loaded from signatures.");
-            /*CheatTableBuilder.GenerateGroupFragment(
-                groupName: "3.86",
+            CheatTableBuilder.GenerateCheatTableFile(
+                groupName: "3.86.1",
                 addressClassType: typeof(Address), // <<< PASS YOUR CLASS TYPE HERE
                 processName: "urw.exe",
-                outputFileName: "URW3.86.ct" // Optional file name
-            );*/
+                outputFileName: "URW_3.86.1.ct" // Optional file name
+            );
 
 
             return false;
@@ -393,161 +397,104 @@ namespace URWME
             if (e.KeyCode == Keys.T) { tsmiTeleport.PerformClick(); }
         }
     }
-
     public static class CheatTableBuilder
     {
-        /// <summary>
-        /// Generates an XML fragment for a Cheat Engine group containing entries
-        /// based on a class containing static address offsets.
-        /// This fragment is intended to be manually inserted into an existing Cheat Table file.
-        /// </summary>
-        /// <param name="groupName">The name for the group (e.g., "3.86").</param>
-        /// <param name="addressClassType">The Type of the class containing the static address properties (e.g., typeof(Address386)).</param>
-        /// <param name="processName">The process name to use in the address string (e.g., "urw.exe").</param>
-        /// <param name="outputFileName">Optional: File name to save the fragment to.</param>
-        public static void GenerateGroupFragment(
+        public static void GenerateCheatTableFile(
             string groupName = "3.86",
-            Type addressClassType = null, // You MUST provide the correct type here
+            Type addressClassType = null,
             string processName = "urw.exe",
             string outputFileName = null)
         {
-            // Ensure the address class type is provided
             if (addressClassType == null)
             {
-                // --- IMPORTANT ---
-                // Replace typeof(Address2) with the actual class holding your 3.86 offsets!
-                // For example: typeof(Address386)
-                // --- IMPORTANT ---
-                addressClassType = typeof(Address); // <<< SET YOUR 3.86 ADDRESS CLASS HERE
-                Console.WriteLine($"Warning: No address class type provided. Defaulting to '{addressClassType.Name}'. Make sure this is correct!");
-                // Or throw an exception:
-                // throw new ArgumentNullException(nameof(addressClassType), "You must provide the Type of the class containing the addresses.");
+                addressClassType = typeof(Address); // Default fallback
+                Console.WriteLine($"Warning: No address class type provided. Using '{addressClassType.Name}'.");
             }
 
-
-            StringBuilder sb = new StringBuilder();
-
-            // Start the Group CheatEntry (Use 4 spaces for indentation matching the example)
-            sb.AppendLine("    <CheatEntry>");
-            sb.AppendLine($"      <Description>\"{groupName}\"</Description>");
-            sb.AppendLine("      <Options moHideChildren=\"1\"/>");
-            // Note: IDs, LastState, RealAddress are omitted as CE often handles these on paste/load
-            sb.AppendLine("      <GroupHeader>1</GroupHeader>");
-            sb.AppendLine("      <CheatEntries>"); // Start the inner entries for this group
-
-            // Get all public static properties from the specified address class
             var props = addressClassType.GetProperties(BindingFlags.Public | BindingFlags.Static);
-
             if (!props.Any())
             {
-                Console.WriteLine($"Warning: No public static properties found in class '{addressClassType.Name}'.");
+                Console.WriteLine($"No public static properties found in {addressClassType.Name}.");
+                return;
             }
+
+            StringBuilder sb = new StringBuilder();
+            int idCounter = 1;
+
+            sb.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+            sb.AppendLine("<CheatTable CheatEngineTableVersion=\"46\">");
+            sb.AppendLine("  <CheatEntries>");
+            sb.AppendLine("    <CheatEntry>");
+            sb.AppendLine($"      <ID>{idCounter++}</ID>");
+            sb.AppendLine($"      <Description>\"{groupName}\"</Description>");
+            sb.AppendLine("      <Options moHideChildren=\"1\"/>");
+            sb.AppendLine("      <GroupHeader>1</GroupHeader>");
+            sb.AppendLine("      <CheatEntries>");
 
             foreach (var prop in props)
             {
-                // Ensure the property is of a type we can reasonably interpret as an offset
-                if (prop.PropertyType == typeof(int) || prop.PropertyType == typeof(IntPtr))
+                if (prop.PropertyType != typeof(int) && prop.PropertyType != typeof(IntPtr))
                 {
-                    string name = prop.Name;
-                    long addressValue = 0; // Use long to accommodate IntPtr potentially being 64-bit
-
-                    object propValue = prop.GetValue(null); // Get static property value
-
-                    if (propValue == null)
-                    {
-                        Console.WriteLine($"Warning: Property '{name}' in '{addressClassType.Name}' returned null. Skipping.");
-                        continue;
-                    }
-
-                    if (prop.PropertyType == typeof(int))
-                    {
-                        addressValue = (int)propValue;
-                    }
-                    else if (prop.PropertyType == typeof(IntPtr))
-                    {
-                        // Convert IntPtr to Int64 for consistent handling, works for 32/64 bit
-                        addressValue = ((IntPtr)propValue).ToInt64();
-                    }
-
-                    // Generate the inner CheatEntry (Use 8 spaces for indentation)
-                    sb.AppendLine("        <CheatEntry>");
-                    sb.AppendLine($"          <Description>\"{name}\"</Description>");
-
-                    // --- Limitation: Hardcoded Type ---
-                    // The original code hardcoded "4 Bytes". To get accurate types like
-                    // "Byte", "Float", "String", etc., you'd need to store that info
-                    // with the address (e.g., using attributes on the properties).
-                    // For now, sticking to the original code's behavior.
-                    sb.AppendLine("          <VariableType>4 Bytes</VariableType>");
-                    // --- End Limitation ---
-
-                    // Add other common fields (optional, uncomment/modify if needed)
-                    // sb.AppendLine("          <ShowAsSigned>0</ShowAsSigned>");
-
-                    // Format address as "process+offset" in Hex
-                    sb.AppendLine($"          <Address>{processName}+{addressValue:X}</Address>");
-                    sb.AppendLine("        </CheatEntry>");
+                    Console.WriteLine($"Skipping {prop.Name}: unsupported type {prop.PropertyType.Name}");
+                    continue;
                 }
-                else
+
+                string name = prop.Name;
+                object value = prop.GetValue(null);
+                if (value == null) continue;
+
+                long addressValue = prop.PropertyType == typeof(int)
+                    ? (int)value
+                    : ((IntPtr)value).ToInt64();
+
+                var attr = prop.GetCustomAttribute<CheatTypeAttribute>();
+                string variableType = attr?.VariableType ?? "4 Bytes";
+                string showAsSigned = attr != null && attr.ShowAsSigned ? "1" : "0";
+                int byteLength = attr?.ByteLength ?? 0;
+
+                sb.AppendLine("        <CheatEntry>");
+                sb.AppendLine($"          <ID>{idCounter++}</ID>");
+                sb.AppendLine($"          <Description>\"{name}\"</Description>");
+                sb.AppendLine($"          <VariableType>{variableType}</VariableType>");
+                if (variableType == "Array of byte" && byteLength > 0)
                 {
-                    Console.WriteLine($"Skipping property '{prop.Name}' in '{addressClassType.Name}' due to incompatible type: {prop.PropertyType.Name}. Only 'int' or 'IntPtr' are processed.");
+                    sb.AppendLine($"          <ByteLength>{byteLength}</ByteLength>");
+
+                    // Add a dummy LastState block (can customize if needed)
+                    string dummyValue = string.Join(" ", Enumerable.Repeat("00", byteLength));
+                    string realAddress = (addressValue + DefaultData.URW.MainWindowHandle).ToString("X8"); // Or you could simulate a more realistic value
+                    sb.AppendLine($"          <LastState Value=\"{dummyValue}\" RealAddress=\"{realAddress}\"/>");
                 }
+
+                sb.AppendLine($"          <Address>{processName}+{addressValue:X}</Address>");
+                sb.AppendLine($"          <ShowAsSigned>{showAsSigned}</ShowAsSigned>");
+                sb.AppendLine("        </CheatEntry>");
             }
 
-            // Close the inner CheatEntries and the Group CheatEntry
+
             sb.AppendLine("      </CheatEntries>");
             sb.AppendLine("    </CheatEntry>");
+            sb.AppendLine("  </CheatEntries>");
+            sb.AppendLine("  <UserdefinedSymbols/>");
+            sb.AppendLine("  <Comments></Comments>");
+            sb.AppendLine("</CheatTable>");
 
-            string fragment = sb.ToString();
+            // File output
+            if (string.IsNullOrWhiteSpace(outputFileName))
+                outputFileName = $"CheatTable_{groupName.Replace(" ", "_")}.ct";
 
-            // --- Output ---
-            Console.WriteLine($"--- Generated Cheat Table Group Fragment ({groupName}) ---");
-            Console.WriteLine(fragment);
-            Console.WriteLine("--- End Fragment ---");
-            Console.WriteLine();
-            Console.WriteLine($"Instructions: Copy the XML fragment above (between the '---' lines) ");
-            Console.WriteLine($"and paste it inside the main <CheatEntries> tag of your existing '{processName}.ct' file,");
-            Console.WriteLine($"likely just before the closing </CheatEntries> tag.");
-            Console.WriteLine();
-
-
-            // --- Optional: Save to file ---
-            if (!string.IsNullOrEmpty(outputFileName))
+            try
             {
-                try
-                {
-                    // Use a more descriptive default name if none provided
-                    if (outputFileName == "GeneratedCheatTable.ct") // Avoid overwriting full table potentially
-                        outputFileName = $"GeneratedGroup_{groupName}.xml"; // Use .xml or .txt for fragment
-
-                    string filePath = Path.Combine(Directory.GetCurrentDirectory(), outputFileName);
-                    File.WriteAllText(filePath, fragment);
-                    Console.WriteLine($"Fragment also saved to: {filePath}");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error saving fragment to file '{outputFileName}': {ex.Message}");
-                }
+                File.WriteAllText(outputFileName, sb.ToString(), new UTF8Encoding(false));
+                Console.WriteLine($"Cheat Table saved to: {Path.GetFullPath(outputFileName)}");
             }
-            else
+            catch (Exception ex)
             {
-                string defaultFilename = $"GeneratedGroup_{groupName}.xml";
-                string filePath = Path.Combine(Directory.GetCurrentDirectory(), defaultFilename);
-                try
-                {
-                    File.WriteAllText(filePath, fragment);
-                    Console.WriteLine($"Fragment also saved by default to: {filePath}");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error saving fragment to default file '{defaultFilename}': {ex.Message}");
-                }
+                Console.WriteLine($"Error saving file: {ex.Message}");
             }
         }
-
-        // You might want to keep or remove the original method depending on your needs
-        // public static void GenerateAndSaveCheatTable_Original() { /* ... */ }
     }
+
 
     public static class AddressOld // Currently 3.84.2
     {
@@ -625,82 +572,94 @@ namespace URWME
 
     public static class Address
     {
-        public static int PC_ActivityTimeSpent { get; set; } = 0xA2C591C;
-        public static int PC_Attributes { get; set; } = 0xA31FFD2;
-        public static int PC_Items_IDs { get; set; } = 0xA31FAF8;
-        public static int PC_Items_Counts { get; set; } = 0xA31FC88;
-        public static int PC_IsTargetting { get; set; } = 0x14F1132;
-        public static int PC_Starvation { get; set; } = 0xA31FFD0;
-        public static int PC_Temperature { get; set; } = 0xA320B3C;
-        public static int PC_Thirst { get; set; } = 0xA31FEFC;
-        public static int PC_Bloodloss { get; set; } = 0xA31FFB4;
-        public static int PC_Direction { get; set; } = 0xA378F40;
-        public static int PC_Height { get; set; } = 0xA31FFC4;
-        public static int PC_Weight { get; set; } = 0xA31FFC0;
-        public static int PC_Items_Weight { get; set; } = 0xA31FFB8;
-        public static int PC_InTree { get; set; } = 0x5F97DAA;
-        public static int PC_Energy { get; set; } = 0xA31FF00;
-        public static int PC_Fatigue { get; set; } = 0xA31FFB0;
-        public static int PC_Name { get; set; } = 0xA31F510;
-        public static int PC_Gender { get; set; } = 0xA31FFD1;
-        public static int PC_Hunger { get; set; } = 0xA320B10;
-        public static int PC_Injuries { get; set; } = 0xA31FF08;
-        public static int PC_TribeID { get; set; } = 0xA31F51D;
-        public static int PC_TribeName { get; set; } = 0xA31F51E;
-        public static int PC_PortraitPath { get; set; } = 0xA31FA45;
-        public static int PC_LocationX { get; set; } = 0xA2C76C8;
-        public static int PC_LocationY { get; set; } = 0xA320B68;
-        public static int PC_TargetingX { get; set; } = 0x238092C;
-        public static int PC_TargetingY { get; set; } = 0x2981D6C;
-        public static int PC_LastTutorial { get; set; } = 0xA320700;
-        public static int PC_Nutrition { get; set; } = 0xA31FFA4;
-        public static int PC_Phobia { get; set; } = 0xA31FFCC;
-        public static int PC_Physique { get; set; } = 0xA31FFC8;
-        public static int PC_Skills { get; set; } = 0xA31F7BA;
-        public static int PC_SkillPoints { get; set; } = 0x1D91EC;
-        public static int PC_StartLocationX { get; set; } = 0x1D6C10;
-        public static int PC_StartLocationY { get; set; } = 0x1D6C14;
-        //public static int PC_VisualRadius { get; set; } = 0x1D4F5D8;
-        public static int PC_ViewingMenu { get; set; } = 0x5F20438; // old
-        public static int PC_ViewingInventory { get; set; } = 0x6174CD0; // old
-        public static int PC_ViewingRecipes { get; set; } = 0x6186C8C; // old
-        public static int PC_ViewingWorld { get; set; } = 0x61870F4; // old
-        public static int Map_Tiles { get; set; } = 0x8EE918;
-        public static int Map_Elevation { get; set; } = 0x2ED510; //0x2C5520; old, for reference
-        public static int Map_Type { get; set; } = 0x5F83CF3;
-        public static int Map_Objects { get; set; } = 0xA2CDD7C;
-        public static int Map_RegionName { get; set; } = 0x3553E70; // old
-        public static int Map_RegionNameB { get; set; } = 0x1B3BB9; // old
-        public static int World_TimeTick { get; set; } = 0xA31FFA8;
-        public static int World_TimeHour { get; set; } = 0xA31FFAC;
-        public static int World_TimeMinute { get; set; } = 0xA31FFAD;
-        public static int World_TimeDay { get; set; } = 0xA31FFD4;
-        public static int World_TimeMonth { get; set; } = 0xA31FFE0;
-        public static int World_TimeYear { get; set; } = 0xA31FFE1;
-        public static int NPC_Struct { get; set; } = 0x5D45C78; // 1384 byte size
-        public static int Item_Struct { get; set; } = 0x5516538; // 172 byte size
-        public static int Static_Item_Struct { get; set; } = 0x54F54D0;
-        public static int Tile_Struct { get; set; } = 0x1E2370;
-        public static int UI_MapRenderSizeX { get; set; } = 0x61B0464;
-        public static int UI_MapRenderSizeY { get; set; } = 0x61B0468;
-        public static int UI_MouseXCoord { get; set; } = 0x5F49C74;
-        public static int UI_MouseYCoord { get; set; } = 0x5F49844;
-        public static int UI_VisibleRadiusX { get; set; } = 0x61B6A94;
-        public static int UI_VisibleRadiusY { get; set; } = 0x61B0450;
-        public static int UI_ZoomLevel { get; set; } = 0x61B6A88;
-        public static int UI_TileScaleW { get; set; } = 0x61B6A88;
-        public static int UI_TileScaleH { get; set; } = 0x61B6A88;
-        public static int UI_Menu_CharacterLoadList { get; set; } = 0x5F28BF0;
-        public static int UI_Menu_SelectionIndex { get; set; } = 0x5F49940;
-        public static int UI_Menu_SelectionTag { get; set; } = 0x5F49A48;
-        public static int UI_Menu_SelectedMenu { get; set; } = 0x5F498C8;
-        public static int UI_Menu_SelectionList { get; set; } = 0x5F43DA0; // 232 byte size
-        public static int UI_Menu_SelectionListB { get; set; } = 0x6194800; // 524 byte size, edit FF FF FF FF to remove error
-        public static int UI_Menu_IsMenu { get; set; } = 0x5F49C7C;
-        public static int UI_Menu_IsCrafting { get; set; } = 0x61B08D0;
-        public static int UI_Menu_IsSkills { get; set; } = 0x61B097C;
-        public static int MsgStruct { get; set; } = 0xA28C7FA; // old
-        public static int TileBaseArray { get; set; } = 0xA297BD8; // old
+        [CheatType("4 Bytes")] public static int PC_ActivityTimeSpent { get; set; } = 0xA2C591C;
+        [CheatType("Array of byte", byteLength: 12)] public static int PC_Attributes { get; set; } = 0xA31FFD2;
+        [CheatType("Array of byte", byteLength: 100)] public static int PC_Items_IDs { get; set; } = 0xA31FAF8;
+        [CheatType("Array of byte", byteLength: 100)] public static int PC_Items_Counts { get; set; } = 0xA31FC88;
+        [CheatType("Byte")] public static int PC_IsTargetting { get; set; } = 0x14F1132;
+        [CheatType("Byte")] public static int PC_Starvation { get; set; } = 0xA31FFD0;
+        [CheatType("Float")] public static int PC_Temperature { get; set; } = 0xA320B3C;
+        [CheatType("4 Bytes")] public static int PC_Thirst { get; set; } = 0xA31FEFC;
+        [CheatType("Float")] public static int PC_Bloodloss { get; set; } = 0xA31FFB4;
+        [CheatType("Byte")] public static int PC_Direction { get; set; } = 0xA378F40;
+        [CheatType("4 Bytes")] public static int PC_Height { get; set; } = 0xA31FFC4;
+        [CheatType("4 Bytes")] public static int PC_Weight { get; set; } = 0xA31FFC0;
+        [CheatType("Float")] public static int PC_Items_Weight { get; set; } = 0xA31FFB8;
+        [CheatType("Byte")] public static int PC_InTree { get; set; } = 0x5F97DAA;
+        [CheatType("4 Bytes")] public static int PC_Energy { get; set; } = 0xA31FF00;
+        [CheatType("Float")] public static int PC_Fatigue { get; set; } = 0xA31FFB0;
+        [CheatType("String")] public static int PC_Name { get; set; } = 0xA31F510;
+        [CheatType("Byte")] public static int PC_Gender { get; set; } = 0xA31FFD1;
+        [CheatType("4 Bytes")] public static int PC_Hunger { get; set; } = 0xA320B10;
+        [CheatType("Array of byte", byteLength: 20)] public static int PC_Injuries { get; set; } = 0xA31FF08;
+        [CheatType("Byte")] public static int PC_TribeID { get; set; } = 0xA31F51D;
+        [CheatType("String")] public static int PC_TribeName { get; set; } = 0xA31F51E;
+        [CheatType("String")] public static int PC_PortraitPath { get; set; } = 0xA31FA45;
+        [CheatType("4 Bytes")] public static int PC_LocationX { get; set; } = 0xA2C76C8;
+        [CheatType("4 Bytes")] public static int PC_LocationY { get; set; } = 0xA320B68;
+        [CheatType("4 Bytes")] public static int PC_TargetingX { get; set; } = 0x238092C;
+        [CheatType("4 Bytes")] public static int PC_TargetingY { get; set; } = 0x2981D6C;
+        [CheatType("4 Bytes")] public static int PC_LastTutorial { get; set; } = 0xA320700;
+        [CheatType("4 Bytes")] public static int PC_Nutrition { get; set; } = 0xA31FFA4;
+        [CheatType("Byte")] public static int PC_Phobia { get; set; } = 0xA31FFCC;
+        [CheatType("Byte")] public static int PC_Physique { get; set; } = 0xA31FFC8;
+        [CheatType("Array of byte", byteLength: 29)] public static int PC_Skills { get; set; } = 0xA31F7BA;
+        [CheatType("Array of byte", byteLength: 29*12)] public static int PC_SkillNames { get; set; } = 0xA325BE0;
+        [CheatType("4 Bytes")] public static int PC_SkillPoints { get; set; } = 0x1D91EC;
+        [CheatType("4 Bytes")] public static int PC_StartLocationX { get; set; } = 0x1D6C10;
+        [CheatType("4 Bytes")] public static int PC_StartLocationY { get; set; } = 0x1D6C14;
+
+        // View states
+        [CheatType("Byte")] public static int PC_ViewingMenu { get; set; } = 0x5F20438;
+        [CheatType("Byte")] public static int PC_ViewingInventory { get; set; } = 0x619AE2C;
+        [CheatType("Byte")] public static int PC_ViewingRecipes { get; set; } = 0x6186C8C;
+        [CheatType("Byte")] public static int PC_ViewingWorld { get; set; } = 0x61870F4;
+
+        // Map
+        [CheatType("Array of byte", byteLength: 10)] public static int Map_Tiles { get; set; } = 0x8EE918;
+        [CheatType("Array of byte", byteLength: 10)] public static int Map_Elevation { get; set; } = 0x2ED510;
+        [CheatType("Byte")] public static int Map_Type { get; set; } = 0x5F83CF3;
+        [CheatType("Array of byte", byteLength: 36)] public static int Map_Objects { get; set; } = 0xA2CDD7C;
+        [CheatType("String")] public static int Map_RegionName { get; set; } = 0x3553E70;
+        [CheatType("String")] public static int Map_RegionNameB { get; set; } = 0x1B3BB9;
+
+        // Time
+        [CheatType("4 Bytes")] public static int World_TimeTick { get; set; } = 0xA31FFA8;
+        [CheatType("Byte")] public static int World_TimeHour { get; set; } = 0xA31FFAC;
+        [CheatType("Byte")] public static int World_TimeMinute { get; set; } = 0xA31FFAD;
+        [CheatType("Byte")] public static int World_TimeDay { get; set; } = 0xA31FFD4;
+        [CheatType("Byte")] public static int World_TimeMonth { get; set; } = 0xA31FFE0;
+        [CheatType("4 Bytes")] public static int World_TimeYear { get; set; } = 0xA31FFE1;
+
+        // Structs
+        [CheatType("Array of byte", byteLength: 10)] public static int NPC_Struct { get; set; } = 0x5D45C78;
+        [CheatType("Array of byte", byteLength: 172)] public static int Item_Struct { get; set; } = 0x5516538;
+        [CheatType("Array of byte", byteLength: 172)] public static int Static_Item_Struct { get; set; } = 0x54F54D0;
+        [CheatType("Array of byte", byteLength: 36)] public static int Tile_Struct { get; set; } = 0x1E2370;
+
+        // UI & Mouse
+        [CheatType("4 Bytes")] public static int UI_MapRenderSizeX { get; set; } = 0x61B0464;
+        [CheatType("4 Bytes")] public static int UI_MapRenderSizeY { get; set; } = 0x61B0468;
+        [CheatType("4 Bytes")] public static int UI_MouseXCoord { get; set; } = 0x5F49C74;
+        [CheatType("4 Bytes")] public static int UI_MouseYCoord { get; set; } = 0x5F49844;
+        [CheatType("4 Bytes")] public static int UI_VisibleRadiusX { get; set; } = 0x61B6A94;
+        [CheatType("4 Bytes")] public static int UI_VisibleRadiusY { get; set; } = 0x61B0450;
+        [CheatType("Float")] public static int UI_ZoomLevel { get; set; } = 0x61B6A88;
+        [CheatType("Float")] public static int UI_TileScaleW { get; set; } = 0x61B6A88;
+        [CheatType("Float")] public static int UI_TileScaleH { get; set; } = 0x61B6A88;
+        [CheatType("4 Bytes")] public static int UI_Menu_CharacterLoadList { get; set; } = 0x5F28BF0;
+        [CheatType("4 Bytes")] public static int UI_Menu_SelectionIndex { get; set; } = 0x5F49940;
+        [CheatType("4 Bytes")] public static int UI_Menu_SelectionTag { get; set; } = 0x5F49A48;
+        [CheatType("4 Bytes")] public static int UI_Menu_SelectedMenu { get; set; } = 0x5F498C8;
+        [CheatType("4 Bytes")] public static int UI_Menu_SelectionList { get; set; } = 0x5F43DA0;
+        [CheatType("4 Bytes")] public static int UI_Menu_SelectionListB { get; set; } = 0x6194800;
+        [CheatType("Byte")] public static int UI_Menu_IsMenu { get; set; } = 0x5F49C7C;
+        [CheatType("4 Bytes")] public static int UI_Index { get; set; } = 0x5F4FF88;
+        [CheatType("Byte")] public static int UI_Menu_IsCrafting { get; set; } = 0x61B08D0;
+        [CheatType("Byte")] public static int UI_Menu_IsSkills { get; set; } = 0x61B097C;
+        [CheatType("String")] public static int MsgStruct { get; set; } = 0xA28C7FA;
+        [CheatType("Array of byte", byteLength: 10)] public static int TileBaseArray { get; set; } = 0xA297BD8;
+
         public static void Update()
         {
             PC_ActivityTimeSpent = PC_LocationX - 0x1DA0;
@@ -712,7 +671,7 @@ namespace URWME
             PC_Hunger = PC_Temperature - 0x2C;
 
             // Offsets based on PC_InTree
-            PC_ViewingInventory = PC_InTree + 0x1DDF26; // Old
+            //PC_ViewingInventory = PC_InTree + 0x1DDF26; // Old
             PC_ViewingRecipes = PC_InTree + 0x1EFEE2;   // Old (or PC_ViewingInventory + 0x11FBC)
             PC_ViewingWorld = PC_InTree + 0x1F034A;     // Old (or PC_ViewingRecipes + 0x468)
             UI_MapRenderSizeX = PC_InTree + 0x2186BA;
@@ -743,6 +702,7 @@ namespace URWME
             PC_Phobia = PC_TribeName + 0xAAE;
             PC_Physique = PC_TribeName + 0xAAA;
             PC_Skills = PC_TribeName + 0x29C;
+            PC_SkillNames = PC_TribeName + 0x12;
             World_TimeTick = PC_TribeName + 0xA8A;
             World_TimeHour = PC_TribeName + 0xA8E;
             World_TimeMinute = PC_TribeName + 0xA8F;

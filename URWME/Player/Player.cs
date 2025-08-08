@@ -296,7 +296,7 @@ namespace URWME // Unreal World MemoryManager
             public Dictionary<string, object> AsDictionary()
             {
                 Dictionary<string, object> Return = new Dictionary<string, object>();
-                for (int i = 0; i < Skill.SkillNames.Length; i++)
+                for (int i = 0; i < Skill.SkillNames.Count; i++)
                 {
                     Return.Add(Skill.SkillNames[i], this[i]);
                 }
@@ -305,7 +305,7 @@ namespace URWME // Unreal World MemoryManager
 
             public byte[] Buffer
             {
-                get { return RWMain.Read<byte[]>(Address.PC_Skills, Skill.SkillNames.Length); }
+                get { return RWMain.Read<byte[]>(Address.PC_Skills, Skill.SkillNames.Count); }
                 set { RWMain.Write(Address.PC_Skills, value); }
             }
         }

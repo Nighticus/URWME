@@ -119,6 +119,12 @@ namespace URWME // Unreal World MemoryManager
                         catch (Exception E) { throw E; }
                     }
                 }
+                URWCurrentProcess.EnableRaisingEvents = true;
+                URWCurrentProcess.Exited += (sender, e) =>
+                {
+                    //Console.WriteLine("External process exited.");
+                    Environment.Exit(0);
+                };
                 //URWCurrentProcess.WaitForInputIdle();
                 return URWCurrentProcess;
             }

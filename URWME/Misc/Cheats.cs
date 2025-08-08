@@ -65,6 +65,8 @@ namespace URWME // Unreal World MemoryManager
             NoNeeds = false;
             NoCarryWeight = false;
             TreeVision = false;
+            Cannibalism = false;
+            Checksum = false;
         }
 
         public bool NoNeeds
@@ -72,33 +74,36 @@ namespace URWME // Unreal World MemoryManager
             get { return _noNeeds; }
             set
             {
-                _noNeeds = value;
-                if (_noNeeds)
+                if (_noNeeds != value)
                 {
-                    RWMain.Write(Code.PC_HungerGain, Enumerable.Repeat((byte)144, 6).ToArray());
-                    RWMain.Write(Code.PC_ThirstGain, Enumerable.Repeat((byte)144, 6).ToArray());
-                    RWMain.Write(Code.PC_NutritionLoss, Enumerable.Repeat((byte)144, 5).ToArray());
-                    RWMain.Write(Code.PC_EnergyLoss, Enumerable.Repeat((byte)144, 5).ToArray());
-                    RWMain.Write(Code.PC_FatigueGain, Enumerable.Repeat((byte)144, 8).ToArray());
-                    RWMain.Write(Code.PC_TemperatureChange, Enumerable.Repeat((byte)144, 8).ToArray());
-                    player.Temperature = 37f;
-                    player.Energy = 0;
-                    player.Fatigue = 0f;
-                    player.Thirst = 0;
-                    player.Hunger = 255;
-                    player.Nutrition = 5000;
-                    if (!_cannibalism) { player.Starvation = 0; }
+                    _noNeeds = value;
+                    if (_noNeeds)
+                    {
+                        RWMain.Write(Code.PC_HungerGain, Enumerable.Repeat((byte)144, 6).ToArray());
+                        RWMain.Write(Code.PC_ThirstGain, Enumerable.Repeat((byte)144, 6).ToArray());
+                        RWMain.Write(Code.PC_NutritionLoss, Enumerable.Repeat((byte)144, 5).ToArray());
+                        RWMain.Write(Code.PC_EnergyLoss, Enumerable.Repeat((byte)144, 5).ToArray());
+                        RWMain.Write(Code.PC_FatigueGain, Enumerable.Repeat((byte)144, 8).ToArray());
+                        RWMain.Write(Code.PC_TemperatureChange, Enumerable.Repeat((byte)144, 8).ToArray());
+                        player.Temperature = 37f;
+                        player.Energy = 0;
+                        player.Fatigue = 0f;
+                        player.Thirst = 0;
+                        player.Hunger = 255;
+                        player.Nutrition = 5000;
+                        if (!_cannibalism) { player.Starvation = 0; }
+                    }
+                    else
+                    {
+                        RWMain.Write(Code.PC_HungerGain, _hungerGain);
+                        RWMain.Write(Code.PC_ThirstGain, _thirstGain);
+                        RWMain.Write(Code.PC_NutritionLoss, _nutritionLoss);
+                        RWMain.Write(Code.PC_EnergyLoss, _energyLoss);
+                        RWMain.Write(Code.PC_FatigueGain, _fatigueGain);
+                        RWMain.Write(Code.PC_TemperatureChange, _temperatureChange);
+                    }
+                    SendKeys.Send(".");
                 }
-                else
-                {
-                    RWMain.Write(Code.PC_HungerGain, _hungerGain);
-                    RWMain.Write(Code.PC_ThirstGain, _thirstGain);
-                    RWMain.Write(Code.PC_NutritionLoss, _nutritionLoss);
-                    RWMain.Write(Code.PC_EnergyLoss, _energyLoss);
-                    RWMain.Write(Code.PC_FatigueGain, _fatigueGain);
-                    RWMain.Write(Code.PC_TemperatureChange, _temperatureChange);
-                }
-                SendKeys.Send(".");
             }
         }
 
@@ -107,18 +112,21 @@ namespace URWME // Unreal World MemoryManager
             get { return _noWeight; }
             set
             {
-                _noWeight = value;
-                if (_noWeight)
+                if (_noWeight != value)
                 {
-                    RWMain.Write(Code.PC_WeightChange, Enumerable.Repeat((byte)144, 8).ToArray());
-                    player.InventoryWeight = 0f;
-                    SendKeys.Send(".");
-                }
-                else
-                {
-                    RWMain.Write(Code.PC_WeightChange, _weightChange);
-                    player.InventoryWeight = player.Inventory.Items.GetWeight();
-                    SendKeys.Send(".");
+                    _noWeight = value;
+                    if (_noWeight)
+                    {
+                        RWMain.Write(Code.PC_WeightChange, Enumerable.Repeat((byte)144, 8).ToArray());
+                        player.InventoryWeight = 0f;
+                        SendKeys.Send(".");
+                    }
+                    else
+                    {
+                        RWMain.Write(Code.PC_WeightChange, _weightChange);
+                        player.InventoryWeight = player.Inventory.Items.GetWeight();
+                        SendKeys.Send(".");
+                    }
                 }
             }
         }
@@ -128,18 +136,21 @@ namespace URWME // Unreal World MemoryManager
             get { return _cannibalism; }
             set
             {
-                _cannibalism = value;
-                if (_cannibalism)
+                if (_cannibalism != value)
                 {
-                    RWMain.Write(Code.PC_StarvationLoss, Enumerable.Repeat((byte)144, 6).ToArray());
-                    player.Starvation = 2;
-                    SendKeys.Send(".");
-                }
-                else
-                {
-                    RWMain.Write(Code.PC_StarvationLoss, _starvationLoss);
-                    player.Starvation = 0;
-                    SendKeys.Send(".");
+                    _cannibalism = value;
+                    if (_cannibalism)
+                    {
+                        RWMain.Write(Code.PC_StarvationLoss, Enumerable.Repeat((byte)144, 6).ToArray());
+                        player.Starvation = 2;
+                        SendKeys.Send(".");
+                    }
+                    else
+                    {
+                        RWMain.Write(Code.PC_StarvationLoss, _starvationLoss);
+                        player.Starvation = 0;
+                        SendKeys.Send(".");
+                    }
                 }
             }
         }
@@ -149,15 +160,18 @@ namespace URWME // Unreal World MemoryManager
             get { return _treeVision; }
             set
             {
-                _treeVision = value;
-                if (_treeVision)
+                if (_treeVision != value)
                 {
-                    RWMain.Write(Code.PC_IsInTreeCheck, Enumerable.Repeat((byte)144, 6).ToArray());
-                    player.IsInTree = true;
-                }
-                else
-                {
-                    RWMain.Write(Code.PC_IsInTreeCheck, _isInTreeCheck);
+                    _treeVision = value;
+                    if (_treeVision)
+                    {
+                        RWMain.Write(Code.PC_IsInTreeCheck, Enumerable.Repeat((byte)144, 6).ToArray());
+                        player.IsInTree = true;
+                    }
+                    else
+                    {
+                        RWMain.Write(Code.PC_IsInTreeCheck, _isInTreeCheck);
+                    }
                 }
             }
         }
@@ -167,16 +181,19 @@ namespace URWME // Unreal World MemoryManager
             get { return _checksum; }
             set
             {
-                _checksum = value;
-                if (_checksum)
+                if (_checksum != value)
                 {
-                    RWMain.Write(Code.PC_SkillChecksum, (byte)144);
-                    RWMain.Write(Code.PC_AttributeChecksum, Enumerable.Repeat((byte)144, 2).ToArray());
-                }
-                else
-                {
-                    RWMain.Write(Code.PC_SkillChecksum, _skillChecksum);
-                    RWMain.Write(Code.PC_AttributeChecksum, _attrbiuteChecksum);
+                    _checksum = value;
+                    if (_checksum)
+                    {
+                        RWMain.Write(Code.PC_SkillChecksum, (byte)144);
+                        RWMain.Write(Code.PC_AttributeChecksum, Enumerable.Repeat((byte)144, 2).ToArray());
+                    }
+                    else
+                    {
+                        RWMain.Write(Code.PC_SkillChecksum, _skillChecksum);
+                        RWMain.Write(Code.PC_AttributeChecksum, _attrbiuteChecksum);
+                    }
                 }
             }
         }

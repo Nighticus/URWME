@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Globalization;
+
 //using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -37,6 +40,10 @@ namespace URWME // Unreal World MemoryManager
                     return i + "th";
             }
         }
+        public static string ToTitleCase(this string input)
+        {
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(input.ToLower());
+        }
 
         public static string ToJson(this object obj)
         {
@@ -48,10 +55,28 @@ namespace URWME // Unreal World MemoryManager
             return JsonSerializer.Serialize(obj, new JsonSerializerOptions { WriteIndented = true });
         }
 
+
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool AllocConsole();
 
     }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class CheatTypeAttribute : System.Attribute
+    {
+        public string VariableType { get; }
+        public bool ShowAsSigned { get; }
+        public int ByteLength { get; }
+
+        public CheatTypeAttribute(string variableType, bool showAsSigned = false, int byteLength = 0)
+        {
+            VariableType = variableType;
+            ShowAsSigned = showAsSigned;
+            ByteLength = byteLength;
+        }
+    }
+
+
 
 }
