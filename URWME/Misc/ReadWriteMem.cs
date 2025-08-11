@@ -160,11 +160,11 @@ namespace URWME // Unreal World MemoryManager
             }
         }
 
-        public int FindSignature(string pattern, bool firstMatchOnly = true)
+        public int FindSignature(string pattern, bool firstMatchOnly = true, bool isHex = true)
         {
             byte[] patternBytes;
             bool[] mask;
-            ParsePattern(pattern, out patternBytes, out mask);
+            ParsePattern(pattern, out patternBytes, out mask, isHex);
 
             IntPtr currentAddress = IntPtr.Zero;
             MEMORY_BASIC_INFORMATION m;
@@ -187,9 +187,9 @@ namespace URWME // Unreal World MemoryManager
             return -1;
         }
 
-        public async Task<int> FindSignatureAsync(string pattern)
+        public async Task<int> FindSignatureAsync(string pattern, bool isHex = true)
         {
-            return await Task.Run(() => FindSignature(pattern));
+            return await Task.Run(() => FindSignature(pattern, isHex: isHex));
         }
 
         private List<int> ScanPattern(byte[] buffer, byte[] pattern, bool[] mask)
@@ -212,7 +212,7 @@ namespace URWME // Unreal World MemoryManager
             }
             return results;
         }
-        private void ParsePattern(string pattern, out byte[] bytes, out bool[] mask)
+        private void ParsePattern(string pattern, out byte[] bytes, out bool[] mask, bool isHex)
         {
             string[] splits = pattern.Split(' ');
             bytes = new byte[splits.Length];
@@ -227,7 +227,10 @@ namespace URWME // Unreal World MemoryManager
                 }
                 else
                 {
-                    bytes[i] = Convert.ToByte(splits[i], 16);
+                    if (isHex)
+                    { bytes[i] = Convert.ToByte(splits[i], 16); }
+                    else
+                    { bytes[i] = Convert.ToByte(splits[i], 10); }
                     mask[i] = true;  // true means must match
                 }
             }

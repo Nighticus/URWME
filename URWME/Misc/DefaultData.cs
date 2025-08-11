@@ -140,7 +140,7 @@ namespace URWME // Unreal World MemoryManager
                 {
                     foreach (string Line in File.ReadAllLines(GameDirectory + "\\news.txt"))
                     {
-                        if (Line.StartsWith("Version")) { GameVersion = Line; return Line; }
+                        if (Line.StartsWith("Version")) { GameVersion = Line.Split(' ')[1]; return GameVersion; }
                     }
                 }
                 return "News.txt not found.";
@@ -157,6 +157,7 @@ namespace URWME // Unreal World MemoryManager
             {
                 throw new Exception("Could not load default data. Please make sure game client is running.");
             }
+
         }
 
         public static Dictionary<byte, string> Qualities(int iType)

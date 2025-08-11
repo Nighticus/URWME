@@ -261,11 +261,37 @@ namespace URWME // Unreal World MemoryManager
             public List<int> GetObjectsAt(Point Location)
             {
                 List<int> Return = new List<int>();
-                for (mapObjectBuffered.Index = 0; mapObjectBuffered.Index < mapObjectBuffered.Count; mapObjectBuffered.Index++)
+                int ObjCount = mapObjectBuffered.ObjectCount;
+                for (mapObjectBuffered.Index = 0; mapObjectBuffered.Index < ObjCount; mapObjectBuffered.Index++)
                 {
                     if (mapObjectBuffered.Location == Location)
                     {
                         Return.Add(mapObjectBuffered.Index);
+                    }
+                    else
+                    {
+                        //Return.Add(mapObjectBuffered.Location.X);
+                    }
+                }
+                File.WriteAllText("test3.txt", string.Join("\r\n", Return));
+                return Return;
+            }
+
+            public List<int> GetObjectsByTypeAt<T>(Point Location)
+            {
+                List<int> Return = new List<int>();
+                int ObjCount = mapObjectBuffered.ObjectCount;
+                for (mapObjectBuffered.Index = 0; mapObjectBuffered.Index < ObjCount; mapObjectBuffered.Index++)
+                {
+                    if (mapObjectBuffered.Location == Location)
+                    {
+                        if (mapObjectBuffered.ObjectType != null)
+                        {
+                            if (mapObjectBuffered.ObjectType == typeof(T))
+                            {
+                                Return.Add(mapObjectBuffered.Index);
+                            }
+                        }
                     }
                 }
                 return Return;
@@ -340,6 +366,13 @@ namespace URWME // Unreal World MemoryManager
             {
                 mapObjectBuffered.ReadArray();
                 MoveObjects(GetObjectsByType<Item>(), Destination);
+                mapObjectBuffered.WriteArray();
+            }
+
+            public void MoveTargetItemsToPlayer(Point Target)
+            {
+                mapObjectBuffered.ReadArray();
+                MoveObjects(GetObjectsByTypeAt<Item>(Target), new Player(RWMain).Location);
                 mapObjectBuffered.WriteArray();
             }
 

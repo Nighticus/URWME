@@ -12,10 +12,9 @@
       }
     ],
     "additionalProbingPaths": [
-      "C:\\Users\\xscri\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\xscri\\.nuget\\packages",
-      "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-      "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet"
+      "C:\\Users\\Annalyse\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Annalyse\\.nuget\\packages",
+      "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
     ],
     "configProperties": {
       "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": false,

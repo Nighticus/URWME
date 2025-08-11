@@ -40,3 +40,5 @@ C:\JoesPrjects\URWME\URWME\obj\Debug\net9.0-windows7.0\refint\URWME.dll
 C:\JoesPrjects\URWME\URWME\obj\Debug\net9.0-windows7.0\URWME.pdb
 C:\JoesPrjects\URWME\URWME\obj\Debug\net9.0-windows7.0\URWME.genruntimeconfig.cache
 C:\JoesPrjects\URWME\URWME\obj\Debug\net9.0-windows7.0\ref\URWME.dll
+C:\JoesPrjects\URWME\URWME\bin\Debug\net9.0-windows7.0\URWME.dll.config
+C:\JoesPrjects\URWME\URWME\obj\Debug\net9.0-windows7.0\URWME.Properties.Resources.resources

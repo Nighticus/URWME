@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections;
+using System.Drawing;
 using System.Globalization;
+using System.IO;
+
+using System.Net.Http;
+
 
 //using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace URWME // Unreal World MemoryManager
 {
@@ -60,23 +66,16 @@ namespace URWME // Unreal World MemoryManager
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool AllocConsole();
 
-    }
-
-    [AttributeUsage(AttributeTargets.Property)]
-    public class CheatTypeAttribute : System.Attribute
-    {
-        public string VariableType { get; }
-        public bool ShowAsSigned { get; }
-        public int ByteLength { get; }
-
-        public CheatTypeAttribute(string variableType, bool showAsSigned = false, int byteLength = 0)
+        public static async Task<Image> GetImageFromUrlAsync(string url)
         {
-            VariableType = variableType;
-            ShowAsSigned = showAsSigned;
-            ByteLength = byteLength;
+            using (HttpClient client = new HttpClient())
+            {
+                var data = await client.GetByteArrayAsync(url);
+                using (var ms = new MemoryStream(data))
+                {
+                    return Image.FromStream(ms);
+                }
+            }
         }
     }
-
-
-
 }

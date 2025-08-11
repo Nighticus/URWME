@@ -50,7 +50,7 @@ namespace URWME // Unreal World MemoryManager
             return Return.Bitmap;
         }
 
-        public Bitmap GetImageOverworldPLM()
+        public Bitmap GetImageOverworldPLM() // Fog of war
         {
             DirectBitmap Return = new DirectBitmap(3073, 2049);
             byte[] MapTiles = Tiles.FileBufferPLM;
@@ -68,7 +68,7 @@ namespace URWME // Unreal World MemoryManager
             return Return.Bitmap;
         }
 
-        public Bitmap GetImageOverworldDAT()
+        public Bitmap GetImageOverworldDAT() // No Fog
         {
             DirectBitmap Return = new DirectBitmap(3073, 2049);
             byte[] MapTiles = Tiles.FileBufferDAT;
@@ -269,6 +269,21 @@ namespace URWME // Unreal World MemoryManager
             return Return.Bitmap;
         }
 
+        public Bitmap GetImageLocalFog()
+        {
+            DirectBitmap Return = new DirectBitmap(3073, 2049);
+            foreach (byte i in Tiles.FogBuffer)
+            {
+                int X = i % 3073; int Y = i / 3073;
+
+                if (X >= 72 && Y >= 72 && X <= 391 && Y <= 391)
+                {
+                    Return.SetPixel(X, Y, (Color)TileData[i][0]);
+                }
+            }
+            return Return.Bitmap;
+        }
+
         public class TileArray
         {
             ReadWriteMem RWMain;
@@ -287,12 +302,18 @@ namespace URWME // Unreal World MemoryManager
                 get { return RWMain.Read<byte[]>(Address.Map_Tiles, 6293502); }
                 set { RWMain.Write(Address.Map_Tiles, value); }
             }
+            
+            public byte[] FogBuffer
+            {
+                get { return RWMain.Read<byte[]>(Address.Map_TilesFog, 6293502); }
+                set { RWMain.Write(Address.Map_TilesFog, value); }
+            }
 
             public byte[] FileBufferDAT
             {
                 get
                 {
-                    return File.ReadAllBytes(DefaultData.GameDirectory + "\\QIQI\\WORLD.DAT");
+                    return File.ReadAllBytes(DefaultData.GameDirectory + "\\TEST6\\WORLD.DAT");
                 }
             }
 
@@ -300,7 +321,7 @@ namespace URWME // Unreal World MemoryManager
             {
                 get
                 {
-                    return File.ReadAllBytes(DefaultData.GameDirectory + "\\QIQI\\WORLD.PLM");
+                    return File.ReadAllBytes(DefaultData.GameDirectory + "\\TEST6\\WORLD.PLM");
                 }
             }
 

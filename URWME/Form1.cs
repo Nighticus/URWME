@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -28,6 +27,9 @@ namespace URWME
         public Item item;
         public ItemStructHandler itemStruct;
         public Cheats cheats;
+        public Map map;
+
+        FontDialog fontDialog = new FontDialog();
 
         //public ConsoleCommands consoleCommands;
         private GlobalMouseHook _mouseHook;
@@ -81,6 +83,7 @@ namespace URWME
             item = new Item(RWMain, 0);
             itemStruct = new ItemStructHandler(RWMain);
             cheats = new Cheats(RWMain);
+            map = new Map(RWMain);
 
             _mouseHook = new GlobalMouseHook(ShowContextMenu);
             //consoleCommands = new ConsoleCommands(RWMain);
@@ -94,6 +97,8 @@ namespace URWME
             Load_HttpListener();
             Load_CommandEngine();
 
+            SetupUI();
+
             //Thread CmdLineThread = new Thread(new ThreadStart(CmdLineHandler)) { IsBackground = true };
             //CmdLineThread.Start();
 
@@ -105,7 +110,24 @@ namespace URWME
             //Console.WriteLine($"Response: {result.StatusCode}"); 
         }
 
+        private async void SetupUI()
+        {
+            string name = Properties.Settings.Default.MenuFontName;
+            float size = Properties.Settings.Default.MenuFontSize;
+            FontStyle style = (FontStyle)Properties.Settings.Default.MenuFontStyle;
+            
+            if (!string.IsNullOrEmpty(name) && size > 0)
+            {
+                cmsMenu.Font = new Font(name, size, style);
+            }
 
+            //tsmiCheatMenu.Image = await Extensions.GetImageFromUrlAsync("https://www.unrealworld.fi/urwicon.png");
+            map.Tiles.FogBuffer = map.Tiles.Buffer;
+            //RWMain.Write(0x3F7FC11 - 0x3F8E59, map.Tiles.FileBufferDAT);
+            //RWMain.Write(0x4581019 - 0x3F8E59, map.Tiles.FileBufferPLM);
+            //MessageBox.Show(Address.Map_Tiles.ToString("X"));
+        }
+         
         private async Task<bool> SignatureThread()
         {
             int Locations = await RWMain.FindSignatureAsync("C6 05 ?? ?? ?? ?? 01 89 3D ?? ?? ?? ?? 89 35 ?? ?? ?? ?? 88 1D ?? ?? ?? ??");
@@ -122,8 +144,8 @@ namespace URWME
             Address.NPC_Struct = RWMain.Read<int>(await RWMain.FindSignatureAsync("BF ?? ?? ?? ?? B9 5A 01 00 00 81 C6 ?? ?? ?? ?? F3 A5") + 1, (byte)0) - RWMain.ProcBaseAddress;
             Address.PC_Temperature = RWMain.Read<int>(await RWMain.FindSignatureAsync("F3 0F 11 05 ?? ?? ?? ?? 76 33 C7 05 ?? ?? ?? ?? 00 00 28 42") + 4, (byte)0) - RWMain.ProcBaseAddress;
             Address.Map_Objects = RWMain.Read<int>(await RWMain.FindSignatureAsync("0F 11 04 8D ?? ?? ?? ?? 0F 10 47 10 0F 11 04 8D ?? ?? ?? ?? 89 04 8D ?? ?? ?? ??") + 4, (byte)0) - RWMain.ProcBaseAddress;
-            Address.PC_ViewingInventory = RWMain.Read<int>(await RWMain.FindSignatureAsync("89 0D ?? ?? ?? ?? 33 D2 B9 ?? ?? ?? ?? E8 ?? ?? ?? ?? 0F 28 05 ?? ?? ?? ?? 8D 84 24 30 07 00 00") + 2, (byte)0) - RWMain.ProcBaseAddress;
-            Address.UI_Index = RWMain.Read<int>(await RWMain.FindSignatureAsync("89 35 ?? ?? ?? ?? 83 3D ?? ?? ?? ?? 00 0F 85 ?? ?? ?? ?? E9 ?? ?? ?? ?? 8D 87 CF FB FF FF") + 2, (byte)0) - RWMain.ProcBaseAddress;
+            //Address.PC_ViewingInventory = RWMain.Read<int>(await RWMain.FindSignatureAsync("89 0D ?? ?? ?? ?? 33 D2 B9 ?? ?? ?? ?? E8 ?? ?? ?? ?? 0F 28 05 ?? ?? ?? ?? 8D 84 24 30 07 00 00") + 2, (byte)0) - RWMain.ProcBaseAddress;
+            //Address.UI_Index = RWMain.Read<int>(await RWMain.FindSignatureAsync("89 35 ?? ?? ?? ?? 83 3D ?? ?? ?? ?? 00 0F 85 ?? ?? ?? ?? E9 ?? ?? ?? ?? 8D 87 CF FB FF FF") + 2, (byte)0) - RWMain.ProcBaseAddress;
 
 
             Code.PC_HungerGain = await RWMain.FindSignatureAsync("88 15 ?? ?? ?? ?? 66 0F 6E 45 F8 0F 5B C0") - RWMain.ProcBaseAddress;
@@ -136,15 +158,9 @@ namespace URWME
 
             Address.Update();
             Code.Update();
-            //MessageBox.Show(Address.UI_Index.ToString("X") + " ");
+            //MessageBox.Show(DefaultData.URWVersion);
+            //MessageBox.Show(Address.Map_Objects.ToString("X") + " ");
             Console.WriteLine("Addresses loaded from signatures.");
-            CheatTableBuilder.GenerateCheatTableFile(
-                groupName: "3.86.1",
-                addressClassType: typeof(Address), // <<< PASS YOUR CLASS TYPE HERE
-                processName: "urw.exe",
-                outputFileName: "URW_3.86.1.ct" // Optional file name
-            );
-
 
             return false;
         }
@@ -309,8 +325,11 @@ namespace URWME
             string[] Filters = new[] { "diy_", "menudef_", "mod_menudef_" };
 
             bool Targetting = player.IsTargetting;
+            bool ViewingInventory = player.IsViewingInventory;
             tsmiTeleport.Visible = Targetting;
             tsmiDirection.Visible = Targetting;
+            tsmiGetItems.Visible = Targetting && cheats.MapObjectCheats.GetObjectsByTypeAt<Item>(LastTargetPosition).Count > 0;
+            
             tsmiCraftingMenu.Visible = false;
         }
 
@@ -352,7 +371,32 @@ namespace URWME
                     DefaultData.FocusWindow();
                     SendKeys.Send(".");
                     break;
-                case "tsmiCloseMenu":
+                case "tsmiGenerateCT":
+                    CheatTableBuilder.GenerateCheatTableFile(
+                        groupName: DefaultData.URWVersion,
+                        addressClassType: typeof(Address), // <<< PASS YOUR CLASS TYPE HERE
+                        processName: "urw.exe",
+                        outputFileName: $"URW_{DefaultData.URWVersion}.ct" // Optional file name
+                    );
+                    break;
+                case "tsmiGetItems":
+                    cheats.MapObjectCheats.MoveTargetItemsToPlayer(LastTargetPosition);
+                    DefaultData.FocusWindow();
+                    SendKeys.Send(".");
+                    break;
+                case "tsmiFont":
+                    fontDialog.Font = cmsMenu.Font;
+                    if (fontDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        cmsMenu.Font = fontDialog.Font;
+
+                        Properties.Settings.Default.MenuFontName = fontDialog.Font.Name;
+                        Properties.Settings.Default.MenuFontSize = fontDialog.Font.Size;
+                        Properties.Settings.Default.MenuFontStyle = (int)fontDialog.Font.Style;
+                        Properties.Settings.Default.Save();
+
+                        DefaultData.FocusWindow();
+                    }
                     break;
                 default:
                     break;
@@ -397,178 +441,6 @@ namespace URWME
             if (e.KeyCode == Keys.T) { tsmiTeleport.PerformClick(); }
         }
     }
-    public static class CheatTableBuilder
-    {
-        public static void GenerateCheatTableFile(
-            string groupName = "3.86",
-            Type addressClassType = null,
-            string processName = "urw.exe",
-            string outputFileName = null)
-        {
-            if (addressClassType == null)
-            {
-                addressClassType = typeof(Address); // Default fallback
-                Console.WriteLine($"Warning: No address class type provided. Using '{addressClassType.Name}'.");
-            }
-
-            var props = addressClassType.GetProperties(BindingFlags.Public | BindingFlags.Static);
-            if (!props.Any())
-            {
-                Console.WriteLine($"No public static properties found in {addressClassType.Name}.");
-                return;
-            }
-
-            StringBuilder sb = new StringBuilder();
-            int idCounter = 1;
-
-            sb.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-            sb.AppendLine("<CheatTable CheatEngineTableVersion=\"46\">");
-            sb.AppendLine("  <CheatEntries>");
-            sb.AppendLine("    <CheatEntry>");
-            sb.AppendLine($"      <ID>{idCounter++}</ID>");
-            sb.AppendLine($"      <Description>\"{groupName}\"</Description>");
-            sb.AppendLine("      <Options moHideChildren=\"1\"/>");
-            sb.AppendLine("      <GroupHeader>1</GroupHeader>");
-            sb.AppendLine("      <CheatEntries>");
-
-            foreach (var prop in props)
-            {
-                if (prop.PropertyType != typeof(int) && prop.PropertyType != typeof(IntPtr))
-                {
-                    Console.WriteLine($"Skipping {prop.Name}: unsupported type {prop.PropertyType.Name}");
-                    continue;
-                }
-
-                string name = prop.Name;
-                object value = prop.GetValue(null);
-                if (value == null) continue;
-
-                long addressValue = prop.PropertyType == typeof(int)
-                    ? (int)value
-                    : ((IntPtr)value).ToInt64();
-
-                var attr = prop.GetCustomAttribute<CheatTypeAttribute>();
-                string variableType = attr?.VariableType ?? "4 Bytes";
-                string showAsSigned = attr != null && attr.ShowAsSigned ? "1" : "0";
-                int byteLength = attr?.ByteLength ?? 0;
-
-                sb.AppendLine("        <CheatEntry>");
-                sb.AppendLine($"          <ID>{idCounter++}</ID>");
-                sb.AppendLine($"          <Description>\"{name}\"</Description>");
-                sb.AppendLine($"          <VariableType>{variableType}</VariableType>");
-                if (variableType == "Array of byte" && byteLength > 0)
-                {
-                    sb.AppendLine($"          <ByteLength>{byteLength}</ByteLength>");
-
-                    // Add a dummy LastState block (can customize if needed)
-                    string dummyValue = string.Join(" ", Enumerable.Repeat("00", byteLength));
-                    string realAddress = (addressValue + DefaultData.URW.MainWindowHandle).ToString("X8"); // Or you could simulate a more realistic value
-                    sb.AppendLine($"          <LastState Value=\"{dummyValue}\" RealAddress=\"{realAddress}\"/>");
-                }
-
-                sb.AppendLine($"          <Address>{processName}+{addressValue:X}</Address>");
-                sb.AppendLine($"          <ShowAsSigned>{showAsSigned}</ShowAsSigned>");
-                sb.AppendLine("        </CheatEntry>");
-            }
-
-
-            sb.AppendLine("      </CheatEntries>");
-            sb.AppendLine("    </CheatEntry>");
-            sb.AppendLine("  </CheatEntries>");
-            sb.AppendLine("  <UserdefinedSymbols/>");
-            sb.AppendLine("  <Comments></Comments>");
-            sb.AppendLine("</CheatTable>");
-
-            // File output
-            if (string.IsNullOrWhiteSpace(outputFileName))
-                outputFileName = $"CheatTable_{groupName.Replace(" ", "_")}.ct";
-
-            try
-            {
-                File.WriteAllText(outputFileName, sb.ToString(), new UTF8Encoding(false));
-                Console.WriteLine($"Cheat Table saved to: {Path.GetFullPath(outputFileName)}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error saving file: {ex.Message}");
-            }
-        }
-    }
-
-
-    public static class AddressOld // Currently 3.84.2
-    {
-        public static int PC_ActivityTimeSpent { get; set; } = 0xA2C591C;
-        public static int PC_Attributes { get; set; } = 0xA31FFD2;
-        public static int PC_Items_IDs { get; set; } = 0xA31FAF8;
-        public static int PC_Items_Counts { get; set; } = 0xA31FC88;
-        public static int PC_IsTargetting { get; set; } = 0x14F1132;
-        public static int PC_Starvation { get; set; } = 0xA31FFD0;
-        public static int PC_Temperature { get; set; } = 0xA320B3C;
-        public static int PC_Thirst { get; set; } = 0xA31FEFC;
-        public static int PC_Bloodloss { get; set; } = 0xA31FFB4;
-        public static int PC_Direction { get; set; } = 0xA378F40;
-        public static int PC_Height { get; set; } = 0xA31FFC4;
-        public static int PC_Weight { get; set; } = 0xA31FFC0;
-        public static int PC_Items_Weight { get; set; } = 0xA31FFB8;
-        public static int PC_InTree { get; set; } = 0x5F97DAA;
-        public static int PC_Energy { get; set; } = 0xA31FF00;
-        public static int PC_Fatigue { get; set; } = 0xA31FFB0;
-        public static int PC_Name { get; set; } = 0xA31F510;
-        public static int PC_Gender { get; set; } = 0xA31FFD1;
-        public static int PC_Hunger { get; set; } = 0xA320B10;
-        public static int PC_Injuries { get; set; } = 0xA31FF08;
-        public static int PC_TribeID { get; set; } = 0xA31F51D;
-        public static int PC_TribeName { get; set; } = 0xA31F51E;
-        public static int PC_PortraitPath { get; set; } = 0xA31FA45;
-        public static int PC_LocationX { get; set; } = 0xA2C76C8;
-        public static int PC_LocationY { get; set; } = 0xA320B68;
-        public static int PC_LastTutorial { get; set; } = 0xA320700;
-        public static int PC_Nutrition { get; set; } = 0xA31FFA4;
-        public static int PC_Phobia { get; set; } = 0xA31FFCC;
-        public static int PC_Physique { get; set; } = 0xA31FFC8;
-        public static int PC_Skills { get; set; } = 0xA31F7BA;
-        public static int PC_SkillPoints { get; set; } = 0x1D91EC;
-        public static int PC_StartLocationX { get; set; } = 0x1D6C10;
-        public static int PC_StartLocationY { get; set; } = 0x1D6C14;
-        //public static int PC_VisualRadius { get; set; } = 0x1D4F5D8;
-        public static int PC_ViewingMenu { get; set; } = 0x5F20438; // old
-        public static int PC_ViewingInventory { get; set; } = 0x6174CD0; // old
-        public static int PC_ViewingRecipes { get; set; } = 0x6186C8C; // old
-        public static int PC_ViewingWorld { get; set; } = 0x61870F4; // old
-        public static int Map_Tiles { get; set; } = 0x8EE918;
-        public static int Map_Elevation { get; set; } = 0x2ED510; //0x2C5520; old, for reference
-        public static int Map_Type { get; set; } = 0x5F83CF3;
-        public static int Map_Objects { get; set; } = 0xA2C76D0;
-        public static int Map_RegionName { get; set; } = 0x3553E70; // old
-        public static int Map_RegionNameB { get; set; } = 0x1B3BB9; // old
-        public static int World_TimeTick { get; set; } = 0xA31FFA8;
-        public static int World_TimeHour { get; set; } = 0xA31FFAC;
-        public static int World_TimeMinute { get; set; } = 0xA31FFAD;
-        public static int World_TimeDay { get; set; } = 0xA31FFD4;
-        public static int World_TimeMonth { get; set; } = 0xA31FFE0;
-        public static int World_TimeYear { get; set; } = 0xA31FFE1;
-        public static int NPC_Struct { get; set; } = 0x5D45C78; // 1384 byte size
-        public static int Item_Struct { get; set; } = 0x5516538; // 172 byte size
-        public static int Tile_Struct { get; set; } = 0x1E2370;
-        public static int UI_MapRenderSizeX { get; set; } = 0x61B0464;
-        public static int UI_MapRenderSizeY { get; set; } = 0x61B0468;
-        public static int UI_MouseXCoord { get; set; } = 0x5F49C74;
-        public static int UI_MouseYCoord { get; set; } = 0x5F49844;
-        public static int UI_VisibleRadiusX { get; set; } = 0x61B044C;
-        public static int UI_VisibleRadiusY { get; set; } = 0x61B0450;
-        public static int UI_Menu_CharacterLoadList { get; set; } = 0x5F28BF0;
-        public static int UI_Menu_SelectionIndex { get; set; } = 0x5F49940;
-        public static int UI_Menu_SelectionTag { get; set; } = 0x5F49A48;
-        public static int UI_Menu_SelectedMenu { get; set; } = 0x5F498C8;
-        public static int UI_Menu_SelectionList { get; set; } = 0x5F43DA0; // 232 byte size
-        public static int UI_Menu_SelectionListB { get; set; } = 0x6194800; // 524 byte size, edit FF FF FF FF to remove error
-        public static int UI_Menu_IsMenu { get; set; } = 0x5F49C7C;
-        public static int UI_Menu_IsCrafting { get; set; } = 0x61B08D0;
-        public static int UI_Menu_IsSkills { get; set; } = 0x61B097C;
-        public static int MsgStruct { get; set; } = 0xA28C7FA; // old
-        public static int TileBaseArray { get; set; } = 0xA297BD8; // old
-    }
 
     public static class Address
     {
@@ -588,13 +460,13 @@ namespace URWME
         [CheatType("Byte")] public static int PC_InTree { get; set; } = 0x5F97DAA;
         [CheatType("4 Bytes")] public static int PC_Energy { get; set; } = 0xA31FF00;
         [CheatType("Float")] public static int PC_Fatigue { get; set; } = 0xA31FFB0;
-        [CheatType("String")] public static int PC_Name { get; set; } = 0xA31F510;
+        [CheatType("String", length: 12)] public static int PC_Name { get; set; } = 0xA31F510;
         [CheatType("Byte")] public static int PC_Gender { get; set; } = 0xA31FFD1;
         [CheatType("4 Bytes")] public static int PC_Hunger { get; set; } = 0xA320B10;
         [CheatType("Array of byte", byteLength: 20)] public static int PC_Injuries { get; set; } = 0xA31FF08;
         [CheatType("Byte")] public static int PC_TribeID { get; set; } = 0xA31F51D;
-        [CheatType("String")] public static int PC_TribeName { get; set; } = 0xA31F51E;
-        [CheatType("String")] public static int PC_PortraitPath { get; set; } = 0xA31FA45;
+        [CheatType("String", length: 18)] public static int PC_TribeName { get; set; } = 0xA31F51E;
+        [CheatType("String", length: 28)] public static int PC_PortraitPath { get; set; } = 0xA31FA45;
         [CheatType("4 Bytes")] public static int PC_LocationX { get; set; } = 0xA2C76C8;
         [CheatType("4 Bytes")] public static int PC_LocationY { get; set; } = 0xA320B68;
         [CheatType("4 Bytes")] public static int PC_TargetingX { get; set; } = 0x238092C;
@@ -617,11 +489,12 @@ namespace URWME
 
         // Map
         [CheatType("Array of byte", byteLength: 10)] public static int Map_Tiles { get; set; } = 0x8EE918;
+        [CheatType("Array of byte", byteLength: 10)] public static int Map_TilesFog { get; set; } = 0x41881C0;
         [CheatType("Array of byte", byteLength: 10)] public static int Map_Elevation { get; set; } = 0x2ED510;
         [CheatType("Byte")] public static int Map_Type { get; set; } = 0x5F83CF3;
         [CheatType("Array of byte", byteLength: 36)] public static int Map_Objects { get; set; } = 0xA2CDD7C;
-        [CheatType("String")] public static int Map_RegionName { get; set; } = 0x3553E70;
-        [CheatType("String")] public static int Map_RegionNameB { get; set; } = 0x1B3BB9;
+        [CheatType("String", length: 28)] public static int Map_RegionName { get; set; } = 0x3553E70;
+        [CheatType("String", length: 28)] public static int Map_RegionNameB { get; set; } = 0x1B3BB9;
 
         // Time
         [CheatType("4 Bytes")] public static int World_TimeTick { get; set; } = 0xA31FFA8;
@@ -657,7 +530,7 @@ namespace URWME
         [CheatType("4 Bytes")] public static int UI_Index { get; set; } = 0x5F4FF88;
         [CheatType("Byte")] public static int UI_Menu_IsCrafting { get; set; } = 0x61B08D0;
         [CheatType("Byte")] public static int UI_Menu_IsSkills { get; set; } = 0x61B097C;
-        [CheatType("String")] public static int MsgStruct { get; set; } = 0xA28C7FA;
+        [CheatType("String", length: 28)] public static int MsgStruct { get; set; } = 0xA28C7FA;
         [CheatType("Array of byte", byteLength: 10)] public static int TileBaseArray { get; set; } = 0xA297BD8;
 
         public static void Update()

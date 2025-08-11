@@ -626,7 +626,10 @@ namespace URWME
                 WaterObj = 0x94,
                 ItemIDRef = 0x78;
         }
-
+        public string Json()
+        {
+            return this.ToJson();
+        }
         public string Help()
         {
             return HelpGenerator.GenerateHelp<Item>();
