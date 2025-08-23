@@ -25,6 +25,12 @@ namespace URWME // Unreal World MemoryManager
         [DllImport("user32.dll")]
         private static extern bool SetForegroundWindow(IntPtr hWnd);
 
+        static DefaultData()
+        {
+            URW.WaitForInputIdle();
+            Load();
+        }
+
         public static void FocusWindow(nint Handle = 0)
         {
             if (Handle == 0) { SetForegroundWindow(URW.MainWindowHandle); }

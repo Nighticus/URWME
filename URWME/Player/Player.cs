@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Numerics;
 
 namespace URWME // Unreal World MemoryManager
 {
@@ -97,6 +98,19 @@ namespace URWME // Unreal World MemoryManager
                 };
             }
         }
+
+        public Point DirectionOffset => Direction switch
+        {
+            0 => new Point(1, 0),   // East
+            1 => new Point(1, -1),  // Northeast
+            2 => new Point(0, -1),  // North
+            3 => new Point(-1, -1), // Northwest
+            4 => new Point(-1, 0),  // West
+            5 => new Point(-1, 1),  // Southwest
+            6 => new Point(0, 1),   // South
+            7 => new Point(1, 1),   // Southeast
+            _ => Point.Empty
+        };
 
         public float InventoryWeight // Inventory/Carried weight
         {

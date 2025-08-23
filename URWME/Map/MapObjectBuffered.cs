@@ -35,6 +35,25 @@ namespace URWME
             RWBuffer.CurrentBuffer = MapObject.DataArray;
         }
 
+        public byte[] Buffer
+        {
+            get
+            {
+                var slice = new byte[SizeOfStruct];
+                Array.Copy(RWBuffer.CurrentBuffer, BaseAddress, slice, 0, SizeOfStruct);
+                return slice;
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+                if (value.Length != SizeOfStruct)
+                    throw new ArgumentException($"Buffer must be exactly {SizeOfStruct} bytes.");
+
+                Array.Copy(value, 0, RWBuffer.CurrentBuffer, BaseAddress, SizeOfStruct);
+            }
+        }
+
         public int ObjectCount
         {
             get { return MapObject.ObjectCount; }

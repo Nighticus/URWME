@@ -19,7 +19,7 @@
           <Description>"PC_Attributes"</Description>
           <VariableType>Array of byte</VariableType>
           <ByteLength>12</ByteLength>
-          <LastState Value="00 00 00 00 00 00 00 00 00 00 00 00" RealAddress="0A557A26"/>
+          <LastState Value="00 00 00 00 00 00 00 00 00 00 00 00" RealAddress="0B3F76D6"/>
           <Address>urw.exe+A326682</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
@@ -28,7 +28,7 @@
           <Description>"PC_Items_IDs"</Description>
           <VariableType>Array of byte</VariableType>
           <ByteLength>100</ByteLength>
-          <LastState Value="00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00" RealAddress="0A55754C"/>
+          <LastState Value="00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00" RealAddress="0B3F71FC"/>
           <Address>urw.exe+A3261A8</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
@@ -37,7 +37,7 @@
           <Description>"PC_Items_Counts"</Description>
           <VariableType>Array of byte</VariableType>
           <ByteLength>100</ByteLength>
-          <LastState Value="00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00" RealAddress="0A5576DC"/>
+          <LastState Value="00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00" RealAddress="0B3F738C"/>
           <Address>urw.exe+A326338</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
@@ -129,6 +129,7 @@
           <ID>18</ID>
           <Description>"PC_Name"</Description>
           <VariableType>String</VariableType>
+          <Length>12</Length>
           <Address>urw.exe+A325BC0</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
@@ -151,7 +152,7 @@
           <Description>"PC_Injuries"</Description>
           <VariableType>Array of byte</VariableType>
           <ByteLength>20</ByteLength>
-          <LastState Value="00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00" RealAddress="0A55795C"/>
+          <LastState Value="00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00" RealAddress="0B3F760C"/>
           <Address>urw.exe+A3265B8</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
@@ -166,6 +167,7 @@
           <ID>23</ID>
           <Description>"PC_TribeName"</Description>
           <VariableType>String</VariableType>
+          <Length>18</Length>
           <Address>urw.exe+A325BCE</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
@@ -173,6 +175,7 @@
           <ID>24</ID>
           <Description>"PC_PortraitPath"</Description>
           <VariableType>String</VariableType>
+          <Length>28</Length>
           <Address>urw.exe+A3260F5</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
@@ -237,7 +240,7 @@
           <Description>"PC_Skills"</Description>
           <VariableType>Array of byte</VariableType>
           <ByteLength>29</ByteLength>
-          <LastState Value="00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00" RealAddress="0A55720E"/>
+          <LastState Value="00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00" RealAddress="0B3F6EBE"/>
           <Address>urw.exe+A325E6A</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
@@ -246,7 +249,7 @@
           <Description>"PC_SkillNames"</Description>
           <VariableType>Array of byte</VariableType>
           <ByteLength>348</ByteLength>
-          <LastState Value="00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00" RealAddress="0A556F84"/>
+          <LastState Value="00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00" RealAddress="0B3F6C34"/>
           <Address>urw.exe+A325BE0</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
@@ -259,318 +262,355 @@
         </CheatEntry>
         <CheatEntry>
           <ID>36</ID>
+          <Description>"PC_PickupMultiplier"</Description>
+          <VariableType>Double</VariableType>
+          <Address>urw.exe+1D7830</Address>
+          <ShowAsSigned>0</ShowAsSigned>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>37</ID>
           <Description>"PC_StartLocationX"</Description>
           <VariableType>4 Bytes</VariableType>
           <Address>urw.exe+1DCC10</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>37</ID>
+          <ID>38</ID>
           <Description>"PC_StartLocationY"</Description>
           <VariableType>4 Bytes</VariableType>
           <Address>urw.exe+1DCC14</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>38</ID>
+          <ID>39</ID>
           <Description>"PC_ViewingMenu"</Description>
           <VariableType>Byte</VariableType>
           <Address>urw.exe+5F26A80</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>39</ID>
+          <ID>40</ID>
           <Description>"PC_ViewingInventory"</Description>
           <VariableType>Byte</VariableType>
           <Address>urw.exe+619AE2C</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>40</ID>
+          <ID>41</ID>
           <Description>"PC_ViewingRecipes"</Description>
           <VariableType>Byte</VariableType>
           <Address>urw.exe+618E2D4</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>41</ID>
+          <ID>42</ID>
           <Description>"PC_ViewingWorld"</Description>
           <VariableType>Byte</VariableType>
           <Address>urw.exe+618E73C</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>42</ID>
+          <ID>43</ID>
           <Description>"Map_Tiles"</Description>
           <VariableType>Array of byte</VariableType>
           <ByteLength>10</ByteLength>
-          <LastState Value="00 00 00 00 00 00 00 00 00 00" RealAddress="00B25CBC"/>
+          <LastState Value="00 00 00 00 00 00 00 00 00 00" RealAddress="019C596C"/>
           <Address>urw.exe+8F4918</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>43</ID>
+          <ID>44</ID>
+          <Description>"Map_TilesFog"</Description>
+          <VariableType>Array of byte</VariableType>
+          <ByteLength>10</ByteLength>
+          <LastState Value="00 00 00 00 00 00 00 00 00 00" RealAddress="05259214"/>
+          <Address>urw.exe+41881C0</Address>
+          <ShowAsSigned>0</ShowAsSigned>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>45</ID>
+          <Description>"Map_TilesFog2"</Description>
+          <VariableType>Array of byte</VariableType>
+          <ByteLength>10</ByteLength>
+          <LastState Value="00 00 00 00 00 00 00 00 00 00" RealAddress="04C57E0C"/>
+          <Address>urw.exe+3B86DB8</Address>
+          <ShowAsSigned>0</ShowAsSigned>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>46</ID>
           <Description>"Map_Elevation"</Description>
           <VariableType>Array of byte</VariableType>
           <ByteLength>10</ByteLength>
-          <LastState Value="00 00 00 00 00 00 00 00 00 00" RealAddress="005248B4"/>
+          <LastState Value="00 00 00 00 00 00 00 00 00 00" RealAddress="013C4564"/>
           <Address>urw.exe+2F3510</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>44</ID>
+          <ID>47</ID>
           <Description>"Map_Type"</Description>
           <VariableType>Byte</VariableType>
           <Address>urw.exe+5F8A33B</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>45</ID>
+          <ID>48</ID>
           <Description>"Map_Objects"</Description>
           <VariableType>Array of byte</VariableType>
           <ByteLength>36</ByteLength>
-          <LastState Value="00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00" RealAddress="0A4FF124"/>
+          <LastState Value="00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00" RealAddress="0B39EDD4"/>
           <Address>urw.exe+A2CDD80</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>46</ID>
+          <ID>49</ID>
           <Description>"Map_RegionName"</Description>
           <VariableType>String</VariableType>
+          <Length>28</Length>
           <Address>urw.exe+355A4B8</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>47</ID>
+          <ID>50</ID>
           <Description>"Map_RegionNameB"</Description>
           <VariableType>String</VariableType>
+          <Length>28</Length>
           <Address>urw.exe+1B9BB9</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>48</ID>
+          <ID>51</ID>
           <Description>"World_TimeTick"</Description>
           <VariableType>4 Bytes</VariableType>
           <Address>urw.exe+A326658</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>49</ID>
+          <ID>52</ID>
           <Description>"World_TimeHour"</Description>
           <VariableType>Byte</VariableType>
           <Address>urw.exe+A32665C</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>50</ID>
+          <ID>53</ID>
           <Description>"World_TimeMinute"</Description>
           <VariableType>Byte</VariableType>
           <Address>urw.exe+A32665D</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>51</ID>
+          <ID>54</ID>
           <Description>"World_TimeDay"</Description>
           <VariableType>Byte</VariableType>
           <Address>urw.exe+A326684</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>52</ID>
+          <ID>55</ID>
           <Description>"World_TimeMonth"</Description>
           <VariableType>Byte</VariableType>
           <Address>urw.exe+A326690</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>53</ID>
+          <ID>56</ID>
           <Description>"World_TimeYear"</Description>
           <VariableType>4 Bytes</VariableType>
           <Address>urw.exe+A326691</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>54</ID>
+          <ID>57</ID>
           <Description>"NPC_Struct"</Description>
           <VariableType>Array of byte</VariableType>
           <ByteLength>10</ByteLength>
-          <LastState Value="00 00 00 00 00 00 00 00 00 00" RealAddress="05F7D714"/>
+          <LastState Value="00 00 00 00 00 00 00 00 00 00" RealAddress="06E1D3C4"/>
           <Address>urw.exe+5D4C370</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>55</ID>
+          <ID>58</ID>
           <Description>"Item_Struct"</Description>
           <VariableType>Array of byte</VariableType>
           <ByteLength>172</ByteLength>
-          <LastState Value="00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00" RealAddress="0574DF24"/>
+          <LastState Value="00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00" RealAddress="065EDBD4"/>
           <Address>urw.exe+551CB80</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>56</ID>
+          <ID>59</ID>
           <Description>"Static_Item_Struct"</Description>
           <VariableType>Array of byte</VariableType>
           <ByteLength>172</ByteLength>
-          <LastState Value="00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00" RealAddress="05726874"/>
+          <LastState Value="00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00" RealAddress="065C6524"/>
           <Address>urw.exe+54F54D0</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>57</ID>
+          <ID>60</ID>
           <Description>"Tile_Struct"</Description>
           <VariableType>Array of byte</VariableType>
           <ByteLength>36</ByteLength>
-          <LastState Value="00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00" RealAddress="00419714"/>
+          <LastState Value="00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00" RealAddress="012B93C4"/>
           <Address>urw.exe+1E8370</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>58</ID>
+          <ID>61</ID>
           <Description>"UI_MapRenderSizeX"</Description>
           <VariableType>4 Bytes</VariableType>
           <Address>urw.exe+61B6AAC</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>59</ID>
+          <ID>62</ID>
           <Description>"UI_MapRenderSizeY"</Description>
           <VariableType>4 Bytes</VariableType>
           <Address>urw.exe+61B6AB0</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>60</ID>
+          <ID>63</ID>
           <Description>"UI_MouseXCoord"</Description>
           <VariableType>4 Bytes</VariableType>
           <Address>urw.exe+5F502BC</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>61</ID>
+          <ID>64</ID>
           <Description>"UI_MouseYCoord"</Description>
           <VariableType>4 Bytes</VariableType>
           <Address>urw.exe+5F4FE8C</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>62</ID>
+          <ID>65</ID>
           <Description>"UI_VisibleRadiusX"</Description>
           <VariableType>4 Bytes</VariableType>
           <Address>urw.exe+61B6A94</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>63</ID>
+          <ID>66</ID>
           <Description>"UI_VisibleRadiusY"</Description>
           <VariableType>4 Bytes</VariableType>
           <Address>urw.exe+61B6A98</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>64</ID>
+          <ID>67</ID>
           <Description>"UI_ZoomLevel"</Description>
           <VariableType>Float</VariableType>
           <Address>urw.exe+61B6A88</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>65</ID>
+          <ID>68</ID>
           <Description>"UI_TileScaleW"</Description>
           <VariableType>Float</VariableType>
           <Address>urw.exe+61B6A88</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>66</ID>
+          <ID>69</ID>
           <Description>"UI_TileScaleH"</Description>
           <VariableType>Float</VariableType>
           <Address>urw.exe+61B6A88</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>67</ID>
+          <ID>70</ID>
           <Description>"UI_Menu_CharacterLoadList"</Description>
           <VariableType>4 Bytes</VariableType>
           <Address>urw.exe+5F2F238</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>68</ID>
+          <ID>71</ID>
           <Description>"UI_Menu_SelectionIndex"</Description>
           <VariableType>4 Bytes</VariableType>
           <Address>urw.exe+5F4FF88</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>69</ID>
+          <ID>72</ID>
           <Description>"UI_Menu_SelectionTag"</Description>
           <VariableType>4 Bytes</VariableType>
           <Address>urw.exe+5F50090</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>70</ID>
+          <ID>73</ID>
           <Description>"UI_Menu_SelectedMenu"</Description>
           <VariableType>4 Bytes</VariableType>
           <Address>urw.exe+5F4FF10</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>71</ID>
+          <ID>74</ID>
           <Description>"UI_Menu_SelectionList"</Description>
           <VariableType>4 Bytes</VariableType>
           <Address>urw.exe+5F4A3E8</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>72</ID>
+          <ID>75</ID>
           <Description>"UI_Menu_SelectionListB"</Description>
           <VariableType>4 Bytes</VariableType>
           <Address>urw.exe+619AE48</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>73</ID>
+          <ID>76</ID>
           <Description>"UI_Menu_IsMenu"</Description>
           <VariableType>Byte</VariableType>
           <Address>urw.exe+5F502C4</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>74</ID>
+          <ID>77</ID>
           <Description>"UI_Index"</Description>
           <VariableType>4 Bytes</VariableType>
           <Address>urw.exe+5F4FF88</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>75</ID>
+          <ID>78</ID>
+          <Description>"UI_Inventory"</Description>
+          <VariableType>Array of byte</VariableType>
+          <ByteLength>36</ByteLength>
+          <LastState Value="00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00" RealAddress="013BB2CC"/>
+          <Address>urw.exe+2EA278</Address>
+          <ShowAsSigned>0</ShowAsSigned>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>79</ID>
           <Description>"UI_Menu_IsCrafting"</Description>
           <VariableType>Byte</VariableType>
           <Address>urw.exe+61B6F18</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>76</ID>
+          <ID>80</ID>
           <Description>"UI_Menu_IsSkills"</Description>
           <VariableType>Byte</VariableType>
           <Address>urw.exe+61B6FC4</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>77</ID>
+          <ID>81</ID>
           <Description>"MsgStruct"</Description>
           <VariableType>String</VariableType>
+          <Length>28</Length>
           <Address>urw.exe+A2922A4</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>
         <CheatEntry>
-          <ID>78</ID>
+          <ID>82</ID>
           <Description>"TileBaseArray"</Description>
           <VariableType>Array of byte</VariableType>
           <ByteLength>10</ByteLength>
-          <LastState Value="00 00 00 00 00 00 00 00 00 00" RealAddress="0A4CEA28"/>
+          <LastState Value="00 00 00 00 00 00 00 00 00 00" RealAddress="0B36E6D8"/>
           <Address>urw.exe+A29D684</Address>
           <ShowAsSigned>0</ShowAsSigned>
         </CheatEntry>

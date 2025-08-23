@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace URWME // Unreal World MemoryManager
         Player player;
         public MapObjectHandler MapObjectCheats;
         public ItemStructHandler ItemStructCheats;
+        public Map map;
+        public Process minimap;
 
         private bool _noNeeds;
         private bool _noWeight;
@@ -24,6 +27,7 @@ namespace URWME // Unreal World MemoryManager
         private bool _freezeNPC;
         private bool _freezeTime;
         private bool _checksum;
+        private bool _minimap;
 
         private byte[] _hungerGain;
         private byte[] _thirstGain;
@@ -41,6 +45,7 @@ namespace URWME // Unreal World MemoryManager
         {
             RWMain = RW;
             player = new Player(RWMain);
+            map = new Map(RWMain);
             MapObjectCheats = new MapObjectHandler(RWMain);
             ItemStructCheats = new ItemStructHandler(RWMain);
             Checksum = true;
@@ -58,6 +63,11 @@ namespace URWME // Unreal World MemoryManager
             _isInTreeCheck = RWMain.Read<byte[]>(Code.PC_IsInTreeCheck, 6);
             _temperatureChange = RWMain.Read<byte[]>(Code.PC_TemperatureChange, 8);
             _starvationLoss = RWMain.Read<byte[]>(Code.PC_IsInTreeCheck, 6);
+
+            ProcessStartInfo psi = new ProcessStartInfo();
+            psi.FileName = Application.ExecutablePath;
+            psi.Arguments = "minimap"; // indicate it should run the MinimapForm
+            minimap = Process.Start(psi);
         }
 
         public void Cleanup()
@@ -67,6 +77,7 @@ namespace URWME // Unreal World MemoryManager
             TreeVision = false;
             Cannibalism = false;
             Checksum = false;
+            //minimap.Kill();
         }
 
         public bool NoNeeds
@@ -118,12 +129,16 @@ namespace URWME // Unreal World MemoryManager
                     if (_noWeight)
                     {
                         RWMain.Write(Code.PC_WeightChange, Enumerable.Repeat((byte)144, 8).ToArray());
+                        RWMain.Write(Address.PC_PickupMultiplier, 4.0);
+                        //RWMain.Write(Address.PC_PickupMultiplier, (byte)1);
+                        //MessageBox.Show(RWMain.Read<double>(Address.PC_PickupMultiplier).ToString());
                         player.InventoryWeight = 0f;
                         SendKeys.Send(".");
                     }
                     else
                     {
                         RWMain.Write(Code.PC_WeightChange, _weightChange);
+                        RWMain.Write(Address.PC_PickupMultiplier, 1.5);
                         player.InventoryWeight = player.Inventory.Items.GetWeight();
                         SendKeys.Send(".");
                     }
@@ -198,6 +213,22 @@ namespace URWME // Unreal World MemoryManager
             }
         }
 
+        public bool Minimap
+        {
+            get { return _minimap; }
+            set
+            {
+                _minimap = !_minimap;
+            }
+        }
+
+
+
+        public void RevealMap()
+        {
+            map.Tiles.FogBuffer = map.Tiles.Buffer;
+        }
+
         public void MovePlayerTo(Point Destination)
         {
             player.Location = Destination;
@@ -227,16 +258,6 @@ namespace URWME // Unreal World MemoryManager
                 while (a >= 180) a -= 360;
                 return a;
             }
-        }
-
-
-
-
-
-
-        public void MoveItemsTo(Point Destination)
-        {
-            MapObjectCheats.MoveAllItemsToTarget(Destination);
         }
 
         public void ShowItemID(Point Target)
@@ -273,7 +294,7 @@ namespace URWME // Unreal World MemoryManager
                         //Return.Add(mapObjectBuffered.Location.X);
                     }
                 }
-                File.WriteAllText("test3.txt", string.Join("\r\n", Return));
+                //File.WriteAllText("test3.txt", string.Join("\r\n", Return));
                 return Return;
             }
 
@@ -312,8 +333,11 @@ namespace URWME // Unreal World MemoryManager
                     if (StackCount.ContainsKey(mapObjectBuffered.ID))
                     {
                         int Count = mapObjectBuffered.Count;
-                        mapObjectBuffered.Count = 0;
-                        mapObjectBuffered.Index = StackCount[mapObjectBuffered.ID];
+                        int ID = mapObjectBuffered.ID;
+
+                        mapObjectBuffered.Buffer = new byte[36];
+
+                        mapObjectBuffered.Index = StackCount[ID];
                         mapObjectBuffered.Count += Count;
                     }
                     else
@@ -358,21 +382,21 @@ namespace URWME // Unreal World MemoryManager
                         return mapObjectBuffered.ID;
                     }
                 }
-                File.WriteAllText("IDsScan.txt", sbBuilder.ToString());
+                //File.WriteAllText("IDsScan.txt", sbBuilder.ToString());
                 return 0;
             }
 
-            public void MoveAllItemsToTarget(Point Destination)
+            public void MoveObjectsTo<T>(Point Source, Point Destination)
             {
                 mapObjectBuffered.ReadArray();
-                MoveObjects(GetObjectsByType<Item>(), Destination);
+                MoveObjects(GetObjectsByTypeAt<T>(Source), Destination);
                 mapObjectBuffered.WriteArray();
             }
 
-            public void MoveTargetItemsToPlayer(Point Target)
+            public void MoveAllObjectsTo<T>(Point Destination)
             {
                 mapObjectBuffered.ReadArray();
-                MoveObjects(GetObjectsByTypeAt<Item>(Target), new Player(RWMain).Location);
+                MoveObjects(GetObjectsByType<T>(), Destination);
                 mapObjectBuffered.WriteArray();
             }
 

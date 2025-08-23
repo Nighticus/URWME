@@ -19,6 +19,7 @@
 
     public enum ItemTypeEnum
     {
+        None = 0,
         Weapon = 1,
         Armour = 2,
         Tool = 6,

@@ -25,7 +25,7 @@ namespace URWME
 
             if (offset + data.Length > bufferLength)
             {
-                throw new ArgumentOutOfRangeException(nameof(offset), "Offset and data length exceed buffer length.");
+                //throw new ArgumentOutOfRangeException(nameof(offset), "Offset and data length exceed buffer length.");
             }
 
             Buffer.BlockCopy(data, 0, buffer, offset, data.Length);
@@ -38,7 +38,7 @@ namespace URWME
 
             if (offset + size > bufferLength)
             {
-                throw new ArgumentOutOfRangeException(nameof(offset), "Offset and type size exceed buffer length.");
+                //throw new ArgumentOutOfRangeException(nameof(offset), "Offset and type size exceed buffer length.");
             }
 
             byte[] data = new byte[size];

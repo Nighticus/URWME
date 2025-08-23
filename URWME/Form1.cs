@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.IO.Pipes;
 using System.Net;
 using System.Net.Http;
+using System.Security.Policy;
 
 namespace URWME
 {
@@ -28,6 +29,7 @@ namespace URWME
         public ItemStructHandler itemStruct;
         public Cheats cheats;
         public Map map;
+        public PipeServer pipeServer;
 
         FontDialog fontDialog = new FontDialog();
 
@@ -71,12 +73,12 @@ namespace URWME
             //Address.UpdateIntegers(Address.ParseFile("Addresses.txt"));
             //ConsoleOverlayHandler.FreeConsole();
             //Extensions.AllocConsole();
-
+            //DefaultData.URW.WaitForInputIdle();
             RWMain = new ReadWriteMem(DefaultData.URW);
             //MessageBox.Show(GetSizeAR43(1707, 897).ToString());
 
             await SignatureThread();
-            DefaultData.Load();
+            //DefaultData.Load();
 
             player = new Player(RWMain);
             worldTime = new WorldTime(RWMain);
@@ -96,6 +98,8 @@ namespace URWME
 
             Load_HttpListener();
             Load_CommandEngine();
+            pipeServer = new PipeServer();
+            pipeServer.Start();
 
             SetupUI();
 
@@ -122,10 +126,12 @@ namespace URWME
             }
 
             //tsmiCheatMenu.Image = await Extensions.GetImageFromUrlAsync("https://www.unrealworld.fi/urwicon.png");
-            map.Tiles.FogBuffer = map.Tiles.Buffer;
+            //map.Tiles.FogBuffer = map.Tiles.Buffer;
+            //map.GetImageOverworldPLM().Save("test4.bmp");
             //RWMain.Write(0x3F7FC11 - 0x3F8E59, map.Tiles.FileBufferDAT);
             //RWMain.Write(0x4581019 - 0x3F8E59, map.Tiles.FileBufferPLM);
             //MessageBox.Show(Address.Map_Tiles.ToString("X"));
+            //DescribeStruct();
         }
          
         private async Task<bool> SignatureThread()
@@ -145,7 +151,9 @@ namespace URWME
             Address.PC_Temperature = RWMain.Read<int>(await RWMain.FindSignatureAsync("F3 0F 11 05 ?? ?? ?? ?? 76 33 C7 05 ?? ?? ?? ?? 00 00 28 42") + 4, (byte)0) - RWMain.ProcBaseAddress;
             Address.Map_Objects = RWMain.Read<int>(await RWMain.FindSignatureAsync("0F 11 04 8D ?? ?? ?? ?? 0F 10 47 10 0F 11 04 8D ?? ?? ?? ?? 89 04 8D ?? ?? ?? ??") + 4, (byte)0) - RWMain.ProcBaseAddress;
             //Address.PC_ViewingInventory = RWMain.Read<int>(await RWMain.FindSignatureAsync("89 0D ?? ?? ?? ?? 33 D2 B9 ?? ?? ?? ?? E8 ?? ?? ?? ?? 0F 28 05 ?? ?? ?? ?? 8D 84 24 30 07 00 00") + 2, (byte)0) - RWMain.ProcBaseAddress;
-            //Address.UI_Index = RWMain.Read<int>(await RWMain.FindSignatureAsync("89 35 ?? ?? ?? ?? 83 3D ?? ?? ?? ?? 00 0F 85 ?? ?? ?? ?? E9 ?? ?? ?? ?? 8D 87 CF FB FF FF") + 2, (byte)0) - RWMain.ProcBaseAddress;
+            Address.UI_Index = RWMain.Read<int>(await RWMain.FindSignatureAsync("89 35 ?? ?? ?? ?? 83 3D ?? ?? ?? ?? 00 0F 85 ?? ?? ?? ?? E9 ?? ?? ?? ?? 8D 87 CF FB FF FF") + 2, (byte)0) - RWMain.ProcBaseAddress;
+            Address.UI_Inventory = RWMain.Read<int>(await RWMain.FindSignatureAsync("BF ?? ?? ?? ?? F3 A5 8B C8 E8 ?? ?? ?? ?? 89 44 24 4C") + 1, (byte)0) - RWMain.ProcBaseAddress;
+
 
 
             Code.PC_HungerGain = await RWMain.FindSignatureAsync("88 15 ?? ?? ?? ?? 66 0F 6E 45 F8 0F 5B C0") - RWMain.ProcBaseAddress;
@@ -285,11 +293,16 @@ namespace URWME
 
         private void ShowContextMenu()
         {
+            if (cmsMenu.InvokeRequired)
+            {
+                cmsMenu.BeginInvoke(new Action(ShowContextMenu));
+                return;
+            }
+
             LastTargetPosition = player.GetMouseTile();
-           // DefaultData.FocusWindow(this.Handle) ;
             cmsMenu.Show(Cursor.Position);
-            //cmsMenu.Focus();
         }
+
 
         public void HotKeyManager_HotKeyPressed(object sender, HotKeyEventArgs e)
         {
@@ -317,18 +330,34 @@ namespace URWME
             _mouseHook.Dispose();
             httpListener.Stop();
             httpListener.Close();
+            pipeServer.Send("exit");
+        }
+
+        private ToolStripMenuItem CreateMenuItem(string text, Action onClick)
+        {
+            var item = new ToolStripMenuItem(text)
+            {
+                Tag = onClick
+            };
+            item.Click += tsmiItem_Click;
+            return item;
         }
 
         private void cmsMenu_Opening(object sender, CancelEventArgs e)
         {
-            List<string> URWFiles = new List<string>(Directory.GetFiles(DefaultData.GameDirectory));
-            string[] Filters = new[] { "diy_", "menudef_", "mod_menudef_" };
+            //List<string> URWFiles = new List<string>(Directory.GetFiles(DefaultData.GameDirectory));
+            //string[] Filters = new[] { "diy_", "menudef_", "mod_menudef_" };
 
             bool Targetting = player.IsTargetting;
             bool ViewingInventory = player.IsViewingInventory;
+            bool MapType = map.IsLocal;
             tsmiTeleport.Visible = Targetting;
             tsmiDirection.Visible = Targetting;
-            tsmiGetItems.Visible = Targetting && cheats.MapObjectCheats.GetObjectsByTypeAt<Item>(LastTargetPosition).Count > 0;
+            tsmiMoveMenu.Visible = Targetting;
+            tsmiMoveTargetItemsMenu.Visible = Targetting && cheats.MapObjectCheats.GetObjectsByTypeAt<Item>(LastTargetPosition).Count > 0;
+            tsmiMoveTargetNPCMenu.Visible = Targetting && cheats.MapObjectCheats.GetObjectsByTypeAt<NPC>(LastTargetPosition).Count > 0;
+            tsmiRevealWM.Visible = !MapType;
+            tsmiScreenshotWM.Visible = !MapType;
             
             tsmiCraftingMenu.Visible = false;
         }
@@ -379,11 +408,6 @@ namespace URWME
                         outputFileName: $"URW_{DefaultData.URWVersion}.ct" // Optional file name
                     );
                     break;
-                case "tsmiGetItems":
-                    cheats.MapObjectCheats.MoveTargetItemsToPlayer(LastTargetPosition);
-                    DefaultData.FocusWindow();
-                    SendKeys.Send(".");
-                    break;
                 case "tsmiFont":
                     fontDialog.Font = cmsMenu.Font;
                     if (fontDialog.ShowDialog() == DialogResult.OK)
@@ -398,13 +422,52 @@ namespace URWME
                         DefaultData.FocusWindow();
                     }
                     break;
+                case "tsmiRevealWM":
+                    cheats.RevealMap();
+                    break;
+                case "tsmiScreenshotWM":
+                    cheats.map.GetImageOverworld().Save($"{player.Name}_WorldMap");
+                    break;
+                case "tsmiMoveTargetItemsUnderneath":
+                    //cheats.MapObjectCheats.MoveItemsToPlayer(LastTargetPosition);
+                    cheats.MapObjectCheats.MoveObjectsTo<Item>(LastTargetPosition, player.Location);
+                    DefaultData.FocusWindow();
+                    SendKeys.Send(".");
+                    break;
+                case "tsmiMoveTargetItemsNextTo":
+                    cheats.MapObjectCheats.MoveObjectsTo<Item>(LastTargetPosition, Point.Add(player.Location, (Size)player.DirectionOffset));
+                    DefaultData.FocusWindow();
+                    SendKeys.Send(".");
+                    break;
+                case "tsmiMoveAllItemsUnderneath":
+                    cheats.MapObjectCheats.MoveAllObjectsTo<Item>(player.Location);
+                    DefaultData.FocusWindow();
+                    SendKeys.Send(".");
+                    break;
+                case "tsmiMoveAllItemsNextTo":
+                    cheats.MapObjectCheats.MoveAllObjectsTo<Item>(Point.Add(player.Location, (Size)player.DirectionOffset));
+                    DefaultData.FocusWindow();
+                    SendKeys.Send(".");
+                    break;
+                case "tsmiMoveAllItemsTo":
+                    cheats.MapObjectCheats.MoveAllObjectsTo<Item>(LastTargetPosition);
+                    DefaultData.FocusWindow();
+                    SendKeys.Send(".");
+                    break;
+                case "tsmiMoveTargetNPCNextTo":
+                    cheats.MapObjectCheats.MoveObjectsTo<NPC>(LastTargetPosition, Point.Add(player.Location, (Size)player.DirectionOffset));
+                    DefaultData.FocusWindow();
+                    SendKeys.Send(".");
+                    break;
+                case "tsmiCloseMenu":
+                    break;
                 default:
                     break;
             }
             DefaultData.FocusWindow();
         }
 
-        private void tsmiItem_CheckedChanged(object sender, EventArgs e)
+        private async void tsmiItem_CheckedChanged(object sender, EventArgs e)
         {
             ToolStripMenuItem tsmiItem = sender as ToolStripMenuItem;
             switch (tsmiItem.Name)
@@ -429,6 +492,11 @@ namespace URWME
                     break;
                 case "tsmiChecksum":
                     cheats.Checksum = tsmiChecksum.Checked;
+                    break;
+                case "tsmiMinimap":
+                    cheats.Minimap = tsmiMinimap.Checked;
+                    if (tsmiMinimap.Checked) { await pipeServer.Send("show"); }
+                    else if (!tsmiMinimap.Checked) { await pipeServer.Send("hide"); }
                     break;
                 default:
                     break;
@@ -478,6 +546,7 @@ namespace URWME
         [CheatType("Array of byte", byteLength: 29)] public static int PC_Skills { get; set; } = 0xA31F7BA;
         [CheatType("Array of byte", byteLength: 29*12)] public static int PC_SkillNames { get; set; } = 0xA325BE0;
         [CheatType("4 Bytes")] public static int PC_SkillPoints { get; set; } = 0x1D91EC;
+        [CheatType("Double")] public static int PC_PickupMultiplier { get; set; } = 0x1D7830;
         [CheatType("4 Bytes")] public static int PC_StartLocationX { get; set; } = 0x1D6C10;
         [CheatType("4 Bytes")] public static int PC_StartLocationY { get; set; } = 0x1D6C14;
 
@@ -490,6 +559,7 @@ namespace URWME
         // Map
         [CheatType("Array of byte", byteLength: 10)] public static int Map_Tiles { get; set; } = 0x8EE918;
         [CheatType("Array of byte", byteLength: 10)] public static int Map_TilesFog { get; set; } = 0x41881C0;
+        [CheatType("Array of byte", byteLength: 10)] public static int Map_TilesFog2 { get; set; } = 0x3B86DB8;
         [CheatType("Array of byte", byteLength: 10)] public static int Map_Elevation { get; set; } = 0x2ED510;
         [CheatType("Byte")] public static int Map_Type { get; set; } = 0x5F83CF3;
         [CheatType("Array of byte", byteLength: 36)] public static int Map_Objects { get; set; } = 0xA2CDD7C;
@@ -528,6 +598,8 @@ namespace URWME
         [CheatType("4 Bytes")] public static int UI_Menu_SelectionListB { get; set; } = 0x6194800;
         [CheatType("Byte")] public static int UI_Menu_IsMenu { get; set; } = 0x5F49C7C;
         [CheatType("4 Bytes")] public static int UI_Index { get; set; } = 0x5F4FF88;
+
+        [CheatType("Array of byte", byteLength: 36)] public static int UI_Inventory { get; set; } = 0x2EA280;
         [CheatType("Byte")] public static int UI_Menu_IsCrafting { get; set; } = 0x61B08D0;
         [CheatType("Byte")] public static int UI_Menu_IsSkills { get; set; } = 0x61B097C;
         [CheatType("String", length: 28)] public static int MsgStruct { get; set; } = 0xA28C7FA;
@@ -599,6 +671,7 @@ namespace URWME
 
             // Offsets based on PC_StartLocationX
             PC_SkillPoints = PC_StartLocationX + 0x25DC;
+            PC_PickupMultiplier = PC_StartLocationX - 0x53E0;
             PC_StartLocationY = PC_StartLocationX + 0x4;
             Map_Elevation = PC_StartLocationX + 0x116900;
             Map_RegionNameB = PC_StartLocationX - 0x23057; // Old
@@ -784,6 +857,7 @@ namespace URWME
         // Mouse event constants
         private const int WH_MOUSE_LL = 14;
         private const int WM_RBUTTONDOWN = 0x0204;
+        private const int WM_RBUTTONUP = 0x0205;
 
         // Delegate to pass from the main form (e.g., to show a context menu)
         private Action _onRightClick;
@@ -808,16 +882,16 @@ namespace URWME
         // Hook callback function
         private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
-            if (nCode >= 0 && wParam == (IntPtr)WM_RBUTTONDOWN)
+            if (nCode >= 0 && wParam == (IntPtr)WM_RBUTTONUP || wParam == (IntPtr) WM_RBUTTONDOWN)
             {
-                // Show context menu when right-click is detected
                 if (GetForegroundWindow() == DefaultData.URW.MainWindowHandle)
                 {
-                    _onRightClick?.Invoke();
+                    Task.Run(() => _onRightClick?.Invoke());
                 }
             }
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
         }
+
 
         // Dispose method to unhook the hook
         public void Dispose()

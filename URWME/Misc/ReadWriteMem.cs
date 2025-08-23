@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace URWME // Unreal World MemoryManager
 {
@@ -12,10 +13,13 @@ namespace URWME // Unreal World MemoryManager
         private static extern bool ReadProcessMemory(IntPtr hProcess, int BaseAddress, byte[] Buffer, int Size, ref int NumberOfBytesRead);
 
         [DllImport("Kernel32.dll")]
-        private static extern bool WriteProcessMemory(IntPtr hProcess, int BaseAddress, byte[] Buffer, int Size, ref int NumberOfBytesWritten);
+        private static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr BaseAddress, byte[] Buffer, int Size, ref int NumberOfBytesWritten);
 
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern bool VirtualQueryEx(IntPtr hProcess, IntPtr lpAddress, out MEMORY_BASIC_INFORMATION lpBuffer, uint dwLength);
+
+        [DllImport("kernel32.dll")]
+        static extern bool VirtualProtectEx(IntPtr hProcess, IntPtr lpAddress, int dwSize, uint flNewProtect, out uint lpflOldProtect);
 
         [StructLayout(LayoutKind.Sequential)]
         private struct MEMORY_BASIC_INFORMATION
@@ -72,13 +76,40 @@ namespace URWME // Unreal World MemoryManager
                 throw new ArgumentException("Unsupported type", nameof(obj));
 
             int BytesWritten = 0;
-            if (Buffer.Length == 2 && Buffer[1] == 0) { WriteProcessMemory(Proc.Handle, (pb * ProcBaseAddress) + BaseAddress + VersionOffset, new byte[] { (byte)obj }, 1, ref BytesWritten); }
-            else { WriteProcessMemory(Proc.Handle, (pb * ProcBaseAddress) + BaseAddress + VersionOffset, Buffer, Buffer.Length, ref BytesWritten); }
-            switch (BytesWritten)
+            IntPtr targetAddr = (IntPtr)((pb * ProcBaseAddress) + BaseAddress + VersionOffset);
+
+            // Check if we need to handle special case for 2-byte buffer with trailing zero
+            byte[] actualBuffer;
+            int actualSize;
+            if (Buffer.Length == 2 && Buffer[1] == 0)
             {
-                case 0: return false;
-                default: return true;
+                actualBuffer = new byte[] { (byte)obj };
+                actualSize = 1;
             }
+            else
+            {
+                actualBuffer = Buffer;
+                actualSize = Buffer.Length;
+            }
+
+            // Try normal write first
+            bool writeSuccess = WriteProcessMemory(Proc.Handle, targetAddr, actualBuffer, actualSize, ref BytesWritten);
+
+            // If write failed (0 bytes written), try with VirtualProtectEx
+            if (BytesWritten == 0)
+            {
+                uint oldProtect;
+                if (VirtualProtectEx(Proc.Handle, targetAddr, actualSize, 0x04, out oldProtect)) // PAGE_READWRITE
+                {
+                    // Try write again with changed protection
+                    WriteProcessMemory(Proc.Handle, targetAddr, actualBuffer, actualSize, ref BytesWritten);
+
+                    // Restore original protection
+                    VirtualProtectEx(Proc.Handle, targetAddr, actualSize, oldProtect, out uint temp);
+                }
+            }
+
+            return BytesWritten > 0;
         }
 
         public bool Write(int BaseAddress, byte[] Buffer, byte pb = 1)
@@ -135,6 +166,10 @@ namespace URWME // Unreal World MemoryManager
                     Buffer = new byte[4];
                     ReadProcessMemory(Proc.Handle, (pb * ProcBaseAddress) + BaseAddress + VersionOffset, Buffer, 4, ref BytesRead);
                     return (T)Convert.ChangeType(BitConverter.ToSingle(Buffer, 0), typeof(T));
+                case TypeCode.Double:
+                    Buffer = new byte[8];
+                    ReadProcessMemory(Proc.Handle, (pb * ProcBaseAddress) + BaseAddress + VersionOffset, Buffer, 8, ref BytesRead);
+                    return (T)Convert.ChangeType(BitConverter.ToDouble(Buffer, 0), typeof(T));
                 default:
                     return (T)Convert.ChangeType(false, typeof(T));
             }
@@ -187,10 +222,25 @@ namespace URWME // Unreal World MemoryManager
             return -1;
         }
 
-        public async Task<int> FindSignatureAsync(string pattern, bool isHex = true)
+        public async Task<int> FindSignatureAsyncOld(string pattern, bool isHex = true)
         {
             return await Task.Run(() => FindSignature(pattern, isHex: isHex));
         }
+
+        public async Task<int> FindSignatureAsync(string pattern, bool isHex = true)
+        {
+            var sw = Stopwatch.StartNew();   // start timing
+
+            int result = await Task.Run(() => FindSignature(pattern, isHex: isHex));
+
+            sw.Stop();   // stop timing
+
+            // log with timestamp + elapsed time + result
+            Debug.WriteLine($"0x{result.ToString("X")} in {sw.ElapsedMilliseconds} ms");
+
+            return result;
+        }
+
 
         private List<int> ScanPattern(byte[] buffer, byte[] pattern, bool[] mask)
         {

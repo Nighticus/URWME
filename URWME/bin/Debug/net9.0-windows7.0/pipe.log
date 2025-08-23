@@ -1,0 +1,60 @@
+[SERVER] Waiting for client...
+[CLIENT] Connecting
+[CLIENT] Connected
+[CLIENT] reader created
+[SERVER] Waiting for client...
+[CLIENT] Connecting
+[CLIENT] Connected
+[CLIENT] reader created
+[SERVER] Waiting for client...
+[CLIENT] Connecting
+[CLIENT] Connected
+[CLIENT] reader created
+[SERVER] Waiting for client...
+[CLIENT] Connecting
+[CLIENT] Connected
+[CLIENT] reader created
+[SERVER] Waiting for client...
+[CLIENT] Connecting
+[CLIENT] Connected
+[CLIENT] reader created
+[SERVER] Client Connected
+[SERVER] reader created
+[SERVER] Waiting for client...
+[CLIENT] Connecting
+[CLIENT] Connected
+[SERVER] Waiting for client...
+[SERVER] Waiting for client...
+[CLIENT] Connecting
+[SERVER] Client Connected
+[SERVER] reader created
+[CLIENT] Connected
+[SERVER] Waiting for client...
+[SERVER] Waiting for client...
+[CLIENT] Connecting
+[SERVER] Client Connected
+[SERVER] reader created
+[CLIENT] Connected
+[CLIENT] reader created
+[CLIENT] writer created
+[SERVER] writer created
+[SERVER] Waiting for client...
+[CLIENT] Connecting
+[CLIENT] Connected
+[CLIENT] reader created
+[SERVER] Client Connected
+[SERVER] reader created
+[CLIENT] writer created
+[CLIENT] sent: handshake
+[SERVER] writer created
+[SERVER] Waiting for client...
+[CLIENT] Connecting
+[SERVER] Client Connected
+[SERVER] reader created
+[CLIENT] Connected
+[CLIENT] reader created
+[CLIENT] writer created
+[CLIENT] sent: handshake
+[SERVER] writer created
+[CLIENT] Received: show
+[CLIENT] Received: hide

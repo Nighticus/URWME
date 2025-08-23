@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("URWME")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+adfd5566fddb7ce28ac5558a1297310dbe7a7e94")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+36bc7ee467530d631025a72741e1d408668ace88")]
 [assembly: System.Reflection.AssemblyProductAttribute("URWME")]
 [assembly: System.Reflection.AssemblyTitleAttribute("URWME")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

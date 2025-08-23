@@ -42,3 +42,4 @@ C:\JoesPrjects\URWME\URWME\obj\Debug\net9.0-windows7.0\URWME.genruntimeconfig.ca
 C:\JoesPrjects\URWME\URWME\obj\Debug\net9.0-windows7.0\ref\URWME.dll
 C:\JoesPrjects\URWME\URWME\bin\Debug\net9.0-windows7.0\URWME.dll.config
 C:\JoesPrjects\URWME\URWME\obj\Debug\net9.0-windows7.0\URWME.Properties.Resources.resources
+C:\JoesPrjects\URWME\URWME\obj\Debug\net9.0-windows7.0\URWME.MinimapForm.resources

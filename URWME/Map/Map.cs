@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
 
 namespace URWME // Unreal World MemoryManager
 {
@@ -45,7 +46,7 @@ namespace URWME // Unreal World MemoryManager
                 {
                     Return.SetPixel(X, Y, (Color)TileData[TileID][0]);
                 }
-                else { Return.SetPixel(X, Y, Color.Black); }
+                else { Return.SetPixel(X, Y, Color.Red); }
             }
             return Return.Bitmap;
         }
@@ -254,33 +255,103 @@ namespace URWME // Unreal World MemoryManager
             return newBitmap;
         }
 
-        public Bitmap GetImageLocal()
+        public Bitmap GetImageLocalOld()
         {
             DirectBitmap Return = new DirectBitmap(3073, 2049);
-            foreach (byte i in Tiles.Buffer)
+            byte[] MapTiles = Tiles.Buffer;
+            for (int i = 0; i < MapTiles.Length; i++)
             {
                 int X = i % 3073; int Y = i / 3073;
-
+                int TileID = MapTiles[i];
                 if (X >= 72 && Y >= 72 && X <= 391 && Y <= 391)
                 {
-                    Return.SetPixel(X, Y, (Color)TileData[i][0]);
+                    if (TileData.ContainsKey(TileID))
+                    {
+                        Return.SetPixel(X, Y, (Color)TileData[TileID][0]);
+                    }
+                    else { Return.SetPixel(X, Y, Color.Black); }
                 }
             }
             return Return.Bitmap;
         }
 
-        public Bitmap GetImageLocalFog()
+        public Bitmap GetImageLocal()
         {
-            DirectBitmap Return = new DirectBitmap(3073, 2049);
-            foreach (byte i in Tiles.FogBuffer)
-            {
-                int X = i % 3073; int Y = i / 3073;
+            int minX = 72;
+            int minY = 72;
+            int maxX = 391;
+            int maxY = 391;
 
-                if (X >= 72 && Y >= 72 && X <= 391 && Y <= 391)
+            int newWidth = (maxX - minX) + 1;
+            int newHeight = (maxY - minY) + 1;
+
+            DirectBitmap Return = new DirectBitmap(newWidth, newHeight);
+            byte[] MapTiles = Tiles.Buffer;
+
+            for (int y = minY; y <= maxY; y++)
+            {
+                int rowStartIndex = y * 3073;
+
+                for (int x = minX; x <= maxX; x++)
                 {
-                    Return.SetPixel(X, Y, (Color)TileData[i][0]);
+                    int index = rowStartIndex + x;
+                    int tileID = MapTiles[index];
+
+                    int newX = x - minX;
+                    int newY = y - minY;
+
+                    if (TileData.ContainsKey(tileID))
+                    {
+                        Return.SetPixel(newX, newY, (Color)TileData[tileID][0]);
+                    }
+                    else
+                    {
+                        Return.SetPixel(newX, newY, Color.Black);
+                    }
                 }
             }
+
+            return Return.Bitmap;
+        }
+
+
+        public Bitmap GetImageLocalFog()
+        {
+            int minX = 72;
+            int minY = 72;
+            int maxX = 391;
+            int maxY = 391;
+
+            int newWidth = (maxX - minX) + 1;
+            int newHeight = (maxY - minY) + 1;
+
+            DirectBitmap Return = new DirectBitmap(newWidth, newHeight);
+            byte[] MapTiles = Tiles.FogBuffer;
+
+            for (int y = minY; y <= maxY; y++)
+            {
+                int rowStartIndex = y * 3073;
+
+                for (int x = minX; x <= maxX; x++)
+                {
+                    int index = rowStartIndex + x;
+                    int tileID = MapTiles[index];
+
+                    int newX = x - minX;
+                    int newY = y - minY;
+
+                    if (TileData.ContainsKey(tileID))
+                    {
+                        MessageBox.Show(index.ToString());
+                        Return.SetPixel(newX, newY, (Color)TileData[tileID][0]);
+                    }
+                    else
+                    {
+                        Return.SetPixel(newX, newY, Color.Black);
+                    }
+                }
+            }
+
             return Return.Bitmap;
         }
 
@@ -305,7 +376,7 @@ namespace URWME // Unreal World MemoryManager
             
             public byte[] FogBuffer
             {
-                get { return RWMain.Read<byte[]>(Address.Map_TilesFog, 6293502); }
+                get { return RWMain.Read<byte[]>(Address.Map_TilesFog2, 6293502); }
                 set { RWMain.Write(Address.Map_TilesFog, value); }
             }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -36,6 +37,15 @@ namespace URWME
                 return RWMem.Read<byte[]>(Address.Item_Struct, SizeOfStruct * SizeOfArray);
             }
         }
+
+        public byte[] ConstBuffer
+        {
+            get
+            {
+                return RWMem.Read<byte[]>(Address.Static_Item_Struct, SizeOfStruct * SizeOfArray);
+            }
+        }
+
         public string Name
         {
             get { return RWBuffer.ReadString(BaseAddress + Offset.Name, 28); }
@@ -52,21 +62,27 @@ namespace URWME
         {
             List<ItemRef> FoundItems = new List<ItemRef>();
             List<string> FoundNames = new List<string>();
-
-            for (int i = 0; i < 10000; i++)
+            for (int Array = 0; Array < 2; Array++)
             {
-                Index = i;
-
-                if (!string.IsNullOrEmpty(Name) && !FoundNames.Contains(Name))
+                if (Array == 1) { RWBuffer = new ReadWriteBuffer(Buffer); }
+                else { RWBuffer = new ReadWriteBuffer(ConstBuffer); }
+                for (int i = 0; i < 10000; i++)
                 {
-                    if (Regex.IsMatch(Name, @"^[a-zA-Z0-9_ ]+$"))
+                    Index = i;
+
+                    if (!string.IsNullOrEmpty(Name) && !FoundNames.Contains(Name))
                     {
-                        FoundItems.Add(new ItemRef(Name, i, Enum.GetName(typeof(ItemTypeEnum), TypeID).ToString()));
-                        FoundNames.Add(Name);
+                        if (Regex.IsMatch(Name, @"^[a-zA-Z0-9_ ]+$"))
+                        {
+                            var typeName = Enum.GetName(typeof(ItemTypeEnum), TypeID) ?? "Unknown";
+                            FoundItems.Add(new ItemRef(Name, i, typeName));
+                            FoundNames.Add(Name);
+                        }
                     }
                 }
             }
-            return FoundItems.OrderBy(x => x.Name).ToList(); ;
+            //File.WriteAllText("ItemsScanned.txt", string.Join(", ", FoundNames.OrderBy(x => x).ToList()));
+            return FoundItems.OrderBy(x => x.Name).ToList();
         }
 
         public string GetItemsJson()

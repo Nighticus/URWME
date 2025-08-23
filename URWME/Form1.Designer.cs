@@ -31,8 +31,6 @@ namespace URWME
         {
             components = new System.ComponentModel.Container();
             cmsMenu = new System.Windows.Forms.ContextMenuStrip(components);
-            tsmiCraftingMenu = new System.Windows.Forms.ToolStripMenuItem();
-            toolStripMenuItem20 = new System.Windows.Forms.ToolStripMenuItem();
             tsmiCheatMenu = new System.Windows.Forms.ToolStripMenuItem();
             tsmiEditorMenu = new System.Windows.Forms.ToolStripMenuItem();
             tsmiCharacterEditor = new System.Windows.Forms.ToolStripMenuItem();
@@ -85,11 +83,29 @@ namespace URWME
             tsmiMiscMenu = new System.Windows.Forms.ToolStripMenuItem();
             tsmiChecksum = new System.Windows.Forms.ToolStripMenuItem();
             tsmiGenerateCT = new System.Windows.Forms.ToolStripMenuItem();
-            tsmiTeleport = new System.Windows.Forms.ToolStripMenuItem();
-            tsmiDirection = new System.Windows.Forms.ToolStripMenuItem();
-            tsmiGetItems = new System.Windows.Forms.ToolStripMenuItem();
+            mapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            tsmiRevealWM = new System.Windows.Forms.ToolStripMenuItem();
+            tsmiScreenshotWM = new System.Windows.Forms.ToolStripMenuItem();
+            tsmiMinimap = new System.Windows.Forms.ToolStripMenuItem();
             tsmiSettings = new System.Windows.Forms.ToolStripMenuItem();
             tsmiFont = new System.Windows.Forms.ToolStripMenuItem();
+            tsmiCraftingMenu = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItem20 = new System.Windows.Forms.ToolStripMenuItem();
+            tssLookSeperator = new System.Windows.Forms.ToolStripSeparator();
+            tsmiTeleport = new System.Windows.Forms.ToolStripMenuItem();
+            tsmiDirection = new System.Windows.Forms.ToolStripMenuItem();
+            tsmiMoveMenu = new System.Windows.Forms.ToolStripMenuItem();
+            tsmiMoveItemMenu = new System.Windows.Forms.ToolStripMenuItem();
+            tsmiMoveAllItemMenu = new System.Windows.Forms.ToolStripMenuItem();
+            tsmiMoveAllItemsUnderneath = new System.Windows.Forms.ToolStripMenuItem();
+            tsmiMoveAllItemsNextTo = new System.Windows.Forms.ToolStripMenuItem();
+            tsmiMoveAllItemsTo = new System.Windows.Forms.ToolStripMenuItem();
+            tsmiMoveTargetItemsMenu = new System.Windows.Forms.ToolStripMenuItem();
+            tsmiMoveTargetItemsUnderneath = new System.Windows.Forms.ToolStripMenuItem();
+            tsmiMoveTargetItemsNextTo = new System.Windows.Forms.ToolStripMenuItem();
+            tsmiMoveNPCMenu = new System.Windows.Forms.ToolStripMenuItem();
+            tsmiMoveTargetNPCMenu = new System.Windows.Forms.ToolStripMenuItem();
+            tsmiMoveTargetNPCNextTo = new System.Windows.Forms.ToolStripMenuItem();
             toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             tsmiCloseMenu = new System.Windows.Forms.ToolStripMenuItem();
             panel1 = new System.Windows.Forms.Panel();
@@ -101,30 +117,15 @@ namespace URWME
             cmsMenu.BackColor = System.Drawing.Color.FromArgb(226, 197, 153);
             cmsMenu.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             cmsMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
-            cmsMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmiCraftingMenu, tsmiCheatMenu, tsmiTeleport, tsmiDirection, tsmiGetItems, tsmiSettings, toolStripSeparator7, tsmiCloseMenu });
+            cmsMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmiCheatMenu, tsmiSettings, tsmiCraftingMenu, tssLookSeperator, tsmiTeleport, tsmiDirection, tsmiMoveMenu, toolStripSeparator7, tsmiCloseMenu });
             cmsMenu.Name = "contextMenuStrip1";
-            cmsMenu.Size = new System.Drawing.Size(211, 206);
+            cmsMenu.Size = new System.Drawing.Size(211, 212);
             cmsMenu.Opening += cmsMenu_Opening;
             cmsMenu.PreviewKeyDown += cmsMenu_PreviewKeyDown;
             // 
-            // tsmiCraftingMenu
-            // 
-            tsmiCraftingMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripMenuItem20 });
-            tsmiCraftingMenu.Enabled = false;
-            tsmiCraftingMenu.Name = "tsmiCraftingMenu";
-            tsmiCraftingMenu.Size = new System.Drawing.Size(210, 24);
-            tsmiCraftingMenu.Text = "Crafting";
-            tsmiCraftingMenu.Visible = false;
-            // 
-            // toolStripMenuItem20
-            // 
-            toolStripMenuItem20.Name = "toolStripMenuItem20";
-            toolStripMenuItem20.Size = new System.Drawing.Size(233, 26);
-            toolStripMenuItem20.Text = "toolStripMenuItem20";
-            // 
             // tsmiCheatMenu
             // 
-            tsmiCheatMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmiEditorMenu, tsmiPassiveCheats, tsmiSpawnMenu, tsmiEditHereMenu, tsmiTeleportMenu, tsmiMiscMenu });
+            tsmiCheatMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmiEditorMenu, tsmiPassiveCheats, tsmiSpawnMenu, tsmiEditHereMenu, tsmiTeleportMenu, tsmiMiscMenu, mapToolStripMenuItem });
             tsmiCheatMenu.Name = "tsmiCheatMenu";
             tsmiCheatMenu.Size = new System.Drawing.Size(210, 24);
             tsmiCheatMenu.Text = "Cheats";
@@ -134,7 +135,7 @@ namespace URWME
             tsmiEditorMenu.BackColor = System.Drawing.Color.FromArgb(226, 197, 153);
             tsmiEditorMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmiCharacterEditor, tsmiInventoryEditor, tsmiItemEditor, tsmiInjuryEditor });
             tsmiEditorMenu.Name = "tsmiEditorMenu";
-            tsmiEditorMenu.Size = new System.Drawing.Size(224, 26);
+            tsmiEditorMenu.Size = new System.Drawing.Size(181, 26);
             tsmiEditorMenu.Text = "Editors";
             // 
             // tsmiCharacterEditor
@@ -176,7 +177,7 @@ namespace URWME
             tsmiPassiveCheats.BackColor = System.Drawing.Color.FromArgb(226, 197, 153);
             tsmiPassiveCheats.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmiNoInjuries, tsmiNoCarryWeight, tsmiNoNeeds, tsmiTreeVision, tsmiCannibalism, tsmiFreezeNPC, tsmiFreezeTime });
             tsmiPassiveCheats.Name = "tsmiPassiveCheats";
-            tsmiPassiveCheats.Size = new System.Drawing.Size(224, 26);
+            tsmiPassiveCheats.Size = new System.Drawing.Size(181, 26);
             tsmiPassiveCheats.Text = "Passive";
             // 
             // tsmiNoInjuries
@@ -251,7 +252,7 @@ namespace URWME
             tsmiSpawnMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmiSpawnItem, tsmiSpawnNPC, tsmiSpawnObject });
             tsmiSpawnMenu.Enabled = false;
             tsmiSpawnMenu.Name = "tsmiSpawnMenu";
-            tsmiSpawnMenu.Size = new System.Drawing.Size(224, 26);
+            tsmiSpawnMenu.Size = new System.Drawing.Size(181, 26);
             tsmiSpawnMenu.Text = "Spawn";
             // 
             // tsmiSpawnItem
@@ -379,7 +380,7 @@ namespace URWME
             tsmiEditHereMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmiEditItem, tsmiEditNpc, tsmiEditObject, tsmiEditTile });
             tsmiEditHereMenu.Enabled = false;
             tsmiEditHereMenu.Name = "tsmiEditHereMenu";
-            tsmiEditHereMenu.Size = new System.Drawing.Size(224, 26);
+            tsmiEditHereMenu.Size = new System.Drawing.Size(181, 26);
             tsmiEditHereMenu.Text = "Edit";
             // 
             // tsmiEditItem
@@ -415,7 +416,7 @@ namespace URWME
             tsmiTeleportMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmiWaypointMenu, tsmiTeleportToClosest, tsmiTeleportToHere });
             tsmiTeleportMenu.Enabled = false;
             tsmiTeleportMenu.Name = "tsmiTeleportMenu";
-            tsmiTeleportMenu.Size = new System.Drawing.Size(224, 26);
+            tsmiTeleportMenu.Size = new System.Drawing.Size(181, 26);
             tsmiTeleportMenu.Text = "Teleportation";
             // 
             // tsmiWaypointMenu
@@ -468,7 +469,7 @@ namespace URWME
             tsmiMiscMenu.BackColor = System.Drawing.Color.FromArgb(226, 197, 153);
             tsmiMiscMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmiChecksum, tsmiGenerateCT });
             tsmiMiscMenu.Name = "tsmiMiscMenu";
-            tsmiMiscMenu.Size = new System.Drawing.Size(224, 26);
+            tsmiMiscMenu.Size = new System.Drawing.Size(181, 26);
             tsmiMiscMenu.Text = "Misc";
             // 
             // tsmiChecksum
@@ -490,26 +491,38 @@ namespace URWME
             tsmiGenerateCT.Text = "Generate .CT";
             tsmiGenerateCT.Click += tsmiItem_Click;
             // 
-            // tsmiTeleport
+            // mapToolStripMenuItem
             // 
-            tsmiTeleport.Name = "tsmiTeleport";
-            tsmiTeleport.Size = new System.Drawing.Size(210, 24);
-            tsmiTeleport.Text = "Teleport";
-            tsmiTeleport.Click += tsmiItem_Click;
+            mapToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(226, 197, 153);
+            mapToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmiRevealWM, tsmiScreenshotWM, tsmiMinimap });
+            mapToolStripMenuItem.Name = "mapToolStripMenuItem";
+            mapToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            mapToolStripMenuItem.Text = "Map";
             // 
-            // tsmiDirection
+            // tsmiRevealWM
             // 
-            tsmiDirection.Name = "tsmiDirection";
-            tsmiDirection.Size = new System.Drawing.Size(210, 24);
-            tsmiDirection.Text = "Turn Towards";
-            tsmiDirection.Click += tsmiItem_Click;
+            tsmiRevealWM.BackColor = System.Drawing.Color.FromArgb(226, 197, 153);
+            tsmiRevealWM.Name = "tsmiRevealWM";
+            tsmiRevealWM.Size = new System.Drawing.Size(305, 26);
+            tsmiRevealWM.Text = "Reveal World Map ";
+            tsmiRevealWM.Click += tsmiItem_Click;
             // 
-            // tsmiGetItems
+            // tsmiScreenshotWM
             // 
-            tsmiGetItems.Name = "tsmiGetItems";
-            tsmiGetItems.Size = new System.Drawing.Size(210, 24);
-            tsmiGetItems.Text = "Get Items";
-            tsmiGetItems.Click += tsmiItem_Click;
+            tsmiScreenshotWM.BackColor = System.Drawing.Color.FromArgb(226, 197, 153);
+            tsmiScreenshotWM.Name = "tsmiScreenshotWM";
+            tsmiScreenshotWM.Size = new System.Drawing.Size(305, 26);
+            tsmiScreenshotWM.Text = "Screenshot World Map (No Fog)";
+            tsmiScreenshotWM.Click += tsmiItem_Click;
+            // 
+            // tsmiMinimap
+            // 
+            tsmiMinimap.BackColor = System.Drawing.Color.FromArgb(226, 197, 153);
+            tsmiMinimap.CheckOnClick = true;
+            tsmiMinimap.Name = "tsmiMinimap";
+            tsmiMinimap.Size = new System.Drawing.Size(305, 26);
+            tsmiMinimap.Text = "Minimap";
+            tsmiMinimap.CheckedChanged += tsmiItem_CheckedChanged;
             // 
             // tsmiSettings
             // 
@@ -525,6 +538,135 @@ namespace URWME
             tsmiFont.Size = new System.Drawing.Size(121, 26);
             tsmiFont.Text = "Font";
             tsmiFont.Click += tsmiItem_Click;
+            // 
+            // tsmiCraftingMenu
+            // 
+            tsmiCraftingMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripMenuItem20 });
+            tsmiCraftingMenu.Enabled = false;
+            tsmiCraftingMenu.Name = "tsmiCraftingMenu";
+            tsmiCraftingMenu.Size = new System.Drawing.Size(210, 24);
+            tsmiCraftingMenu.Text = "Crafting";
+            tsmiCraftingMenu.Visible = false;
+            // 
+            // toolStripMenuItem20
+            // 
+            toolStripMenuItem20.Name = "toolStripMenuItem20";
+            toolStripMenuItem20.Size = new System.Drawing.Size(233, 26);
+            toolStripMenuItem20.Text = "toolStripMenuItem20";
+            // 
+            // tssLookSeperator
+            // 
+            tssLookSeperator.Name = "tssLookSeperator";
+            tssLookSeperator.Size = new System.Drawing.Size(207, 6);
+            // 
+            // tsmiTeleport
+            // 
+            tsmiTeleport.Name = "tsmiTeleport";
+            tsmiTeleport.Size = new System.Drawing.Size(210, 24);
+            tsmiTeleport.Text = "Teleport";
+            tsmiTeleport.Click += tsmiItem_Click;
+            // 
+            // tsmiDirection
+            // 
+            tsmiDirection.Name = "tsmiDirection";
+            tsmiDirection.Size = new System.Drawing.Size(210, 24);
+            tsmiDirection.Text = "Turn Towards";
+            tsmiDirection.Click += tsmiItem_Click;
+            // 
+            // tsmiMoveMenu
+            // 
+            tsmiMoveMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmiMoveItemMenu, tsmiMoveNPCMenu });
+            tsmiMoveMenu.Name = "tsmiMoveMenu";
+            tsmiMoveMenu.Size = new System.Drawing.Size(210, 24);
+            tsmiMoveMenu.Text = "Move";
+            // 
+            // tsmiMoveItemMenu
+            // 
+            tsmiMoveItemMenu.BackColor = System.Drawing.Color.FromArgb(226, 197, 153);
+            tsmiMoveItemMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmiMoveAllItemMenu, tsmiMoveTargetItemsMenu });
+            tsmiMoveItemMenu.Name = "tsmiMoveItemMenu";
+            tsmiMoveItemMenu.Size = new System.Drawing.Size(224, 26);
+            tsmiMoveItemMenu.Text = "Items";
+            // 
+            // tsmiMoveAllItemMenu
+            // 
+            tsmiMoveAllItemMenu.BackColor = System.Drawing.Color.FromArgb(226, 197, 153);
+            tsmiMoveAllItemMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmiMoveAllItemsUnderneath, tsmiMoveAllItemsNextTo, tsmiMoveAllItemsTo });
+            tsmiMoveAllItemMenu.Name = "tsmiMoveAllItemMenu";
+            tsmiMoveAllItemMenu.Size = new System.Drawing.Size(224, 26);
+            tsmiMoveAllItemMenu.Text = "All";
+            // 
+            // tsmiMoveAllItemsUnderneath
+            // 
+            tsmiMoveAllItemsUnderneath.BackColor = System.Drawing.Color.FromArgb(226, 197, 153);
+            tsmiMoveAllItemsUnderneath.Name = "tsmiMoveAllItemsUnderneath";
+            tsmiMoveAllItemsUnderneath.Size = new System.Drawing.Size(169, 26);
+            tsmiMoveAllItemsUnderneath.Text = "Underneath";
+            tsmiMoveAllItemsUnderneath.Click += tsmiItem_Click;
+            // 
+            // tsmiMoveAllItemsNextTo
+            // 
+            tsmiMoveAllItemsNextTo.BackColor = System.Drawing.Color.FromArgb(226, 197, 153);
+            tsmiMoveAllItemsNextTo.Name = "tsmiMoveAllItemsNextTo";
+            tsmiMoveAllItemsNextTo.Size = new System.Drawing.Size(169, 26);
+            tsmiMoveAllItemsNextTo.Text = "Next to";
+            tsmiMoveAllItemsNextTo.Click += tsmiItem_Click;
+            // 
+            // tsmiMoveAllItemsTo
+            // 
+            tsmiMoveAllItemsTo.BackColor = System.Drawing.Color.FromArgb(226, 197, 153);
+            tsmiMoveAllItemsTo.Name = "tsmiMoveAllItemsTo";
+            tsmiMoveAllItemsTo.Size = new System.Drawing.Size(169, 26);
+            tsmiMoveAllItemsTo.Text = "To Target";
+            tsmiMoveAllItemsTo.Click += tsmiItem_Click;
+            // 
+            // tsmiMoveTargetItemsMenu
+            // 
+            tsmiMoveTargetItemsMenu.BackColor = System.Drawing.Color.FromArgb(226, 197, 153);
+            tsmiMoveTargetItemsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmiMoveTargetItemsUnderneath, tsmiMoveTargetItemsNextTo });
+            tsmiMoveTargetItemsMenu.Name = "tsmiMoveTargetItemsMenu";
+            tsmiMoveTargetItemsMenu.Size = new System.Drawing.Size(224, 26);
+            tsmiMoveTargetItemsMenu.Text = "Target";
+            // 
+            // tsmiMoveTargetItemsUnderneath
+            // 
+            tsmiMoveTargetItemsUnderneath.BackColor = System.Drawing.Color.FromArgb(226, 197, 153);
+            tsmiMoveTargetItemsUnderneath.Name = "tsmiMoveTargetItemsUnderneath";
+            tsmiMoveTargetItemsUnderneath.Size = new System.Drawing.Size(169, 26);
+            tsmiMoveTargetItemsUnderneath.Text = "Underneath";
+            tsmiMoveTargetItemsUnderneath.Click += tsmiItem_Click;
+            // 
+            // tsmiMoveTargetItemsNextTo
+            // 
+            tsmiMoveTargetItemsNextTo.BackColor = System.Drawing.Color.FromArgb(226, 197, 153);
+            tsmiMoveTargetItemsNextTo.Name = "tsmiMoveTargetItemsNextTo";
+            tsmiMoveTargetItemsNextTo.Size = new System.Drawing.Size(169, 26);
+            tsmiMoveTargetItemsNextTo.Text = "Next To";
+            tsmiMoveTargetItemsNextTo.Click += tsmiItem_Click;
+            // 
+            // tsmiMoveNPCMenu
+            // 
+            tsmiMoveNPCMenu.BackColor = System.Drawing.Color.FromArgb(226, 197, 153);
+            tsmiMoveNPCMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmiMoveTargetNPCMenu });
+            tsmiMoveNPCMenu.Name = "tsmiMoveNPCMenu";
+            tsmiMoveNPCMenu.Size = new System.Drawing.Size(224, 26);
+            tsmiMoveNPCMenu.Text = "NPC";
+            // 
+            // tsmiMoveTargetNPCMenu
+            // 
+            tsmiMoveTargetNPCMenu.BackColor = System.Drawing.Color.FromArgb(226, 197, 153);
+            tsmiMoveTargetNPCMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmiMoveTargetNPCNextTo });
+            tsmiMoveTargetNPCMenu.Name = "tsmiMoveTargetNPCMenu";
+            tsmiMoveTargetNPCMenu.Size = new System.Drawing.Size(224, 26);
+            tsmiMoveTargetNPCMenu.Text = "Target";
+            // 
+            // tsmiMoveTargetNPCNextTo
+            // 
+            tsmiMoveTargetNPCNextTo.BackColor = System.Drawing.Color.FromArgb(226, 197, 153);
+            tsmiMoveTargetNPCNextTo.Name = "tsmiMoveTargetNPCNextTo";
+            tsmiMoveTargetNPCNextTo.Size = new System.Drawing.Size(224, 26);
+            tsmiMoveTargetNPCNextTo.Text = "Next To";
+            tsmiMoveTargetNPCNextTo.Click += tsmiItem_Click;
             // 
             // toolStripSeparator7
             // 
@@ -546,14 +688,14 @@ namespace URWME
             panel1.Location = new System.Drawing.Point(0, 0);
             panel1.Margin = new System.Windows.Forms.Padding(2);
             panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(222, 275);
+            panel1.Size = new System.Drawing.Size(292, 275);
             panel1.TabIndex = 1;
             // 
             // Form1
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(222, 275);
+            ClientSize = new System.Drawing.Size(292, 275);
             Controls.Add(panel1);
             Margin = new System.Windows.Forms.Padding(2);
             Name = "Form1";
@@ -628,9 +770,25 @@ namespace URWME
         private System.Windows.Forms.ToolStripMenuItem tsmiChecksum;
         private System.Windows.Forms.ToolStripMenuItem tsmiDirection;
         private System.Windows.Forms.ToolStripMenuItem tsmiGenerateCT;
-        private System.Windows.Forms.ToolStripMenuItem tsmiGetItems;
         private System.Windows.Forms.ToolStripMenuItem tsmiSettings;
         private System.Windows.Forms.ToolStripMenuItem tsmiFont;
+        private System.Windows.Forms.ToolStripMenuItem mapToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsmiRevealWM;
+        private System.Windows.Forms.ToolStripMenuItem tsmiMinimap;
+        private System.Windows.Forms.ToolStripMenuItem tsmiScreenshotWM;
+        private System.Windows.Forms.ToolStripSeparator tssLookSeperator;
+        private System.Windows.Forms.ToolStripMenuItem tsmiMoveMenu;
+        private System.Windows.Forms.ToolStripMenuItem tsmiMoveItemMenu;
+        private System.Windows.Forms.ToolStripMenuItem tsmiMoveAllItemMenu;
+        private System.Windows.Forms.ToolStripMenuItem tsmiMoveAllItemsUnderneath;
+        private System.Windows.Forms.ToolStripMenuItem tsmiMoveAllItemsNextTo;
+        private System.Windows.Forms.ToolStripMenuItem tsmiMoveAllItemsTo;
+        private System.Windows.Forms.ToolStripMenuItem tsmiMoveNPCMenu;
+        private System.Windows.Forms.ToolStripMenuItem tsmiMoveTargetItemsMenu;
+        private System.Windows.Forms.ToolStripMenuItem tsmiMoveTargetItemsUnderneath;
+        private System.Windows.Forms.ToolStripMenuItem tsmiMoveTargetItemsNextTo;
+        private System.Windows.Forms.ToolStripMenuItem tsmiMoveTargetNPCMenu;
+        private System.Windows.Forms.ToolStripMenuItem tsmiMoveTargetNPCNextTo;
     }
 }
 
